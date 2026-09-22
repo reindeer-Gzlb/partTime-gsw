@@ -99,19 +99,19 @@ spring:
 #阿里短信配置
 aliyunsms:
 #  #AccessKey ID
-#  accessKeyId: LTAI5tDFipBXczQooUagCy34
+#  accessKeyId: 213213
 #  #AccessKey Secret
-#  accessKeySecret: ypXiW4KjSlgWZh1hUeLwunCwU9kQ2C
+#  accessKeySecret: 2132132
 #  #手机号验证码登录
-#  phoneLoginTemplate[signName]: 飞衡代售
-#  phoneLoginTemplate[templateCode]: SMS_460245036
+#  phoneLoginTemplate[signName]: 123213
+#  phoneLoginTemplate[templateCode]: 1232131
 #  #验证码重置
-#  passwordYZMTemplate[signName]: 飞衡代售
-#  passwordYZMTemplate[templateCode]: SMS_460215042
+#  passwordYZMTemplate[signName]: 213123
+#  passwordYZMTemplate[templateCode]: 123123
 yunluconfig:
   #  MchId: 1044512
-  #  AppId: 10011713777026902
-  #  AppKey: fecb7079584542f582566b9a3de0d455
+  #  AppId: 11111
+  #  AppKey: 111111
   ##  TempletePingGu: 11111
   ##  TempleteZaiXian: 11111
   ##  TempleteZiXun: 11111
@@ -122,34 +122,34 @@ yunluconfig:
   #  TempleteBaoJia: 11111
   #  TempleteCode: 70100735
   #  SignName: 【怪兽玩】
-  #  baseUrl: https://www.guaishouwan.com/
-  MchId: 1044512
-  AppId: 10011713777026902
-# AppKey:fecb7079584542f582566b9a3de0d455
-  AppKey: 1a1ed60b1e8842a9858fa1aa898e865fList<SysDictData> sysDictDataList = sysDictDataMapper.selectDictDataByType("payCenter");
-for (SysDictData dictData : sysDictDataList) {
-    if ("url".equals(dictData.getDictLabel()))       url = dictData.getDictValue();
-    else if ("merchantId".equals(dictData.getDictLabel())) merchantId = dictData.getDictValue();
-    else if ("notifyUrl".equals(dictData.getDictLabel()))  notifyUrl = dictData.getDictValue();
-}
-List<SysDictData> sysDictDataList = sysDictDataMapper.selectDictDataByType("payCenter");
-for (SysDictData dictData : sysDictDataList) {
-    if ("url".equals(dictData.getDictLabel()))       url = dictData.getDictValue();
-    else if ("merchantId".equals(dictData.getDictLabel())) merchantId = dictData.getDictValue();
-    else if ("notifyUrl".equals(dictData.getDictLabel()))  notifyUrl = dictData.getDictValue();
-}
+  #  baseUrl: https://www.gwqdqwduwan.com/
+  MchId: 123213
+  AppId: 213123
+  # AppKey:1111111
+  AppKey: 11111111
+#for (SysDictData dictData: sysDictDataList) {
+#  if ("url".equals(dictData.getDictLabel()))       url = dictData.getDictValue();
+#  else if ("merchantId".equals(dictData.getDictLabel())) merchantId = dictData.getDictValue();
+#  else if ("notifyUrl".equals(dictData.getDictLabel()))  notifyUrl = dictData.getDictValue();
+#}
+#  List<SysDictData> sysDictDataList = sysDictDataMapper.selectDictDataByType("payCenter");
+#for (SysDictData dictData: sysDictDataList) {
+#  if ("url".equals(dictData.getDictLabel()))       url = dictData.getDictValue();
+#  else if ("merchantId".equals(dictData.getDictLabel())) merchantId = dictData.getDictValue();
+#  else if ("notifyUrl".equals(dictData.getDictLabel()))  notifyUrl = dictData.getDictValue();
+#}
 
-  TempleteCode: 70100735
-  TempleteLinkCode: 7002735
-  TempleteCustomerAuditPass: 70075961
-  TempletecustomerAuditRefuse: 70075960
-  TempleteValueAddedServiceExpire: 70076852
-  TempleteViolationcode: 70081865
-  Sale0rderSellerGoods: 70086662
-  Sale0rderAfterBuyerAuditPass: 70086664
-  SaleorderAfterBuyerAuditRefuse: 70086665
-  SaleorderAfterBuyerJieSuan: 70086666
-  backorderBuyerJieShou: 7008666
-  backlistFaBu: 70087102
-  back0rderSXTX: 70093847
-  SignName: 【佛山幻世游戏科技】
+TempleteCode: 70100735
+TempleteLinkCode: 7002735
+TempleteCustomerAuditPass: 70075961
+TempletecustomerAuditRefuse: 70075960
+TempleteValueAddedServiceExpire: 70076852
+TempleteViolationcode: 70081865
+Sale0rderSellerGoods: 70086662
+Sale0rderAfterBuyerAuditPass: 70086664
+SaleorderAfterBuyerAuditRefuse: 70086665
+SaleorderAfterBuyerJieSuan: 70086666
+backorderBuyerJieShou: 7008666
+backlistFaBu: 70087102
+back0rderSXTX: 70093847
+SignName: 【cs】
