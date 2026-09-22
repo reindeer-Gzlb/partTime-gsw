@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.im.mapper.MsgGroupInfoMapper">
+
+    <resultMap type="MsgGroupInfo" id="MsgGroupInfoResult">
+        <result property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateId" column="update_id"/>
+        <result property="toGroup" column="to_group"/>
+        <result property="groupName" column="group_name"/>
+        <result property="groupDesc" column="group_desc"/>
+        <result property="numbers" column="numbers"/>
+        <result property="del" column="del"/>
+        <result property="announcement" column="announcement"/>
+    </resultMap>
+
+    <sql id="selectMsgGroupInfoVo">
+        select id, create_time, create_id, update_time, update_id, to_group, group_name, group_desc, numbers, del, announcement from
+        msg_group_info
+    </sql>
+
+    <select id="selectMsgGroupInfoList" parameterType="MsgGroupInfo" resultMap="MsgGroupInfoResult">
+        <include refid="selectMsgGroupInfoVo"/>
+        <where>
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="toGroup != null  and toGroup != ''">and to_group = #{toGroup}</if>
+            <if test="groupName != null  and groupName != ''">and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="groupDesc != null  and groupDesc != ''">and group_desc = #{groupDesc}</if>
+            <if test="numbers != null  and numbers != ''">and numbers = #{numbers}</if>
+            <if test="del != null  and del != ''">and del = #{del}</if>
+        </where>
+    </select>
+
+    <select id="selectMsgGroupInfoById" parameterType="Long" resultMap="MsgGroupInfoResult">
+        <include refid="selectMsgGroupInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectMsgGroupInfoByIds" resultMap="MsgGroupInfoResult">
+        <include refid="selectMsgGroupInfoVo"/>
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and del=1
+    </select>
+    <select id="selectMsgGroupInfoByGroups" resultMap="MsgGroupInfoResult">
+        <include refid="selectMsgGroupInfoVo"/>
+        where to_group in
+        <foreach item="id" collection="groups" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and del=1
+    </select>
+    <select id="selectMsgGroupInfo" resultMap="MsgGroupInfoResult">
+        <include refid="selectMsgGroupInfoVo"/>
+        where to_group = #{grouop} and del=1
+    </select>
+
+    <insert id="insertMsgGroupInfo" parameterType="MsgGroupInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into msg_group_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="toGroup != null">to_group,</if>
+            <if test="groupName != null">group_name,</if>
+            <if test="groupDesc != null">group_desc,</if>
+            <if test="numbers != null">numbers,</if>
+            <if test="del != null">del,</if>
+            <if test="announcement != null">announcement,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="toGroup != null">#{toGroup},</if>
+            <if test="groupName != null">#{groupName},</if>
+            <if test="groupDesc != null">#{groupDesc},</if>
+            <if test="numbers != null">#{numbers},</if>
+            <if test="del != null">#{del},</if>
+            <if test="announcement != null">#{announcement},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMsgGroupInfo" parameterType="MsgGroupInfo">
+        update msg_group_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="toGroup != null">to_group = #{toGroup},</if>
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="groupDesc != null">group_desc = #{groupDesc},</if>
+            <if test="numbers != null">numbers = #{numbers},</if>
+            <if test="del != null">del = #{del},</if>
+            <if test="announcement != null">announcement = #{announcement},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgGroupInfoById" parameterType="Long">
+        delete from msg_group_info where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgGroupInfoByIds" parameterType="String">
+        delete from msg_group_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

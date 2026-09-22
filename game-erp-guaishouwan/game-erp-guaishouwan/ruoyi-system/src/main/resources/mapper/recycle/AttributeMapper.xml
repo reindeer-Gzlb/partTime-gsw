@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.recycle.mapper.AttributeMapper">
+    
+    <resultMap type="Attribute" id="AttributeResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="fieldType"    column="field_type"    />
+        <result property="fieldName"    column="field_name"    />
+        <result property="fieldValue"    column="field_value"    />
+        <result property="sort"    column="sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="cfgType"    column="cfg_type"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="valuation"    column="valuation"    />
+        <result property="level"    column="level"    />
+        <result property="formula"    column="formula"    />
+    </resultMap>
+
+    <sql id="selectAttributeVo">
+        select id, type, field_type, field_name, field_value, sort, create_by, create_time, update_by, update_time, remark, cfg_type, parent_id, img_url, valuation, level,formula from attribute
+    </sql>
+
+    <select id="selectAttributeList" parameterType="Attribute" resultMap="AttributeResult">
+        <include refid="selectAttributeVo"/>
+        <where>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="fieldType != null  and fieldType != ''"> and field_type = #{fieldType}</if>
+            <if test="fieldName != null  and fieldName != ''"> and field_name like concat('%', #{fieldName}, '%')</if>
+            <if test="cfgType != null "> and cfg_type = #{cfgType}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="formula != null "> and formula = #{formula}</if>
+            <if test="fieldTypes != null and fieldTypes.size > 0"> and field_type in
+                <foreach item="field" collection="fieldTypes" open="(" separator="," close=")">
+                    #{field}
+                </foreach>
+             </if>
+            <if test="ids != null and ids.size > 0"> and id in
+                <foreach item="id" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        order by sort
+    </select>
+    
+    <select id="selectAttributeById" parameterType="Long" resultMap="AttributeResult">
+        <include refid="selectAttributeVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="getByPrentId" parameterType="Long" resultMap="AttributeResult">
+        <include refid="selectAttributeVo"/>
+        where parent_id = #{id}
+        order by sort
+    </select>
+        
+    <insert id="insertAttribute" parameterType="Attribute" useGeneratedKeys="true" keyProperty="id">
+        insert into attribute
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="fieldType != null">field_type,</if>
+            <if test="fieldName != null">field_name,</if>
+            <if test="fieldValue != null">field_value,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="cfgType != null">cfg_type,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="valuation != null">valuation,</if>
+            <if test="level != null">level,</if>
+            <if test="formula != null">formula,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="fieldType != null">#{fieldType},</if>
+            <if test="fieldName != null">#{fieldName},</if>
+            <if test="fieldValue != null">#{fieldValue},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="cfgType != null">#{cfgType},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="valuation != null">#{valuation},</if>
+            <if test="level != null">#{level},</if>
+            <if test="formula != null">#{formula},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAttribute" parameterType="Attribute">
+        update attribute
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="fieldType != null">field_type = #{fieldType},</if>
+            <if test="fieldName != null">field_name = #{fieldName},</if>
+            <if test="fieldValue != null">field_value = #{fieldValue},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="cfgType != null">cfg_type = #{cfgType},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="valuation != null">valuation = #{valuation},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="formula != null">formula = #{formula},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAttributeById" parameterType="Long">
+        delete from attribute where id = #{id}
+    </delete>
+
+    <delete id="deleteAttributeByIds" parameterType="String">
+        delete from attribute where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

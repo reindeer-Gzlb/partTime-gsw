@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.recovery.mapper.GoodsRecoveryInfoMapper">
+
+    <resultMap type="GoodsRecoveryInfo" id="GoodsRecoveryInfoResult">
+        <result property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createId" column="create_id"/>
+        <result property="code" column="code"/>
+        <result property="recoveryTime" column="recovery_time"/>
+        <result property="price" column="price"/>
+        <result property="vx" column="vx"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="remark" column="remark"/>
+        <result property="backUserName" column="back_user_name"/>
+        <result property="leaderUserName" column="leader_user_name"/>
+    </resultMap>
+
+    <sql id="selectGoodsRecoveryInfoVo">
+        select id, create_time, create_id, code, recovery_time, price, vx, pay_time, remark,back_user_name,leader_user_name
+         from goods_recovery_info
+    </sql>
+
+    <select id="selectGoodsRecoveryInfoList" parameterType="GoodsRecoveryInfo" resultMap="GoodsRecoveryInfoResult">
+        <include refid="selectGoodsRecoveryInfoVo"/>
+        <where>
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="code != null  and code != ''">and code = #{code}</if>
+            <if test="recoveryTime != null ">and recovery_time = #{recoveryTime}</if>
+            <if test="recoveryTimeStart != null ">and recovery_time > #{recoveryTimeStart}</if>
+            <if test="recoveryTimeEnd != null ">and #{recoveryTimeEnd}>recovery_time</if>
+            <if test="price != null ">and price = #{price}</if>
+            <if test="vx != null  and vx != ''">and vx = #{vx}</if>
+            <if test="payTime != null ">and pay_time = #{payTime}</if>
+            <if test="payTimeStart != null ">and pay_time > #{payTimeStart}</if>
+            <if test="payTimeEnd != null ">and #{payTimeEnd}>pay_time</if>
+            <if test="backUserName != null  ">and back_user_name like concat('%', #{backUserName}, '%')</if>
+            <if test="leaderUserName != null  ">and leader_user_name like concat('%', #{leaderUserName}, '%')</if>
+        </where>
+        order by recovery_time desc
+    </select>
+
+    <select id="selectGoodsRecoveryInfoById" parameterType="Long" resultMap="GoodsRecoveryInfoResult">
+        <include refid="selectGoodsRecoveryInfoVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectGooodsRecoveryInfoCount" resultType="java.lang.Integer">
+        select count(*) from goods_recovery_info
+        <where>
+            <if test="userId != null">and create_id = #{userId}</if>
+        </where>
+    </select>
+
+    <insert id="insertGoodsRecoveryInfo" parameterType="GoodsRecoveryInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into goods_recovery_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="code != null">code,</if>
+            <if test="recoveryTime != null">recovery_time,</if>
+            <if test="price != null">price,</if>
+            <if test="vx != null">vx,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="backUserName != null">back_user_name,</if>
+            <if test="leaderUserName != null">leader_user_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="code != null">#{code},</if>
+            <if test="recoveryTime != null">#{recoveryTime},</if>
+            <if test="price != null">#{price},</if>
+            <if test="vx != null">#{vx},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="backUserName != null">#{backUserName},</if>
+            <if test="leaderUserName != null">#{leaderUserName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGoodsRecoveryInfo" parameterType="GoodsRecoveryInfo">
+        update goods_recovery_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="recoveryTime != null">recovery_time = #{recoveryTime},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="vx != null">vx = #{vx},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="backUserName != null">back_user_name = #{backUserName},</if>
+            <if test="leaderUserName != null">leader_user_name = #{leaderUserName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGoodsRecoveryInfoById" parameterType="Long">
+        delete from goods_recovery_info where id = #{id}
+    </delete>
+
+    <delete id="deleteGoodsRecoveryInfoByIds" parameterType="String">
+        delete from goods_recovery_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

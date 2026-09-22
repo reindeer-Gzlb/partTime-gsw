@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.financial.mapper.FinanceMapper">
+    
+    <resultMap type="Finance" id="FinanceResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="iotype"    column="iotype"    />
+        <result property="repay"    column="repay"    />
+        <result property="billType"    column="bill_type"    />
+        <result property="price"    column="price"    />
+        <result property="remark"    column="remark"    />
+        <result property="atta"    column="atta"    />
+        <result property="status"    column="status"    />
+        <result property="account"    column="account"    />
+        <result property="field1"    column="field1"    />
+        <result property="field2"    column="field2"    />
+        <result property="field3"    column="field3"    />
+        <result property="field4"    column="field4"    />
+        <result property="field5"    column="field5"    />
+        <result property="field6"    column="field6"    />
+        <result property="selltype"    column="selltype"    />
+        <result property="registeruser"    column="registeruser"    />
+        <result property="del"    column="del"    />
+        <result property="fromName"    column="from_name"    />
+    </resultMap>
+
+    <sql id="selectFinanceVo">
+        select id, create_id, update_id, create_time, update_time, iotype, repay, bill_type, price, remark, atta, status,account
+         ,field1,field2,field3,field4,field5,field6,selltype,registeruser,from_name
+         from finance
+    </sql>
+
+    <select id="selectFinanceList" parameterType="Finance" resultMap="FinanceResult">
+        <include refid="selectFinanceVo"/>
+        <where>
+            del = 0
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="iotype != null  and iotype != ''"> and iotype = #{iotype}</if>
+            <if test="repay != null  and repay != ''"> and repay = #{repay}</if>
+            <if test="billType != null "> and bill_type = #{billType}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="atta != null  and atta != ''"> and atta = #{atta}</if>
+            <if test="status != null and status != ''  "> and status = #{status}</if>
+            <if test="account != null and account != '' "> and account = #{account}</if>
+            <if test="remark != null and remark != '' "> and (remark like '%${remark}%' or field1 like '%${remark}%' or field2 like
+             '%${remark}%'  or field3 like '%${remark}%' or field4 like '%${remark}%' or field5 like '%${remark}%' or field6
+             like '%${remark}%' or price like '%${remark}%')</if>
+            <if test="sort != null and sort != '' and sortColumn != null and sortColumn != ''">
+            <if test="registeruser != null and registeruser!='' "> and registeruser like '%${registeruser}%'</if>
+            <if test="startTime != null"> and create_time>=#{startTime}</if>
+            <if test="fromName != null"> and from_name=#{fromName}</if>
+            <if test="endTime != null"> and create_time&lt;=#{endTime}</if>
+                order by ${sortColumn} ${sort}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectFinanceById" parameterType="Long" resultMap="FinanceResult">
+        <include refid="selectFinanceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFinance" parameterType="Finance" useGeneratedKeys="true" keyProperty="id">
+        insert into finance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="iotype != null">iotype,</if>
+            <if test="repay != null">repay,</if>
+            <if test="billType != null">bill_type,</if>
+            <if test="price != null">price,</if>
+            <if test="remark != null">remark,</if>
+            <if test="atta != null">atta,</if>
+            <if test="status != null">status,</if>
+            <if test="account != null">account,</if>
+            <if test="field1 != null">field1,</if>
+            <if test="field2 != null">field2,</if>
+            <if test="field3 != null">field3,</if>
+            <if test="field4 != null">field4,</if>
+            <if test="field5 != null">field5,</if>
+            <if test="field6 != null">field6,</if>
+            <if test="selltype != null">selltype,</if>
+            <if test="registeruser != null">registeruser,</if>
+            <if test="fromName != null">from_name,</if>
+            del
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="iotype != null">#{iotype},</if>
+            <if test="repay != null">#{repay},</if>
+            <if test="billType != null">#{billType},</if>
+            <if test="price != null">#{price},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="atta != null">#{atta},</if>
+            <if test="status != null">#{status},</if>
+            <if test="account != null">#{account},</if>
+            <if test="field1 != null">#{field1},</if>
+            <if test="field2 != null">#{field2},</if>
+            <if test="field3 != null">#{field3},</if>
+            <if test="field4 != null">#{field4},</if>
+            <if test="field5 != null">#{field5},</if>
+            <if test="field6 != null">#{field6},</if>
+            <if test="selltype != null">#{selltype},</if>
+            <if test="registeruser != null">#{registeruser},</if>
+            <if test="fromName != null">#{fromName},</if>
+            0
+         </trim>
+    </insert>
+
+    <update id="updateFinance" parameterType="Finance">
+        update finance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="iotype != null">iotype = #{iotype},</if>
+            <if test="repay != null">repay = #{repay},</if>
+            <if test="billType != null">bill_type = #{billType},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="atta != null">atta = #{atta},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="field1 != null">field1 = #{field1},</if>
+            <if test="field2 != null">field2 = #{field2},</if>
+            <if test="field3 != null">field3 = #{field3},</if>
+            <if test="field4 != null">field4 = #{field4},</if>
+            <if test="field5 != null">field5 = #{field5},</if>
+            <if test="field6 != null">field6 = #{field6},</if>
+            <if test="selltype != null">selltype = #{selltype},</if>
+            <if test="registeruser != null">registeruser = #{registeruser},</if>
+            <if test="fromName != null">from_name = #{fromName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFinanceById" parameterType="Long">
+        update finance set del = 1 where id = #{id}
+    </delete>
+
+    <delete id="deleteFinanceByIds" parameterType="String">
+        update finance set del = 1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getData" resultType="map">
+        select
+        SUM( CASE WHEN iotype = 1 THEN price ELSE 0 END ) AS zhichu,
+        SUM( CASE WHEN iotype = 2 THEN price ELSE 0 END ) AS shouru
+        from finance
+        where del=0
+        and to_days(now())-to_days(create_time) = #{day}
+    </select>
+
+    <select id="todayHSSC" resultType="map">
+        select count(*) as cot,sum(price) as price,game_name
+        from finance
+        where del=0
+        and bill_type=#{billType}
+        and to_days(now())-to_days(create_time) = 0
+        GROUP BY game_id
+    </select>
+
+    <select id="todaySCinfo" resultType="map">
+        select id,game_name,price,FROM_UNIXTIME(UNIX_TIMESTAMP(create_time) ,'%Y-%m-%d %h:%i:%s') as create_time
+        from finance
+        where del=0
+        and bill_type=#{billType}
+        and to_days(now())-to_days(create_time) = 0
+        <if test="createTime != null ">and create_time <![CDATA[ >= ]]> #{createTime}</if>
+    </select>
+    <select id="data" resultType="java.util.Map" parameterType="com.ruoyi.system.model.domain.Finance">
+        select
+        ROUND(IFNULL(s.totalKS,0),2) totalKS,
+        ROUND(IFNULL(s.totalPayPrice,0),2) totalPayPrice,
+        ROUND(IFNULL(s.totalPrice,0),2) totalPrice,
+        ROUND(IFNULL(s.totalYL,0) ,2)totalYL
+        from ( select
+        sum(case when iotype ='1' then price else 0 end) totalPayPrice,
+        sum(case when iotype ='2' then price else 0 end) totalPrice,
+        sum(case when iotype ='2' then field5 else 0 end) totalYL,
+        sum(case when iotype ='2' then field6 else 0 end) totalKS
+        from finance
+        <where>
+            del = 0
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="repay != null  and repay != ''">and repay = #{repay}</if>
+            <if test="billType != null ">and bill_type = #{billType}</if>
+            <if test="price != null ">and price = #{price}</if>
+            <if test="atta != null  and atta != ''">and atta = #{atta}</if>
+            <if test="status != null and status != ''  ">and status = #{status}</if>
+            <if test="account != null and account != '' ">and account = #{account}</if>
+            <if test="fromName != null and fromName != '' ">and from_name = #{fromName}</if>
+            <if test="remark != null and remark != '' ">and (remark like '%${remark}%' or field1 like '%${remark}%' or
+                field2 like
+                '%${remark}%' or field3 like '%${remark}%' or field4 like '%${remark}%' or field5 like '%${remark}%' or
+                field6
+                like '%${remark}%' or price like '%${remark}%')
+            </if>
+            <if test="registeruser != null and registeruser!='' ">and registeruser like '%${registeruser}%'</if>
+            <if test="startCreateTime != null">and create_time>#{startCreateTime}</if>
+            <if test="endCreateTime != null">and create_time&lt;#{endCreateTime}</if>
+        </where>
+        )s
+    </select>
+    <select id="statisticsData" resultType="java.util.Map"
+            parameterType="com.ruoyi.system.model.domain.Finance">
+        select
+            case when ISNULL(from_name) then '空渠道' else from_name end as fromName
+            ,count(1)  count
+            ,sum(price)  totalPrice
+            from finance
+        <where>
+            <if test="startCreateTime != null">and create_time >#{startCreateTime}</if>
+            <if test="endCreateTime != null">and #{endCreateTime}> create_time</if>
+            <if test="status != null and status != ''  ">and status = #{status}</if>
+            <if test="iotype != null"> and iotype = #{iotype}</if>
+            <if test="createId != null"> and create_id = #{createId}</if>
+        </where>
+            GROUP BY fromName
+            order by totalPrice desc
+    </select>
+</mapper>

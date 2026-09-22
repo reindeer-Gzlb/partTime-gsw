@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.AddPriceMapper">
+
+    <resultMap type="AddPrice" id="AddPriceResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="superId"    column="super_id"    />
+        <result property="rise"    column="rise"    />
+        <result property="type"    column="type"    />
+        <result property="roleType"    column="role_type"    />
+        <result property="ison"    column="ison"    />
+        <result property="priceType"    column="price_type"    />
+        <result property="gtype"    column="gtype"    />
+        <result property="maxcount"    column="maxcount"    />
+    </resultMap>
+
+    <sql id="selectAddPriceVo">
+        select id, create_id, update_id, create_time, update_time, super_id, rise, type,role_type,ison,price_type,gtype,maxcount from add_price
+    </sql>
+
+    <select id="selectAddPriceList" parameterType="AddPrice" resultMap="AddPriceResult">
+        <include refid="selectAddPriceVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="superId != null "> and super_id = #{superId}</if>
+            <if test="rise != null "> and rise = #{rise}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="roleType != null "> and role_type = #{roleType}</if>
+            <if test="ison != null "> and ison = #{ison}</if>
+            <if test="priceType != null "> and price_type = #{priceType}</if>
+            <if test="gtype != null "> and gtype = #{gtype}</if>
+            <if test="maxcount != null "> and maxcount = #{maxcount}</if>
+        </where>
+    </select>
+
+    <select id="selectAddPriceById" parameterType="Long" resultMap="AddPriceResult">
+        <include refid="selectAddPriceVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAddPrice" parameterType="AddPrice" useGeneratedKeys="true" keyProperty="id">
+        insert into add_price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="superId != null">super_id,</if>
+            <if test="rise != null">rise,</if>
+            <if test="type != null">type,</if>
+            <if test="roleType != null">role_type,</if>
+            <if test="ison != null">ison,</if>
+            <if test="priceType != null">price_type,</if>
+            <if test="gtype != null">gtype,</if>
+            <if test="maxcount != null">maxcount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="superId != null">#{superId},</if>
+            <if test="rise != null">#{rise},</if>
+            <if test="type != null">#{type},</if>
+            <if test="roleType != null">#{roleType},</if>
+            <if test="ison != null">#{ison},</if>
+            <if test="priceType != null">#{priceType},</if>
+            <if test="gtype != null">#{gtype},</if>
+            <if test="maxcount != null">#{maxcount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddPrice" parameterType="AddPrice">
+        update add_price
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="superId != null">super_id = #{superId},</if>
+            <if test="rise != null">rise = #{rise},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="roleType != null">role_type = #{roleType},</if>
+            <if test="ison != null">ison = #{ison},</if>
+            <if test="priceType != null">price_type = #{priceType},</if>
+            <if test="gtype != null">gtype = #{gtype},</if>
+            <if test="maxcount != null">maxcount = #{maxcount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAddPriceById" parameterType="Long">
+        delete from add_price where id = #{id}
+    </delete>
+
+    <delete id="deleteAddPriceByIds" parameterType="String">
+        delete from add_price where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

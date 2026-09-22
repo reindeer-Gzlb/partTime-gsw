@@ -1,0 +1,155 @@
+# 数据源配置
+Ddruid:
+  mysql:
+    usePingMethod=false
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+desc:
+  title: gsw
+  aesKey:
+
+
+
+tess4j:
+  #    data-path: D:\tessdata
+  data-path: /home
+  language: chi_sim
+
+
+mima:
+  baseUrl: api
+kejin:
+  devUrl: https://kejinlianmeng.com
+spring:
+  redis:
+    host: 120.26.167.196
+    # 端口，默认为6379
+    port: 6345
+    # 数据库索引
+    database: 1
+    # 密码
+    password: 259871c0
+    timeout: 2000s
+    jedis:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:mysql://120.26.167.196:13306/gsw?characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true
+        username: root
+        password: yudu8888..
+      # 从库数据源
+      slave:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url:
+        username:
+        password:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 6000000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 6000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 3000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 9000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: ruoyi
+        login-password: 2548741
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+#阿里短信配置
+aliyunsms:
+#  #AccessKey ID
+#  accessKeyId: LTAI5tDFipBXczQooUagCy34
+#  #AccessKey Secret
+#  accessKeySecret: ypXiW4KjSlgWZh1hUeLwunCwU9kQ2C
+#  #手机号验证码登录
+#  phoneLoginTemplate[signName]: 飞衡代售
+#  phoneLoginTemplate[templateCode]: SMS_460245036
+#  #验证码重置
+#  passwordYZMTemplate[signName]: 飞衡代售
+#  passwordYZMTemplate[templateCode]: SMS_460215042
+yunluconfig:
+  #  MchId: 1044512
+  #  AppId: 10011713777026902
+  #  AppKey: fecb7079584542f582566b9a3de0d455
+  ##  TempletePingGu: 11111
+  ##  TempleteZaiXian: 11111
+  ##  TempleteZiXun: 11111
+  ##  TempleteChengJiao: 11111
+  ##  TempleteTongGuo: 11111
+  ##  TempleteBuTongGuo: 11111
+  ##  TempleteTiXing: 11111
+  #  TempleteBaoJia: 11111
+  #  TempleteCode: 70100735
+  #  SignName: 【怪兽玩】
+  #  baseUrl: https://www.guaishouwan.com/
+  MchId: 1044512
+  AppId: 10011713777026902
+# AppKey:fecb7079584542f582566b9a3de0d455
+  AppKey: 1a1ed60b1e8842a9858fa1aa898e865fList<SysDictData> sysDictDataList = sysDictDataMapper.selectDictDataByType("payCenter");
+for (SysDictData dictData : sysDictDataList) {
+    if ("url".equals(dictData.getDictLabel()))       url = dictData.getDictValue();
+    else if ("merchantId".equals(dictData.getDictLabel())) merchantId = dictData.getDictValue();
+    else if ("notifyUrl".equals(dictData.getDictLabel()))  notifyUrl = dictData.getDictValue();
+}
+List<SysDictData> sysDictDataList = sysDictDataMapper.selectDictDataByType("payCenter");
+for (SysDictData dictData : sysDictDataList) {
+    if ("url".equals(dictData.getDictLabel()))       url = dictData.getDictValue();
+    else if ("merchantId".equals(dictData.getDictLabel())) merchantId = dictData.getDictValue();
+    else if ("notifyUrl".equals(dictData.getDictLabel()))  notifyUrl = dictData.getDictValue();
+}
+
+  TempleteCode: 70100735
+  TempleteLinkCode: 7002735
+  TempleteCustomerAuditPass: 70075961
+  TempletecustomerAuditRefuse: 70075960
+  TempleteValueAddedServiceExpire: 70076852
+  TempleteViolationcode: 70081865
+  Sale0rderSellerGoods: 70086662
+  Sale0rderAfterBuyerAuditPass: 70086664
+  SaleorderAfterBuyerAuditRefuse: 70086665
+  SaleorderAfterBuyerJieSuan: 70086666
+  backorderBuyerJieShou: 7008666
+  backlistFaBu: 70087102
+  back0rderSXTX: 70093847
+  SignName: 【佛山幻世游戏科技】

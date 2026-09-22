@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.ApiTaskPoolMapper">
+    <resultMap type="ApiTaskPool" id="ApiTaskPoolResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="superId"    column="super_id"    />
+        <result property="games"    column="games"    />
+        <result property="config"    column="config"    />
+        <result property="status"    column="status"    />
+        <result property="type"    column="type"    />
+        <result property="partnerName"    column="partner_name"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="req"    column="req"    />
+        <result property="res"    column="res"    />
+        <result property="errmsg"    column="errmsg"    />
+        <result property="partCode"    column="part_code"    />
+        <result property="countt"    column="countt"    />
+    </resultMap>
+
+    <sql id="selectApiTaskPoolVo">
+        select id, create_id, update_id, create_time, update_time, super_id, games, config,status,type,partner_name,account_id,req,res,errmsg,part_code,countt from api_task_pool
+    </sql>
+
+    <select id="selectApiTaskPoolList" parameterType="ApiTaskPool" resultMap="ApiTaskPoolResult">
+        <include refid="selectApiTaskPoolVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="createNoId != null "> and create_id != #{createNoId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="superId != null "> and super_id = #{superId}</if>
+            <if test="games != null  and games != ''"> and games = #{games}</if>
+            <if test="config != null  and config != ''"> and config = #{config}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="partnerName != null  and partnerName != ''"> and partner_name = #{partnerName}</if>
+            <if test="accountId != null  and accountId != ''"> and account_id = #{accountId}</if>
+            <if test="partCode != null  and partCode != ''"> and part_code like concat('%', #{partCode}, '%')</if>
+            <if test="notPartCode != null  and notPartCode != ''"> and part_code not like concat('%', #{notPartCode}, '%')</if>
+            <if test="countt != 0  and countt != ''"> and countt &lt;=  #{countt}</if>
+            <if test="maxCount != 0  and maxCount != ''"> and countt &gt;=  #{maxCount}</if>
+            <if test="createIds != null  and createIds.size > 0">
+                and create_id in
+                <foreach item="createId" collection="createIds" open="(" separator="," close=")">
+                    #{createId}
+                </foreach>
+            </if>
+        </where>
+        order by id desc
+        <if test="size != null">
+            limit #{size}
+        </if>
+    </select>
+
+    <select id="selectApiTaskPoolById" parameterType="Long" resultMap="ApiTaskPoolResult">
+        <include refid="selectApiTaskPoolVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertApiTaskPool" parameterType="ApiTaskPool" useGeneratedKeys="true" keyProperty="id">
+        insert into api_task_pool
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="superId != null">super_id,</if>
+            <if test="games != null">games,</if>
+            <if test="config != null">config,</if>
+            <if test="status != null">status,</if>
+            <if test="type != null">type,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="req != null">req,</if>
+            <if test="res != null">res,</if>
+            <if test="errmsg != null">errmsg,</if>
+            <if test="partnerName != null">partner_name,</if>
+            <if test="partCode != null">part_code,</if>
+            <if test="countt != null">countt,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="superId != null">#{superId},</if>
+            <if test="games != null">#{games},</if>
+            <if test="config != null">#{config},</if>
+            <if test="status != null">#{status},</if>
+            <if test="type != null">#{type},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="req != null">#{req},</if>
+            <if test="res != null">#{res},</if>
+            <if test="errmsg != null">#{errmsg},</if>
+            <if test="partnerName != null">#{partnerName},</if>
+            <if test="partCode != null">#{partCode},</if>
+            <if test="countt != null">#{countt},</if>
+         </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="ApiTaskPool">
+        INSERT INTO api_task_pool (create_id, update_id, create_time, update_time, super_id,games,
+        config,status,type,account_id,req,res,errmsg,partner_name,part_code) VALUES
+        <foreach collection="list" separator="," item="item">
+            (#{item.createId},#{item.updateId},#{item.createTime},#{item.updateTime},#{item.superId},
+            #{item.games},#{item.config},#{item.status},#{item.type},#{item.accountId},#{item.req},
+            #{item.res},#{item.errmsg},#{item.partnerName},#{item.partCode})
+        </foreach>
+    </insert>
+
+
+    <update id="updateApiTaskPool" parameterType="ApiTaskPool">
+        update api_task_pool
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="superId != null">super_id = #{superId},</if>
+            <if test="games != null">games = #{games},</if>
+            <if test="config != null">config = #{config},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="partnerName != null">partner_name = #{partnerName},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="req != null">req = #{req},</if>
+            <if test="res != null">res = #{res},</if>
+            <if test="errmsg != null">res = #{errmsg},</if>
+            <if test="partCode != null">part_code = #{partCode},</if>
+            <if test="countt != null">countt = #{countt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApiTaskPoolById" parameterType="Long">
+        delete from api_task_pool where id = #{id}
+    </delete>
+
+    <delete id="deleteApiTaskPoolByPartCode" parameterType="string">
+        delete from api_task_pool where part_code = #{saleCode}
+    </delete>
+    <update id="updateStatus" parameterType="Long">
+        update set api_task_pool status = 0 where id = #{id}
+    </update>
+
+    <delete id="deleteApiTaskPoolByIds" parameterType="String">
+        delete from api_task_pool where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="taskCount" resultType="map">
+        SELECT count(*) cot,type FROM api_task_pool GROUP BY type
+    </select>
+    <delete id="deleteApiTaskPoolByConfigAndId" parameterType="string">
+        delete from api_task_pool where config = #{config} and account_id = #{accountId} and type = #{type}
+    </delete>
+
+</mapper>

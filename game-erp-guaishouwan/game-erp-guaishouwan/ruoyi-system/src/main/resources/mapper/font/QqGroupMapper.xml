@@ -1,0 +1,102 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.font.mapper.QqGroupMapper">
+
+    <resultMap type="QqGroup" id="QqGroupResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="qq"    column="QQ"    />
+        <result property="sort"    column="sort"    />
+        <result property="name"    column="name"    />
+        <result property="state"    column="state"    />
+        <result property="gameId"    column="game_id"    />
+        <result property="gameName"    column="game_name"    />
+        <result property="typeResource"    column="type_resource"    />
+    </resultMap>
+
+    <sql id="selectQqGroupVo">
+        select id, create_id, update_id, create_time, update_time, QQ, name, state ,sort,game_id ,game_name ,type_resource  from qq_group
+    </sql>
+
+    <select id="selectQqGroupList" parameterType="QqGroup" resultMap="QqGroupResult">
+        <include refid="selectQqGroupVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="gameId != null "> and game_id = #{gameId}</if>
+            <if test="gameName != null "> and game_name = #{gameName}</if>
+            <if test="typeResource != null "> and type_resource = #{typeResource}</if>
+            <if test="qq != null  and qq != ''"> and QQ  like '%${qq}%' </if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+        </where>
+    </select>
+
+    <select id="selectQqGroupById" parameterType="Long" resultMap="QqGroupResult">
+        <include refid="selectQqGroupVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertQqGroup" parameterType="QqGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into qq_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="qq != null">QQ,</if>
+            <if test="name != null">name,</if>
+            <if test="state != null">state,</if>
+            <if test="gameId != null ">  game_id ,</if>
+            <if test="gameName != null ">  game_name ,</if>
+            <if test="sort != null ">  sort ,</if>
+            <if test="typeResource != null ">  type_resource ,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="qq != null">#{qq},</if>
+            <if test="name != null">#{name},</if>
+            <if test="state != null">#{state},</if>
+            <if test="gameId != null ">  #{gameId},</if>
+            <if test="gameName != null "> #{gameName},</if>
+            <if test="sort != null "> #{sort},</if>
+            <if test="typeResource != null "> #{typeResource},</if>
+        </trim>
+    </insert>
+
+    <update id="updateQqGroup" parameterType="QqGroup">
+        update qq_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="qq != null">QQ = #{qq},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="gameId != null ">  game_id = #{gameId},</if>
+            <if test="gameName != null ">  game_name = #{gameName},</if>
+            <if test="sort != null ">  sort = #{sort},</if>
+            <if test="typeResource != null ">  type_resource = #{typeResource},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteQqGroupById" parameterType="Long">
+        delete from qq_group where id = #{id}
+    </delete>
+
+    <delete id="deleteQqGroupByIds" parameterType="String">
+        delete from qq_group where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

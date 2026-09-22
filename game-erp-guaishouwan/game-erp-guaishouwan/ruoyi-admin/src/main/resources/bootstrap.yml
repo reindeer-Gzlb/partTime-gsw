@@ -1,0 +1,22 @@
+# Spring配置
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: guaishouwan
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.maimaizhanghao.com:80
+        namespace: 34a582d4-90e9-4eec-848f-9dd0e4818abd
+        group: dev
+      config:
+        server-addr: nacos.maimaizhanghao.com:80
+        namespace: 34a582d4-90e9-4eec-848f-9dd0e4818abd
+        group: dev
+        name: 2.0.1-prd
+        file-extension: yaml
+      password: nacos
+      username: nacos
+    compatibility-verifier:
+      enabled: false

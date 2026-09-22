@@ -1,0 +1,381 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages	// 商品下单
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "怪兽玩代售-游戏账号交易平台",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"onReachBottomDistance": 100
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+
+			}
+		},
+
+		{
+			"path": "pages/collect/index",
+			"style": {
+				"navigationBarTitleText": "我的收藏",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/noticeList/index",
+			"style": {
+				"navigationBarTitleText": "公告列表",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/noticeList/zhaohuiList",
+			"style": {
+				"navigationBarTitleText": "找回案例",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/noticeList/noticeDetail",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/gameList/index",
+			"style": {
+				"navigationBarTitleText": "我要买",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"onReachBottomDistance": 100
+
+			}
+		},
+		{
+			"path": "pages/gameList/otherGameList",
+			"style": {
+				"navigationBarTitleText": "选择游戏",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"onReachBottomDistance": 100,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+
+			}
+		},
+		{
+			"path": "pages/goodsList/index",
+			"style": {
+				"navigationBarTitleText": "商品列表",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"onReachBottomDistance": 100,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/detail/index",
+			"style": {
+				"navigationBarTitleText": "商品详情",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/detail/orderDetail",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/saleGameList/maidetails",
+			"style": {
+				"navigationBarTitleText": "我要卖",
+				"navigationStyle": "default",
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+
+			}
+		},
+		{
+			"path": "pages/retrieveAccount/accountInfo",
+			"style": {
+				"navigationBarTitleText": "官网代售",
+				"navigationStyle": "default",
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/mine/myAccount/index",
+			"style": {
+				"navigationBarTitleText": "我的代售",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 100,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+
+
+		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false
+			}
+		},
+
+		{
+			"path": "pages/fankui/index",
+			"style": {
+				"navigationBarTitleText": "投诉建议",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+
+		{
+			"path": "pages/mine/setting",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"navigationStyle": "default",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+
+
+
+		{
+			"path": "pages/homedetails/jiaoyixuzhi",
+			"style": {
+				"navigationBarTitleText": "交易须知",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/homedetails/yewujieshao",
+			"style": {
+				"navigationBarTitleText": "业务介绍",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/homedetails/pingtaikefu",
+			"style": {
+				"navigationBarTitleText": "平台客服联系方式",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/homedetails/kefuyanzheng",
+			"style": {
+				"navigationBarTitleText": "客服验证",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+
+		{
+			"path": "pages/detail/demo",
+			"style": {
+				"navigationBarTitleText": "官方交易群",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/user/bangzhuz",
+			"style": {
+				"navigationBarTitleText": "帮助中心",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/user/yinsixy",
+			"style": {
+				"navigationBarTitleText": "隐私协议",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/user/yonghuxy",
+			"style": {
+				"navigationBarTitleText": "用户协议",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/user/yinsixyNoTitle",
+			"style": {
+				"navigationBarTitleText": "隐私协议",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/user/yonghuxyNoTitle",
+			"style": {
+				"navigationBarTitleText": "用户协议",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+
+		{
+			"path": "pages/user/wentixiangqing",
+			"style": {
+				"navigationBarTitleText": "问题详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/home/lunbodetails",
+			"style": {
+				"navigationBarTitleText": "轮播详情",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/home/chengjiao",
+			"style": {
+				"navigationBarTitleText": "最近成交",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+
+		{
+			"path": "pages/goodsList/zhaohuibaopeiindex",
+			"style": {
+				"navigationBarTitleText": "找回包赔",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/goodsList/anlidetails",
+			"style": {
+				"navigationBarTitleText": "案例详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#383B56",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/message/index",
+			"style": {
+				"navigationBarTitleText": "消息",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/conversation/xinwengonggao",
+			"style": {
+				"navigationBarTitleText": "新闻公告",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/conversation/xinwenggdetails",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"tabBar": {
+		"height": "56px",
+		"iconWidth": "24px",
+		"color": "#999999",
+		"selectedColor": "#fff",
+		"borderStyle": "white",
+		"backgroundColor": "#1C1632",
+		"midButton": {
+			"height": "80px",
+			"width": "70px",
+			"iconPath": "static/guaishouwan/mai.png",
+			"iconWidth": "70px"
+		},
+		"list": [{
+				"pagePath": "pages/home/index",
+				"iconPath": "static/guaishouwan/home.png",
+				"selectedIconPath": "static/guaishouwan/home-active.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/gameList/index",
+				"iconPath": "static/guaishouwan/two.png",
+				"selectedIconPath": "static/guaishouwan/two-active.png",
+				"text": "买号"
+			},
+			{
+				"pagePath": "pages/message/index",
+				"iconPath": "static/guaishouwan/four.png",
+				"selectedIconPath": "static/guaishouwan/four-active.png",
+				"text": "消息"
+			}, {
+				"pagePath": "pages/mine/index",
+				"iconPath": "static/guaishouwan/five.png",
+				"selectedIconPath": "static/guaishouwan/five-active.png",
+				"text": "我的"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "怪兽玩代售-游戏账号交易平台",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#fff",
+		"rpxCalcMaxDeviceWidth": 960, // rpx 计算所支持的最大设备宽度，单位 px，默认值为 960
+		"rpxCalcBaseDeviceWidth": 375, // rpx 计算使用的基准设备宽度，设备实际宽度超出 rpx 计算所支持的最大设备宽度时将按基准宽度计算，单位 px，默认值为 375
+		"rpxCalcIncludeWidth": 750, // rpx 计算特殊处理的值，始终按实际的设备宽度计算，单位 rpx，默认值为 750
+		"maxWidth": 960
+	}
+}

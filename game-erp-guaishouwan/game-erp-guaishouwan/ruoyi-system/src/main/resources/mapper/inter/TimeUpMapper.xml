@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.TimeUpMapper">
+    
+    <resultMap type="TimeUp" id="TimeUpResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="saleCode"    column="sale_code"    />
+        <result property="saleName"    column="sale_name"    />
+        <result property="config"    column="config"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectTimeUpVo">
+        select id, create_id, update_id, create_time, update_time, sale_code, sale_name, config, user_id from time_up
+    </sql>
+
+    <select id="selectTimeUpList" parameterType="TimeUp" resultMap="TimeUpResult">
+        <include refid="selectTimeUpVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="saleCode != null  and saleCode != ''"> and sale_code = #{saleCode}</if>
+            <if test="saleName != null  and saleName != ''"> and sale_name like concat('%', #{saleName}, '%')</if>
+            <if test="config != null "> and config = #{config}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTimeUpById" parameterType="Long" resultMap="TimeUpResult">
+        <include refid="selectTimeUpVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTimeUp" parameterType="TimeUp" useGeneratedKeys="true" keyProperty="id">
+        insert into time_up
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="saleCode != null">sale_code,</if>
+            <if test="saleName != null">sale_name,</if>
+            <if test="config != null">config,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="saleCode != null">#{saleCode},</if>
+            <if test="saleName != null">#{saleName},</if>
+            <if test="config != null">#{config},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTimeUp" parameterType="TimeUp">
+        update time_up
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="saleCode != null">sale_code = #{saleCode},</if>
+            <if test="saleName != null">sale_name = #{saleName},</if>
+            <if test="config != null">config = #{config},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTimeUpById" parameterType="Long">
+        delete from time_up where id = #{id}
+    </delete>
+
+    <delete id="deleteTimeUpByIds" parameterType="String">
+        delete from time_up where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

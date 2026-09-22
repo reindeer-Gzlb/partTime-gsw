@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.order.mapper.SaleImgMapper">
+    
+    <resultMap type="SaleImg" id="SaleImgResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="account"    column="account"    />
+        <result property="pwd"    column="pwd"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="accountId"    column="account_id"    />
+    </resultMap>
+
+    <sql id="selectSaleImgVo">
+        select id, type, img_url, account, pwd, order_no, create_by, create_time, update_by, update_time, account_id from sale_img
+    </sql>
+
+    <select id="selectSaleImgList" parameterType="SaleImg" resultMap="SaleImgResult">
+        <include refid="selectSaleImgVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="pwd != null  and pwd != ''"> and pwd = #{pwd}</if>
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+        </where>
+    </select>
+    
+    <select id="selectSaleImgById" parameterType="Long" resultMap="SaleImgResult">
+        <include refid="selectSaleImgVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSaleImg" parameterType="SaleImg" useGeneratedKeys="true" keyProperty="id">
+        insert into sale_img
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="account != null">account,</if>
+            <if test="pwd != null">pwd,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="accountId != null">account_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="account != null">#{account},</if>
+            <if test="pwd != null">#{pwd},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="accountId != null">#{accountId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSaleImg" parameterType="SaleImg">
+        update sale_img
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="pwd != null">pwd = #{pwd},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSaleImgById" parameterType="Long">
+        delete from sale_img where id = #{id}
+    </delete>
+    <delete id="deleteSaleImgByAccountId" parameterType="Long">
+        delete from sale_img where account_id = #{id}
+    </delete>
+
+    <delete id="deleteSaleImgByIds" parameterType="String">
+        delete from sale_img where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

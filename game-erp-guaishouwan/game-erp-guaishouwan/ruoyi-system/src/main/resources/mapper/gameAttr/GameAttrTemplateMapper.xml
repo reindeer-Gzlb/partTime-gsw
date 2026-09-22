@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.gameAttr.mapper.GameAttrTemplateMapper">
+
+    <resultMap type="GameAttrTemplate" id="GameAttrTemplateResult">
+        <result property="id" column="id"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateId" column="update_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="gameId" column="game_id"/>
+        <result property="gameName" column="game_name"/>
+        <result property="fieldType" column="field_type"/>
+        <result property="fieldName" column="field_name"/>
+        <result property="sort" column="sort"/>
+        <result property="must" column="must"/>
+        <result property="isEnable" column="is_enable"/>
+        <result property="range" column="range"/>
+        <result property="attributeId" column="attribute_id"/>
+        <result property="aavName" column="aav_name"/>
+        <result property="fieldKey" column="field_key"/>
+        <result property="isSearch" column="is_search"/>
+        <result property="hsisShow" column="hsis_show"/>
+    </resultMap>
+
+    <sql id="selectGameAttrTemplateVo">
+        select id, create_id, update_id, create_time, update_time, game_id, game_name, field_type, field_name, sort,
+        must, is_enable, `range`, attribute_id,aav_name,field_key,is_search,hsis_show from game_attr_template
+    </sql>
+
+    <select id="selectGameAttrTemplateList" parameterType="GameAttrTemplate" resultMap="GameAttrTemplateResult">
+        <include refid="selectGameAttrTemplateVo"/>
+        <where>
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="gameId != null ">and game_id = #{gameId}</if>
+            <if test="gameName != null  and gameName != ''">and game_name like concat('%', #{gameName}, '%')</if>
+            <if test="fieldType != null  and fieldType != ''">and field_type = #{fieldType}</if>
+            <if test="fieldName != null  and fieldName != ''">and field_name like concat('%', #{fieldName}, '%')</if>
+            <if test="sort != null  and sort != ''">and sort = #{sort}</if>
+            <if test="must != null  and must != ''">and must = #{must}</if>
+            <if test="isEnable != null  and isEnable != ''">and is_enable = #{isEnable}</if>
+            <if test="range != null  and range != ''">and `range` = #{range}</if>
+            <if test="attributeId != null ">and attribute_id = #{attributeId}</if>
+            <if test="aavName != null ">and aav_name = #{aavName}</if>
+            <if test="fieldKey != null ">and field_key = #{fieldKey}</if>
+            <if test="hsisShow != null ">and hsis_show = #{hsisShow}</if>
+        </where>
+        order by sort+0
+    </select>
+
+    <select id="selectGameAttrTemplateById" parameterType="Long" resultMap="GameAttrTemplateResult">
+        <include refid="selectGameAttrTemplateVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertGameAttrTemplate" parameterType="GameAttrTemplate" useGeneratedKeys="true" keyProperty="id">
+        insert into game_attr_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="gameId != null">game_id,</if>
+            <if test="gameName != null">game_name,</if>
+            <if test="fieldType != null">field_type,</if>
+            <if test="fieldName != null">field_name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="must != null">must,</if>
+            <if test="isEnable != null">is_enable,</if>
+            <if test="range != null">`range`,</if>
+            <if test="attributeId != null">attribute_id,</if>
+            <if test="aavName != null">aav_name,</if>
+            <if test="fieldKey != null">field_key,</if>
+            <if test="isSearch != null">is_search,</if>
+            <if test="hsisShow != null">hsis_show,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="gameId != null">#{gameId},</if>
+            <if test="gameName != null">#{gameName},</if>
+            <if test="fieldType != null">#{fieldType},</if>
+            <if test="fieldName != null">#{fieldName},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="must != null">#{must},</if>
+            <if test="isEnable != null">#{isEnable},</if>
+            <if test="range != null">#{range},</if>
+            <if test="attributeId != null">#{attributeId},</if>
+            <if test="aavName != null">#{aavName},</if>
+            <if test="fieldKey != null">#{fieldKey},</if>
+            <if test="isSearch != null">#{isSearch},</if>
+            <if test="hsisShow != null">#{hsisShow},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGameAttrTemplate" parameterType="GameAttrTemplate">
+        update game_attr_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="gameId != null">game_id = #{gameId},</if>
+            <if test="gameName != null">game_name = #{gameName},</if>
+            <if test="fieldType != null">field_type = #{fieldType},</if>
+            <if test="fieldName != null">field_name = #{fieldName},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="must != null">must = #{must},</if>
+            <if test="isEnable != null">is_enable = #{isEnable},</if>
+            <if test="range != null">`range` = #{range},</if>
+            <if test="attributeId != null">attribute_id = #{attributeId},</if>
+            <if test="aavName != null">aav_name = #{aavName},</if>
+            <if test="fieldKey != null">field_key = #{fieldKey},</if>
+            <if test="isSearch != null">is_search = #{isSearch},</if>
+            <if test="hsisShow != null">hsis_show = #{hsisShow},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGameAttrTemplateById" parameterType="Long">
+        delete from game_attr_template where id = #{id}
+    </delete>
+
+    <delete id="deleteGameAttrTemplateByIds" parameterType="String">
+        delete from game_attr_template where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectGameAttrTemplateByGameIdAndAuto" resultMap="GameAttrTemplateResult">
+        <include refid="selectGameAttrTemplateVo"/>
+        where game_id = #{gameId} and aav_name in
+        <foreach collection="auto" item="aav_name" index="index"
+                 open="(" close=")" separator=",">
+            #{aav_name}
+        </foreach>
+    </select>
+
+    <select id="selectGameAttrTemplateByGameId" resultMap="GameAttrTemplateResult">
+        <include refid="selectGameAttrTemplateVo"/>
+        where game_id = #{gameId} order by sort+0
+    </select>
+    <select id="apiSelectGameAttrTemplateList"
+            resultType="com.ruoyi.system.model.dto.api.ApiGameAttrTemplateDto">
+        <include refid="selectGameAttrTemplateVo"/>
+        <where>
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="gameId != null ">and game_id = #{gameId}</if>
+            <if test="gameName != null  and gameName != ''">and game_name like concat('%', #{gameName}, '%')</if>
+            <if test="fieldType != null  and fieldType != ''">and field_type = #{fieldType}</if>
+            <if test="fieldName != null  and fieldName != ''">and field_name like concat('%', #{fieldName}, '%')</if>
+            <if test="sort != null  and sort != ''">and sort = #{sort}</if>
+            <if test="must != null  and must != ''">and must = #{must}</if>
+            <if test="isEnable != null  and isEnable != ''">and is_enable = #{isEnable}</if>
+            <if test="range != null  and range != ''">and `range` = #{range}</if>
+            <if test="attributeId != null ">and attribute_id = #{attributeId}</if>
+            <if test="aavName != null ">and aav_name = #{aavName}</if>
+            <if test="fieldKey != null ">and field_key = #{fieldKey}</if>
+        </where>
+    </select>
+
+</mapper>

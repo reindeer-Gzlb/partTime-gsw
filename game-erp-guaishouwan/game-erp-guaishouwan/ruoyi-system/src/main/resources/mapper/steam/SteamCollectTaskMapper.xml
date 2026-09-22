@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.steam.mapper.SteamCollectTaskMapper">
+
+    <resultMap type="SteamCollectTask" id="SteamCollectTaskResult">
+        <result property="id" column="id"/>
+        <result property="createId" column="create_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="steamAccount" column="steam_account"/>
+        <result property="steamEmailReq" column="steam_email_req"/>
+        <result property="steamEmail" column="steam_email"/>
+        <result property="steamPhone" column="steam_phone"/>
+        <result property="remark" column="remark"/>
+        <result property="status" column="status"/>
+        <result property="emailStatus" column="email_status"/>
+        <result property="phoneStatus" column="phone_status"/>
+        <result property="lastTime" column="last_time"/>
+    </resultMap>
+
+    <sql id="selectSteamCollectTaskVo">
+        select id, create_id, create_time, steam_account, steam_email_req, steam_email, steam_phone, remark, status, email_status, phone_status, last_time from steam_collect_task
+    </sql>
+
+    <select id="selectSteamCollectTaskList" parameterType="SteamCollectTask" resultMap="SteamCollectTaskResult">
+        <include refid="selectSteamCollectTaskVo"/>
+        <where>
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="steamAccount != null  and steamAccount != ''">and steam_account = #{steamAccount}</if>
+            <if test="steamEmailReq != null  and steamEmailReq != ''">and steam_email_req = #{steamEmailReq}</if>
+            <if test="steamEmail != null  and steamEmail != ''">and steam_email = #{steamEmail}</if>
+            <if test="steamPhone != null  and steamPhone != ''">and steam_phone = #{steamPhone}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="emailStatus != null ">and email_status = #{emailStatus}</if>
+            <if test="phoneStatus != null ">and phone_status = #{phoneStatus}</if>
+            <if test="lastTime != null ">and last_time = #{lastTime}</if>
+            <if test="startCreateTime != null ">
+                and create_time between #{startCreateTime} and #{endCreateTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSteamCollectTaskById" parameterType="Long" resultMap="SteamCollectTaskResult">
+        <include refid="selectSteamCollectTaskVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectSteamCollectTaskIds" resultType="java.lang.Long">
+        select id from steam_collect_task where status =1
+    </select>
+
+    <insert id="insertSteamCollectTask" parameterType="SteamCollectTask" useGeneratedKeys="true" keyProperty="id">
+        insert into steam_collect_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="steamAccount != null">steam_account,</if>
+            <if test="steamEmailReq != null">steam_email_req,</if>
+            <if test="steamEmail != null">steam_email,</if>
+            <if test="steamPhone != null">steam_phone,</if>
+            <if test="remark != null">remark,</if>
+            <if test="status != null">status,</if>
+            <if test="emailStatus != null">email_status,</if>
+            <if test="phoneStatus != null">phone_status,</if>
+            <if test="lastTime != null">last_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="steamAccount != null">#{steamAccount},</if>
+            <if test="steamEmailReq != null">#{steamEmailReq},</if>
+            <if test="steamEmail != null">#{steamEmail},</if>
+            <if test="steamPhone != null">#{steamPhone},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="status != null">#{status},</if>
+            <if test="emailStatus != null">#{emailStatus},</if>
+            <if test="phoneStatus != null">#{phoneStatus},</if>
+            <if test="lastTime != null">#{lastTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSteamCollectTask" parameterType="SteamCollectTask">
+        update steam_collect_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="steamAccount != null">steam_account = #{steamAccount},</if>
+            <if test="steamEmailReq != null">steam_email_req = #{steamEmailReq},</if>
+            <if test="steamEmail != null">steam_email = #{steamEmail},</if>
+            <if test="steamPhone != null">steam_phone = #{steamPhone},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="emailStatus != null">email_status = #{emailStatus},</if>
+            <if test="phoneStatus != null">phone_status = #{phoneStatus},</if>
+            <if test="lastTime != null">last_time = #{lastTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSteamCollectTaskById" parameterType="Long">
+        delete from steam_collect_task where id = #{id}
+    </delete>
+
+    <delete id="deleteSteamCollectTaskByIds" parameterType="String">
+        delete from steam_collect_task where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

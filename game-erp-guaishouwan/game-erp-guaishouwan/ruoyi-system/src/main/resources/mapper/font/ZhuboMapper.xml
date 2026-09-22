@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.font.mapper.ZhuboMapper">
+    
+    <resultMap type="Zhubo" id="ZhuboResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="img"    column="img"    />
+        <result property="h5Img"    column="h5_img"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="pcJump"    column="pc_jump"    />
+        <result property="mobileJump"    column="mobile_jump"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+
+    <sql id="selectZhuboVo">
+        select id, create_id, create_time, update_by, update_time, img, name,type,pc_jump,mobile_jump,cast(content as char)
+         as content ,h5_img from zhubo
+    </sql>
+
+    <select id="selectZhuboList" parameterType="Zhubo" resultMap="ZhuboResult">
+        <include refid="selectZhuboVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="img != null  and img != ''"> and img = #{img}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectZhuboById" parameterType="Long" resultMap="ZhuboResult">
+        <include refid="selectZhuboVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertZhubo" parameterType="Zhubo" useGeneratedKeys="true" keyProperty="id">
+        insert into zhubo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="img != null">img,</if>
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="pcJump != null">pc_jump,</if>
+            <if test="mobileJump != null">mobile_jump,</if>
+            <if test="content != null">content,</if>
+            <if test="h5Img != null">h5_img,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="img != null">#{img},</if>
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="pcJump != null">#{pcJump},</if>
+            <if test="mobileJump != null">#{mobileJump},</if>
+            <if test="content != null">#{content},</if>
+            <if test="h5Img != null">#{h5Img},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhubo" parameterType="Zhubo">
+        update zhubo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="img != null">img = #{img},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="pcJump != null">pc_jump = #{pcJump},</if>
+            <if test="mobileJump != null">mobile_jump = #{mobileJump},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="h5Img != null">h5_img = #{h5Img},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZhuboById" parameterType="Long">
+        delete from zhubo where id = #{id}
+    </delete>
+
+    <delete id="deleteZhuboByIds" parameterType="String">
+        delete from zhubo where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

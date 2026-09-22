@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.shouFromName.mapper.ShouFromNameMapper">
+    
+    <resultMap type="com.ruoyi.system.shouFromName.domain.ShouFromName" id="ShouFromNameResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="name"    column="name"    />
+        <result property="sort"    column="sort"    />
+        <result property="type"    column="type"    />
+    </resultMap>
+
+    <sql id="selectShouFromNameVo">
+        select id, create_id, create_time, name, sort,type from shou_from_name
+    </sql>
+    <sql id="selectShouFromNameVoTwo">
+        select f.id, f.create_id,u.nick_name createName, f.create_time, f.name, f.sort ,f.type
+        from shou_from_name f
+        left join sys_user u on u.user_id = f.create_id
+    </sql>
+    <select id="selectShouFromNameList" parameterType="com.ruoyi.system.shouFromName.domain.ShouFromName" resultMap="ShouFromNameResult">
+        <include refid="selectShouFromNameVoTwo"/>
+        <where>  
+            <if test="createId != null "> and f.create_id = #{createId}</if>
+            <if test="name != null  and name != ''"> and f.name like concat('%', #{name}, '%')</if>
+            <if test="sort != null "> and f.sort = #{sort}</if>
+            <if test="type != null "> and f.type = #{type}</if>
+        </where>
+        ORDER BY sort desc ,id desc
+    </select>
+    
+    <select id="selectShouFromNameById" parameterType="Long" resultMap="ShouFromNameResult">
+        <include refid="selectShouFromNameVoTwo"/>
+        where f.id = #{id}
+    </select>
+        
+    <insert id="insertShouFromName" parameterType="com.ruoyi.system.shouFromName.domain.ShouFromName" useGeneratedKeys="true" keyProperty="id">
+        insert into shou_from_name
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="name != null">name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="type != null">type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="type != null">#{type},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShouFromName" parameterType="com.ruoyi.system.shouFromName.domain.ShouFromName">
+        update shou_from_name
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="type != null">type = #{type},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteShouFromNameById" parameterType="Long">
+        delete from shou_from_name where id = #{id}
+    </delete>
+
+    <delete id="deleteShouFromNameByIds" parameterType="String">
+        delete from shou_from_name where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

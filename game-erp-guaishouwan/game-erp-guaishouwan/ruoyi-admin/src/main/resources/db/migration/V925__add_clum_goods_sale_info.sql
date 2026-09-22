@@ -1,0 +1,2 @@
+alter table `goods_sale_info` add column `back_user_name` varchar(255) DEFAULT ''  COMMENT '回收人姓名';
+alter table `goods_sale_info` add column `leader_user_name` varchar(255) DEFAULT ''  COMMENT '填报人姓名';

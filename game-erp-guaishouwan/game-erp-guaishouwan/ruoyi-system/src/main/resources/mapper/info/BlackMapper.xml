@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.BlackMapper">
+
+    <resultMap type="Black" id="BlackResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="account"    column="account"    />
+        <result property="gameSn"    column="game_sn"    />
+        <result property="gameName"    column="game_name"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="wx"    column="wx"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="name"    column="name"    />
+        <result property="paymentAccount"    column="payment_account"    />
+        <result property="addTime"    column="add_time"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="remark"    column="remark"    />
+        <result property="provinceName"    column="province_name"    />
+        <result property="cityName"    column="city_name"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectBlackVo">
+        select id, create_id, update_id, create_time, update_time, account_id, account, game_sn, game_name, mobile, wx, id_no, name, payment_account, add_time, channel_name, remark, province_name, city_name, area_name, status from black
+    </sql>
+
+    <select id="selectBlackList" parameterType="Black" resultMap="BlackResult">
+        <include refid="selectBlackVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="gameSn != null  and gameSn != ''"> and game_sn = #{gameSn}</if>
+            <if test="gameName != null  and gameName != ''"> and game_name like concat('%', #{gameName}, '%')</if>
+            <if test="mobile != null  and mobile != ''"> and mobile = #{mobile}</if>
+            <if test="wx != null  and wx != ''"> and wx = #{wx}</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="paymentAccount != null  and paymentAccount != ''"> and payment_account = #{paymentAccount}</if>
+            <if test="addTime != null  and addTime != ''"> and add_time = #{addTime}</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat('%', #{channelName}, '%')</if>
+            <if test="provinceName != null  and provinceName != ''"> and province_name like concat('%', #{provinceName}, '%')</if>
+            <if test="cityName != null  and cityName != ''"> and city_name like concat('%', #{cityName}, '%')</if>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectBlackById" parameterType="Long" resultMap="BlackResult">
+        <include refid="selectBlackVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBlack" parameterType="Black" useGeneratedKeys="true" keyProperty="id">
+        insert into black
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="account != null">account,</if>
+            <if test="gameSn != null">game_sn,</if>
+            <if test="gameName != null">game_name,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="wx != null">wx,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="name != null">name,</if>
+            <if test="paymentAccount != null">payment_account,</if>
+            <if test="addTime != null">add_time,</if>
+            <if test="channelName != null">channel_name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="provinceName != null">province_name,</if>
+            <if test="cityName != null">city_name,</if>
+            <if test="areaName != null">area_name,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="account != null">#{account},</if>
+            <if test="gameSn != null">#{gameSn},</if>
+            <if test="gameName != null">#{gameName},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="wx != null">#{wx},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="paymentAccount != null">#{paymentAccount},</if>
+            <if test="addTime != null">#{addTime},</if>
+            <if test="channelName != null">#{channelName},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="provinceName != null">#{provinceName},</if>
+            <if test="cityName != null">#{cityName},</if>
+            <if test="areaName != null">#{areaName},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlack" parameterType="Black">
+        update black
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="gameSn != null">game_sn = #{gameSn},</if>
+            <if test="gameName != null">game_name = #{gameName},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="wx != null">wx = #{wx},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="paymentAccount != null">payment_account = #{paymentAccount},</if>
+            <if test="addTime != null">add_time = #{addTime},</if>
+            <if test="channelName != null">channel_name = #{channelName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="provinceName != null">province_name = #{provinceName},</if>
+            <if test="cityName != null">city_name = #{cityName},</if>
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlackById" parameterType="Long">
+        delete from black where id = #{id}
+    </delete>
+
+    <delete id="deleteBlackByIds" parameterType="String">
+        delete from black where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

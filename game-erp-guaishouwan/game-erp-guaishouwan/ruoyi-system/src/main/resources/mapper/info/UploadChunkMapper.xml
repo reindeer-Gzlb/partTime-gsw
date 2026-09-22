@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.UploadChunkMapper">
+
+    <resultMap type="UploadChunk" id="UploadChunkResult">
+        <result property="id"    column="id"    />
+        <result property="chunkEtag"    column="chunk_etag"    />
+        <result property="chunkName"    column="chunk_name"    />
+        <result property="chunkNumber"    column="chunk_number"    />
+        <result property="chunkSize"    column="chunk_size"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createName"    column="create_name"    />
+        <result property="fileHash"    column="file_hash"    />
+        <result property="uploadId"    column="upload_id"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="chunkHash"    column="chunk_hash"    />
+    </resultMap>
+
+    <sql id="selectUploadChunkVo">
+        select id, chunk_etag, chunk_name, chunk_number, chunk_size, create_time, create_name, file_hash, upload_id,
+               file_type,chunk_hash from upload_chunk
+    </sql>
+
+    <select id="findUploadChunkWithFile" resultMap="UploadChunkResult">
+        <include refid="selectUploadChunkVo"/>
+        where file_hash = #{fileHash}
+    </select>
+
+    <select id="countChunkByHashAndNumber" resultType="java.lang.Integer"
+            parameterType="com.ruoyi.system.model.dto.UploadChunkReq">
+        select count(*)
+        from upload_chunk
+        where file_hash = #{fileHash}
+          and chunk_hash = #{chunkHash}
+          and chunk_number = #{chunkNumber}
+    </select>
+    <select id="selectUploadChunkList" parameterType="UploadChunk" resultMap="UploadChunkResult">
+        <include refid="selectUploadChunkVo"/>
+        <where>
+            <if test="chunkEtag != null  and chunkEtag != ''"> and chunk_etag = #{chunkEtag}</if>
+            <if test="chunkName != null  and chunkName != ''"> and chunk_name like concat('%', #{chunkName}, '%')</if>
+            <if test="chunkNumber != null "> and chunk_number = #{chunkNumber}</if>
+            <if test="chunkSize != null "> and chunk_size = #{chunkSize}</if>
+            <if test="createName != null  and createName != ''"> and create_name like concat('%', #{createName}, '%')</if>
+            <if test="fileHash != null  and fileHash != ''"> and file_hash = #{fileHash}</if>
+            <if test="uploadId != null  and uploadId != ''"> and upload_id = #{uploadId}</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="chunkHash != null  and chunkHash != ''"> and chunk_hash = #{chunkHash}</if>
+        </where>
+    </select>
+
+    <select id="selectUploadChunkById" parameterType="Long" resultMap="UploadChunkResult">
+        <include refid="selectUploadChunkVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertUploadChunk" parameterType="UploadChunk" useGeneratedKeys="true" keyProperty="id">
+        insert into upload_chunk
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chunkEtag != null">chunk_etag,</if>
+            <if test="chunkName != null">chunk_name,</if>
+            <if test="chunkNumber != null">chunk_number,</if>
+            <if test="chunkSize != null">chunk_size,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="fileHash != null and fileHash != ''">file_hash,</if>
+            <if test="uploadId != null and uploadId != ''">upload_id,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="chunkHash != null">chunk_hash,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chunkEtag != null">#{chunkEtag},</if>
+            <if test="chunkName != null">#{chunkName},</if>
+            <if test="chunkNumber != null">#{chunkNumber},</if>
+            <if test="chunkSize != null">#{chunkSize},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="fileHash != null and fileHash != ''">#{fileHash},</if>
+            <if test="uploadId != null and uploadId != ''">#{uploadId},</if>
+            <if test="fileType != null">#{fileType},</if>
+            <if test="chunkHash != null">#{chunkHash},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUploadChunk" parameterType="UploadChunk">
+        update upload_chunk
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chunkEtag != null">chunk_etag = #{chunkEtag},</if>
+            <if test="chunkName != null">chunk_name = #{chunkName},</if>
+            <if test="chunkNumber != null">chunk_number = #{chunkNumber},</if>
+            <if test="chunkSize != null">chunk_size = #{chunkSize},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="fileHash != null and fileHash != ''">file_hash = #{fileHash},</if>
+            <if test="uploadId != null and uploadId != ''">upload_id = #{uploadId},</if>
+            <if test="fileType != null">file_type = #{fileType},</if>
+            <if test="chunkHash != null">chunk_hash = #{chunkHash},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUploadChunkById" parameterType="Long">
+        delete from upload_chunk where id = #{id}
+    </delete>
+
+    <delete id="deleteUploadChunkByIds" parameterType="String">
+        delete from upload_chunk where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

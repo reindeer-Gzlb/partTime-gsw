@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.JymdataMapper">
+    
+    <resultMap type="Jymdata" id="JymdataResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="des"    column="des"    />
+        <result property="recid"    column="recid"    />
+        <result property="shopid"    column="shopid"    />
+        <result property="regional"    column="regional"    />
+        <result property="shopurl"    column="shopurl"    />
+        <result property="game"    column="game"    />
+        <result property="price"    column="price"    />
+        <result property="channel"    column="channel"    />
+    </resultMap>
+
+    <sql id="selectJymdataVo">
+        select id, create_id, update_id, create_time, update_time, des, recid, shopid, regional,shopurl,game,price,channel from jymdata
+    </sql>
+
+    <select id="selectJymdataList" parameterType="Jymdata" resultMap="JymdataResult">
+        <include refid="selectJymdataVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="des != null  and des != ''"> and des = #{des}</if>
+            <if test="recid != null  and recid != ''"> and recid = #{recid}</if>
+            <if test="shopid != null  and shopid != ''"> and shopid = #{shopid}</if>
+            <if test="regional != null  and regional != ''"> and regional = #{regional}</if>
+            <if test="game != null  and game != ''"> and game = #{game}</if>
+            <if test="channel != null  and channel != ''"> and channel = #{channel}</if>
+        </where>
+        order by id desc
+    </select>
+    
+    <select id="selectJymdataById" parameterType="Long" resultMap="JymdataResult">
+        <include refid="selectJymdataVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectJymdataByShopid" parameterType="String" resultMap="JymdataResult">
+        <include refid="selectJymdataVo"/>
+        where shopid = #{shopid}
+    </select>
+
+    <insert id="insertJymdata" parameterType="Jymdata" useGeneratedKeys="true" keyProperty="id">
+        insert into jymdata
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="des != null">des,</if>
+            <if test="recid != null">recid,</if>
+            <if test="shopid != null">shopid,</if>
+            <if test="regional != null">regional,</if>
+            <if test="shopurl != null">shopurl,</if>
+            <if test="game != null">game,</if>
+            <if test="price != null">price,</if>
+            <if test="channel != null">channel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="des != null">#{des},</if>
+            <if test="recid != null">#{recid},</if>
+            <if test="shopid != null">#{shopid},</if>
+            <if test="regional != null">#{regional},</if>
+            <if test="shopurl != null">#{shopurl},</if>
+            <if test="game != null">#{game},</if>
+            <if test="price != null">#{price},</if>
+            <if test="channel != null">#{channel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateJymdata" parameterType="Jymdata">
+        update jymdata
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="des != null">des = #{des},</if>
+            <if test="recid != null">recid = #{recid},</if>
+            <if test="shopid != null">shopid = #{shopid},</if>
+            <if test="regional != null">regional = #{regional},</if>
+            <if test="shopurl != null">shopurl = #{shopurl},</if>
+            <if test="game != null">shopurl = #{game},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="channel != null">channel = #{channel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteJymdataById" parameterType="Long">
+        delete from jymdata where id = #{id}
+    </delete>
+    <delete id="deleteJymdataHour">
+        DELETE FROM jymdata WHERE create_time &lt;  DATE_SUB(CURRENT_TIMESTAMP,INTERVAL 1 HOUR);
+    </delete>
+
+    <delete id="deleteJymdataByIds" parameterType="String">
+        delete from jymdata where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="allChannel" resultType="string">
+        SELECT DISTINCT channel FROM jymdata
+    </select>
+</mapper>

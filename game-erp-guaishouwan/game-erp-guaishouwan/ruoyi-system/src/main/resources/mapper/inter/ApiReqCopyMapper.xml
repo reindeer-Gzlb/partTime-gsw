@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.ApiReqCopyMapper">
+    
+    <resultMap type="ApiReqCopy" id="ApiReqCopyResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="userId"    column="user_id"    />
+        <result property="author"    column="author"    />
+        <result property="req"    column="req"    />
+        <result property="res"    column="res"    />
+        <result property="type"    column="type"    />
+        <result property="reqIp"    column="req_ip"    />
+        <result property="reqServer"    column="req_server"    />
+    </resultMap>
+
+    <sql id="selectApiReqCopyVo">
+        select id, create_id, update_id, create_time, update_time, user_id, author, req, res, type, req_ip, req_server from api_req_copy
+    </sql>
+
+    <select id="selectApiReqCopyList" parameterType="ApiReqCopy" resultMap="ApiReqCopyResult">
+        <include refid="selectApiReqCopyVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="author != null  and author != ''"> and author = #{author}</if>
+            <if test="req != null  and req != ''"> and req = #{req}</if>
+            <if test="res != null  and res != ''"> and res = #{res}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="reqIp != null  and reqIp != ''"> and req_ip = #{reqIp}</if>
+            <if test="reqServer != null  and reqServer != ''"> and req_server = #{reqServer}</if>
+        </where>
+    </select>
+    
+    <select id="selectApiReqCopyById" parameterType="Long" resultMap="ApiReqCopyResult">
+        <include refid="selectApiReqCopyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertApiReqCopy" parameterType="ApiReqCopy" useGeneratedKeys="true" keyProperty="id">
+        insert into api_req_copy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="author != null">author,</if>
+            <if test="req != null">req,</if>
+            <if test="res != null">res,</if>
+            <if test="type != null">type,</if>
+            <if test="reqIp != null">req_ip,</if>
+            <if test="reqServer != null">req_server,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="author != null">#{author},</if>
+            <if test="req != null">#{req},</if>
+            <if test="res != null">#{res},</if>
+            <if test="type != null">#{type},</if>
+            <if test="reqIp != null">#{reqIp},</if>
+            <if test="reqServer != null">#{reqServer},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApiReqCopy" parameterType="ApiReqCopy">
+        update api_req_copy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="author != null">author = #{author},</if>
+            <if test="req != null">req = #{req},</if>
+            <if test="res != null">res = #{res},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="reqIp != null">req_ip = #{reqIp},</if>
+            <if test="reqServer != null">req_server = #{reqServer},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteApiReqCopyById" parameterType="Long">
+        delete from api_req_copy where id = #{id}
+    </delete>
+
+    <delete id="deleteApiReqCopyByIds" parameterType="String">
+        delete from api_req_copy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

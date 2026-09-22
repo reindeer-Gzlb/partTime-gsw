@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.PriceRecMapper">
+    
+    <resultMap type="PriceRec" id="PriceRecResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="price"    column="price"    />
+        <result property="saleCode"    column="sale_code"    />
+        <result property="saleName"    column="sale_name"    />
+        <result property="config"    column="config"    />
+        <result property="infoid"    column="infoid"    />
+    </resultMap>
+
+    <sql id="selectPriceRecVo">
+        select id, create_id, update_id, create_time, update_time, price, sale_code, sale_name, config,infoid from price_rec
+    </sql>
+
+    <select id="selectPriceRecList" parameterType="PriceRec" resultMap="PriceRecResult">
+        <include refid="selectPriceRecVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="price != null  and price != ''"> and price = #{price}</if>
+            <if test="saleCode != null  and saleCode != ''"> and sale_code = #{saleCode}</if>
+            <if test="saleName != null  and saleName != ''"> and sale_name like concat('%', #{saleName}, '%')</if>
+            <if test="config != null "> and config = #{config}</if>
+            <if test="infoid != null "> and infoid = #{infoid}</if>
+        </where>
+    </select>
+    
+    <select id="selectPriceRecById" parameterType="Long" resultMap="PriceRecResult">
+        <include refid="selectPriceRecVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPriceRec" parameterType="PriceRec" useGeneratedKeys="true" keyProperty="id">
+        insert into price_rec
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="price != null">price,</if>
+            <if test="saleCode != null">sale_code,</if>
+            <if test="saleName != null">sale_name,</if>
+            <if test="config != null">config,</if>
+            <if test="infoid != null">infoid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="price != null">#{price},</if>
+            <if test="saleCode != null">#{saleCode},</if>
+            <if test="saleName != null">#{saleName},</if>
+            <if test="config != null">#{config},</if>
+            <if test="infoid != null">#{infoid},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePriceRec" parameterType="PriceRec">
+        update price_rec
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="saleCode != null">sale_code = #{saleCode},</if>
+            <if test="saleName != null">sale_name = #{saleName},</if>
+            <if test="config != null">config = #{config},</if>
+            <if test="infoid != null">infoid = #{infoid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePriceRecById" parameterType="Long">
+        delete from price_rec where id = #{id}
+    </delete>
+
+    <delete id="deletePriceRecByIds" parameterType="String">
+        delete from price_rec where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,21 @@
+.search-form-new{
+  width: 100%;
+  /* border: 2px solid #333; */
+  box-shadow: 0px 0px 5px 0px #ccc;
+  margin-bottom: 15px;
+  padding: 10px;
+  padding-bottom: 0;
+}
+.search-form-new .el-form-item{
+  margin-bottom: 10px;
+}
+.el-tooltip__popper {
+  max-width: 800px;
+}
+.link {
+  color: blue;
+  cursor: pointer;
+}
+.flex{
+  display: flex;
+}

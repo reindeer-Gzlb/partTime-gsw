@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.goodInfo.mapper.CollectMapper">
+
+    <resultMap type="Collect" id="CollectResult">
+        <result property="id" column="id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="createId" column="create_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectCollectVo">
+        select id, account_id, create_id, create_time, update_by, update_time, remark from collect
+    </sql>
+
+    <select id="selectCollectList" parameterType="Collect" resultMap="CollectResult">
+        <include refid="selectCollectVo"/>
+        <where>
+            <if test="accountId != null ">and account_id = #{accountId}</if>
+            <if test="createId != null ">and create_id = #{createId}</if>
+        </where>
+    </select>
+
+    <select id="selectCollectById" parameterType="Long" resultMap="CollectResult">
+        <include refid="selectCollectVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCollect" parameterType="Collect" useGeneratedKeys="true" keyProperty="id">
+        insert into collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">account_id,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">#{accountId},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCollect" parameterType="Collect">
+        update collect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCollectById" parameterType="Long">
+        delete from collect where id = #{id}
+    </delete>
+    <delete id="removeCollct" parameterType="Long">
+        delete from collect where account_id = #{accountId} and create_id = #{createId}
+    </delete>
+
+    <delete id="deleteCollectByIds" parameterType="String">
+        delete from collect where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectCollectDtoList" parameterType="java.util.HashMap"
+            resultType="com.ruoyi.system.model.dto.CollectDto">
+        SELECT goods_info.id AS goodsId,s1.nick_name AS collectName,goods_info.create_time AS
+        goodsCreateTime,goods_info.game_name AS gameName,goods_info.system_name AS systemName,goods_info.carrier_name AS
+        carriseName,goods_info.group_name AS groupName,goods_info.server_name AS serverName,s2.nick_name AS
+        supplyName,goods_info.des as des
+        FROM collect
+        LEFT JOIN goods_info ON goods_info.id=collect.account_id
+        LEFT JOIN sys_user s1 ON collect.create_id=s1.user_id
+        LEFT JOIN sys_user s2 ON goods_info.create_id=s2.user_id
+        <where>
+            <if test="userId != null and userId != ''">goods_info.create_id =#{userId}</if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.tool.mapper.TelUnbindMapper">
+    
+    <resultMap type="TelUnbind" id="TelUnbindResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="account"    column="account"    />
+        <result property="currentTel"    column="current_tel"    />
+        <result property="checkTel"    column="check_tel"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectTelUnbindVo">
+        select id, create_by, create_time, update_by, update_time, account_id, account, current_tel, check_tel, status from tel_unbind
+    </sql>
+
+    <select id="selectTelUnbindList" parameterType="TelUnbind" resultMap="TelUnbindResult">
+        <include refid="selectTelUnbindVo"/>
+        <where>  
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="currentTel != null  and currentTel != ''"> and current_tel = #{currentTel}</if>
+            <if test="checkTel != null  and checkTel != ''"> and check_tel = #{checkTel}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTelUnbindById" parameterType="Long" resultMap="TelUnbindResult">
+        <include refid="selectTelUnbindVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectTelUnbindByAccountId" parameterType="Long" resultMap="TelUnbindResult">
+        <include refid="selectTelUnbindVo"/>
+        where account_id = #{accountId}
+    </select>
+        
+    <insert id="insertTelUnbind" parameterType="TelUnbind" useGeneratedKeys="true" keyProperty="id">
+        insert into tel_unbind
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="account != null">account,</if>
+            <if test="currentTel != null">current_tel,</if>
+            <if test="checkTel != null">check_tel,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="account != null">#{account},</if>
+            <if test="currentTel != null">#{currentTel},</if>
+            <if test="checkTel != null">#{checkTel},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTelUnbind" parameterType="TelUnbind">
+        update tel_unbind
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="currentTel != null">current_tel = #{currentTel},</if>
+            <if test="checkTel != null">check_tel = #{checkTel},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTelUnbindById" parameterType="Long">
+        delete from tel_unbind where id = #{id}
+    </delete>
+
+    <delete id="deleteTelUnbindByIds" parameterType="String">
+        delete from tel_unbind where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.submitAccount.mapper.OrderRecMapper">
+
+    <resultMap type="OrderRec" id="OrderRecResult">
+        <result property="id" column="id"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateId" column="update_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="saleChannel" column="sale_channel"/>
+        <result property="supplyChannel" column="supply_channel"/>
+        <result property="saleDiscountPrice" column="sale_discount_price"/>
+        <result property="saleDiscount" column="sale_discount"/>
+        <result property="supplyDiscountPrice" column="supply_discount_price"/>
+        <result property="supplyDiscount" column="supply_discount"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="sumNum" column="sum_num"/>
+        <result property="profits" column="profits"/>
+        <result property="games" column="games"/>
+        <result property="ifPay" column="if_pay"/>
+        <result property="accountid" column="accountid"/>
+        <result property="snum" column="snum"/>
+        <result property="account" column="account"/>
+        <result property="supllypay" column="supllypay"/>
+        <result property="suplyprice" column="suplyprice"/>
+        <result property="oderstatus" column="oderstatus"/>
+        <result property="remake" column="remake"/>
+        <result property="suplyid" column="suplyid"/>
+        <result property="saleid" column="saleid"/>
+        <result property="gameid" column="gameid"/>
+        <result property="salechanelid" column="salechanelid"/>
+        <result property="saleChannelMinamount" column="sale_channel_minamount"/>
+        <result property="payRecordId" column="pay_record_id"/>
+        <result property="finishTime" column="finish_time"/>
+        <result property="cancelTime" column="cancel_time"/>
+        <result property="goodsAmount" column="goods_amount"/>
+        <result property="guaranteeType" column="guarantee_type"/>
+        <result property="guaranteeAmount" column="guarantee_amount"/>
+        <result property="no" column="no"/>
+        <result property="closeTime" column="close_time"/>
+        <result property="refundAmount" column="refund_amount"/>
+        <result property="afterSaleId" column="after_sale_id"/>
+        <result property="afterSaleValue" column="after_sale_value"/>
+        <result property="afterSaleRemark" column="after_sale_remark"/>
+        <result property="paidAmount" column="paid_amount"/>
+    </resultMap>
+
+    <sql id="selectOrderRecVo">
+        select id, create_id,accountid,snum,account,supllypay, suplyprice,update_id, create_time, update_time, sale_channel,
+        supply_channel, sale_discount_price, sale_discount, supply_discount_price, supply_discount,
+        sale_price,no,close_time,refund_amount,after_sale_id,after_sale_value,after_sale_remark,paid_amount,
+         sum_num, profits, games,pay_record_id,finish_time,cancel_time,goods_amount,guarantee_type,guarantee_amount,
+         if_pay,oderstatus,remake,saleid,suplyid,salechanelid,gameid,sale_channel_minamount from order_rec
+    </sql>
+
+    <select id="selectOrderRecList" parameterType="OrderRec" resultMap="OrderRecResult">
+        <include refid="selectOrderRecVo"/>
+        <include refid="wherepc"/>
+        order by id desc
+    </select>
+    <select id="sumPrice" parameterType="OrderRec" resultType="map">
+        SELECT sum(sale_price) salePrice,sum(sale_discount_price) saleDisPrice,
+
+        sum(supply_discount_price) supplydisPrice,
+
+        sum(suplyprice) supplyPrice,
+
+        round(sum(profits),2) profitsSum
+
+        FROM order_rec
+        <include refid="wherepc"/>
+    </select>
+    <select id="createList" resultType="map">
+        SELECT user_id,user_name FROM sys_user WHERE user_id in (SELECT DISTINCT create_id as id FROM order_rec)
+    </select>
+
+    <sql id="wherepc">
+        <where>
+            <if test="saleChannel != null  and saleChannel != ''">and sale_channel = #{saleChannel}</if>
+            <if test="saleid != null  and saleid != ''">and saleid = #{saleid}</if>
+            <if test="gameid != null  and gameid != ''">and gameid = #{gameid}</if>
+            <if test="salechanelid != null  and salechanelid != ''">and salechanelid = #{salechanelid}</if>
+            <if test="suplyid != null  and suplyid != ''">and suplyid = #{suplyid}</if>
+            <if test="supplyChannel != null  and supplyChannel != ''">and supply_channel = #{supplyChannel}</if>
+            <if test="saleDiscountPrice != null  and saleDiscountPrice != ''">and sale_discount_price =
+                #{saleDiscountPrice}
+            </if>
+            <if test="saleDiscount != null  and saleDiscount != ''">and sale_discount = #{saleDiscount}</if>
+            <if test="supplyDiscountPrice != null  and supplyDiscountPrice != ''">and supply_discount_price =
+                #{supplyDiscountPrice}
+            </if>
+            <if test="supplyDiscount != null  and supplyDiscount != ''">and supply_discount = #{supplyDiscount}</if>
+            <if test="salePrice != null  and salePrice != ''">and sale_price = #{salePrice}</if>
+            <if test="sumNum != null  and sumNum != ''">and sum_num = #{sumNum}</if>
+            <if test="profits != null  and profits != ''">and profits = #{profits}</if>
+            <if test="games != null  and games != ''">and games = #{games}</if>
+            <if test="ifPay != null  and ifPay != ''">and if_pay = #{ifPay}</if>
+            <if test="createId != null  and createId != 1">and create_id = #{createId}</if>
+            <if test="oderstatus != null  and oderstatus != ''">and oderstatus = #{oderstatus}</if>
+            <if test="accountid != null  and accountid != ''">and accountid = #{accountid}</if>
+            <if test="snum != null  and snum != ''">and snum LIKE '%${snum}%'</if>
+            <if test="account != null  and account != ''">and account LIKE '%${account}%'</if>
+            <if test="supllypay != null  and supllypay != ''">and supllypay = #{supllypay}</if>
+            <if test="suplyprice != null  and suplyprice != ''">and suplyprice = #{suplyprice}</if>
+            <if test="saleTimeEnd != null  and saleTimeEnd != '' and saleTimeStart != null  and saleTimeStart != ''">and
+                create_time BETWEEN #{saleTimeStart} and #{saleTimeEnd}
+            </if>
+            <if test="payRecordId != null  and payRecordId != ''">and pay_record_id = #{payRecordId}</if>
+        </where>
+    </sql>
+
+    <select id="selectOrderRecById" parameterType="Long" resultMap="OrderRecResult">
+        <include refid="selectOrderRecVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOrderRec" parameterType="OrderRec" useGeneratedKeys="true" keyProperty="id">
+        insert into order_rec
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="saleChannel != null">sale_channel,</if>
+            <if test="supplyChannel != null">supply_channel,</if>
+            <if test="saleDiscountPrice != null">sale_discount_price,</if>
+            <if test="saleDiscount != null">sale_discount,</if>
+            <if test="supplyDiscountPrice != null">supply_discount_price,</if>
+            <if test="supplyDiscount != null">supply_discount,</if>
+            <if test="salePrice != null">sale_price,</if>
+            <if test="sumNum != null">sum_num,</if>
+            <if test="profits != null">profits,</if>
+            <if test="games != null">games,</if>
+            <if test="ifPay != null">if_pay,</if>
+            <if test="accountid != null">accountid,</if>
+            <if test="snum != null">snum,</if>
+            <if test="account != null">account,</if>
+            <if test="supllypay != null">supllypay,</if>
+            <if test="suplyprice != null">suplyprice,</if>
+            <if test="oderstatus != null">oderstatus,</if>
+            <if test="remake != null">remake,</if>
+            <if test="suplyid != null">suplyid,</if>
+            <if test="saleid != null">saleid,</if>
+            <if test="gameid != null">gameid,</if>
+            <if test="salechanelid != null">salechanelid,</if>
+            <if test="saleChannelMinamount != null">sale_channel_minamount,</if>
+            <if test="payRecordId != null">pay_record_id,</if>
+            <if test="finishTime != null">finish_time,</if>
+            <if test="cancelTime != null">cancel_time,</if>
+            <if test="goodsAmount != null">goods_amount,</if>
+            <if test="guaranteeType != null">guarantee_type,</if>
+            <if test="guaranteeAmount != null">guarantee_amount,</if>
+            <if test="no != null">no,</if>
+            <if test="closeTime != null">close_time,</if>
+            <if test="refundAmount != null">refund_amount,</if>
+            <if test="afterSaleId != null">after_sale_id,</if>
+            <if test="afterSaleValue != null">after_sale_value,</if>
+            <if test="afterSaleRemark != null">after_sale_remark,</if>
+            <if test="paidAmount != null">paid_amount,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="saleChannel != null">#{saleChannel},</if>
+            <if test="supplyChannel != null">#{supplyChannel},</if>
+            <if test="saleDiscountPrice != null">#{saleDiscountPrice},</if>
+            <if test="saleDiscount != null">#{saleDiscount},</if>
+            <if test="supplyDiscountPrice != null">#{supplyDiscountPrice},</if>
+            <if test="supplyDiscount != null">#{supplyDiscount},</if>
+            <if test="salePrice != null">#{salePrice},</if>
+            <if test="sumNum != null">#{sumNum},</if>
+            <if test="profits != null">#{profits},</if>
+            <if test="games != null">#{games},</if>
+            <if test="ifPay != null">#{ifPay},</if>
+            <if test="accountid != null">#{accountid},</if>
+            <if test="snum != null">#{snum},</if>
+            <if test="account != null">#{account},</if>
+            <if test="supllypay != null">#{supllypay},</if>
+            <if test="suplyprice != null">#{suplyprice},</if>
+            <if test="oderstatus != null">#{oderstatus},</if>
+            <if test="remake != null">#{remake},</if>
+            <if test="suplyid != null">#{suplyid},</if>
+            <if test="saleid != null">#{saleid},</if>
+            <if test="gameid != null">#{gameid},</if>
+            <if test="salechanelid != null">#{salechanelid},</if>
+            <if test="saleChannelMinamount != null">#{saleChannelMinamount},</if>
+            <if test="payRecordId != null">#{payRecordId},</if>
+            <if test="finishTime != null">#{finishTime},</if>
+            <if test="cancelTime != null">#{cancelTime},</if>
+            <if test="goodsAmount != null">#{goodsAmount},</if>
+            <if test="guaranteeType != null">#{guaranteeType},</if>
+            <if test="guaranteeAmount != null">#{guaranteeAmount},</if>
+            <if test="no != null">#{no},</if>
+            <if test="closeTime != null">#{closeTime},</if>
+            <if test="refundAmount != null">#{refundAmount},</if>
+            <if test="afterSaleId != null">#{afterSaleId},</if>
+            <if test="afterSaleValue != null">#{afterSaleValue},</if>
+            <if test="afterSaleRemark != null">#{afterSaleRemark},</if>
+            <if test="paidAmount != null">#{paidAmount},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOrderRec" parameterType="OrderRec">
+        update order_rec
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="saleChannel != null">sale_channel = #{saleChannel},</if>
+            <if test="supplyChannel != null">supply_channel = #{supplyChannel},</if>
+            <if test="saleDiscountPrice != null">sale_discount_price = #{saleDiscountPrice},</if>
+            <if test="saleDiscount != null">sale_discount = #{saleDiscount},</if>
+            <if test="supplyDiscountPrice != null">supply_discount_price = #{supplyDiscountPrice},</if>
+            <if test="supplyDiscount != null">supply_discount = #{supplyDiscount},</if>
+            <if test="salePrice != null">sale_price = #{salePrice},</if>
+            <if test="sumNum != null">sum_num = #{sumNum},</if>
+            <if test="profits != null">profits = #{profits},</if>
+            <if test="games != null">games = #{games},</if>
+            <if test="ifPay != null">if_pay = #{ifPay},</if>
+            <if test="accountid != null">accountid = #{accountid},</if>
+            <if test="snum != null">snum = #{snum},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="supllypay != null">supllypay = #{supllypay},</if>
+            <if test="suplyprice != null">suplyprice = #{suplyprice},</if>
+            <if test="oderstatus != null">oderstatus = #{oderstatus},</if>
+            <if test="remake != null">remake = #{remake},</if>
+            <if test="suplyid != null">suplyid = #{suplyid},</if>
+            <if test="saleid != null">saleid = #{saleid},</if>
+            <if test="gameid != null">gameid = #{gameid},</if>
+            <if test="salechanelid != null">salechanelid = #{salechanelid},</if>
+            <if test="saleChannelMinamount != null">sale_channel_minamount = #{saleChannelMinamount},</if>
+            <if test="payRecordId != null">pay_record_id = #{payRecordId},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            <if test="cancelTime != null">cancel_time = #{cancelTime},</if>
+            <if test="goodsAmount != null">goods_amount = #{goodsAmount},</if>
+            <if test="guaranteeType != null">guarantee_type = #{guaranteeType},</if>
+            <if test="guaranteeAmount != null">guarantee_amount = #{guaranteeAmount},</if>
+            <if test="no != null">no = #{no},</if>
+            <if test="closeTime != null">close_time = #{closeTime},</if>
+            <if test="refundAmount != null">refund_amount = #{refundAmount},</if>
+            <if test="afterSaleId != null">after_sale_id = #{afterSaleId},</if>
+            <if test="afterSaleValue != null">after_sale_value = #{afterSaleValue},</if>
+            <if test="afterSaleRemark != null">after_sale_remark = #{afterSaleRemark},</if>
+            <if test="paidAmount != null">paid_amount = #{paidAmount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrderRecById" parameterType="Long">
+        delete from order_rec where id = #{id}
+    </delete>
+
+    <delete id="deleteOrderRecByIds" parameterType="String">
+        delete from order_rec where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <sql id="myOrderSql">
+        SELECT
+        g.title_img as titleImg,
+        g.des as des,
+        CASE
+        WHEN g.game_type = 0 THEN
+        CONCAT( system_name, carrier_name ) ELSE CONCAT( group_name, server_name )
+        END as qufu,
+        o.sale_price as salePrice,
+        g.id as goodsId,
+        o.id as orderId,
+        o.create_time as createTime,
+        o.oderstatus as orderStatus,
+        s1.nick_name as nickName,
+        IF(s1.phonenumber='', '', CONCAT(LEFT(s1.phonenumber, 3), '****', RIGHT(s1.phonenumber,4))) AS dephone,
+        g.shiming as shiming,
+        g.create_time as goodsCreateTime,
+        g.account_type as accountType,
+        o.pay_record_id as payRecordId,
+        o.no as no,
+        count(b.id) as browseNum,
+        p.pay_end_time as payEndTime,
+        o.cancel_time as  cancelTime,
+        o.finish_time as finishTime,
+        o.goods_amount as goodsAmount,
+        o.guarantee_type as guaranteeType,
+        o.close_time as closeTime,
+        o.guarantee_amount as guaranteeAmount,
+        o.refund_amount as refundAmount,
+        o.paid_amount as paidAmount,
+        o.after_sale_id as afterSaleId,
+        o.after_sale_value as afterSaleValue,
+        o.after_sale_remark as afterSaleRemark
+        FROM
+        order_rec o
+        LEFT JOIN goods_info g ON g.id = o.accountid
+        LEFT JOIN sys_user s1 on s1.user_id=g.create_id
+        left join pay_record p on p.id=o.pay_record_id
+        left join goods_browse b on b.goods_id=g.id
+    </sql>
+
+    <select id="myOrderRecList" resultType="com.ruoyi.system.model.dto.OrderRecRes">
+        <include refid="myOrderSql"/>
+        <where>
+            <if test="no != null  and no != ''">and o.no = #{no}</if>
+            <if test="centerNo != null  and centerNo != ''">and p.center_no = #{centerNo}</if>
+            <if test="saleChannel != null  and saleChannel != ''">and o.sale_channel = #{saleChannel}</if>
+            <if test="saleid != null  and saleid != ''">and o.saleid = #{saleid}</if>
+            <if test="gameid != null  and gameid != ''">and o.gameid = #{gameid}</if>
+            <if test="salechanelid != null  and salechanelid != ''">and o.salechanelid = #{salechanelid}</if>
+            <if test="suplyid != null  and suplyid != ''">and o.suplyid = #{suplyid}</if>
+            <if test="supplyChannel != null  and supplyChannel != ''">and o.supply_channel = #{supplyChannel}</if>
+            <if test="saleDiscountPrice != null  and saleDiscountPrice != ''">and o.sale_discount_price =
+                #{saleDiscountPrice}
+            </if>
+            <if test="saleDiscount != null  and saleDiscount != ''">and o.sale_discount = #{saleDiscount}</if>
+            <if test="supplyDiscountPrice != null  and supplyDiscountPrice != ''">and o.supply_discount_price =
+                #{supplyDiscountPrice}
+            </if>
+            <if test="supplyDiscount != null  and supplyDiscount != ''">and o.supply_discount = #{supplyDiscount}</if>
+            <if test="salePrice != null  and salePrice != ''">and o.sale_price = #{salePrice}</if>
+            <if test="sumNum != null  and sumNum != ''">and o.sum_num = #{sumNum}</if>
+            <if test="profits != null  and profits != ''">and o.profits = #{profits}</if>
+            <if test="games != null  and games != ''">and o.games = #{games}</if>
+            <if test="ifPay != null  and ifPay != ''">and o.if_pay = #{ifPay}</if>
+            <if test="createId != null  and createId != 1">and o.create_id = #{createId}</if>
+            <if test="oderstatus != null  and oderstatus != ''">and o.oderstatus = #{oderstatus}</if>
+            <if test="accountid != null  and accountid != ''">and o.accountid = #{accountid}</if>
+            <if test="snum != null  and snum != ''">and o.snum LIKE '%${snum}%'</if>
+            <if test="account != null  and account != ''">and o.account LIKE '%${account}%'</if>
+            <if test="supllypay != null  and supllypay != ''">and o.supllypay = #{supllypay}</if>
+            <if test="suplyprice != null  and suplyprice != ''">and o.suplyprice = #{suplyprice}</if>
+            <if test="saleTimeEnd != null  and saleTimeEnd != '' and saleTimeStart != null  and saleTimeStart != ''">
+                and o.create_time BETWEEN #{saleTimeStart} and #{saleTimeEnd}
+            </if>
+            <if test="payRecordId != null  and payRecordId != ''">and pay_record_id = #{payRecordId}</if>
+        </where>
+        GROUP BY o.id
+        order by o.create_time desc
+    </select>
+    <select id="myOrderRecOne" resultType="com.ruoyi.system.model.dto.OrderRecRes">
+        <include refid="myOrderSql"/>
+        where o.id=#{id}
+    </select>
+
+    <sql id="limitOne">
+        SELECT
+        g.title_img as titleImg,
+        g.des as des,
+        CASE
+        WHEN g.game_type = 0 THEN
+        CONCAT( system_name, carrier_name ) ELSE CONCAT( group_name, server_name )
+        END as qufu,
+        o.account as account,
+        o.sale_channel as saleChannel,
+        o.sale_price as salePrice,
+        g.id as goodsId,
+        o.id as orderId,
+        o.create_time as createTime,
+        o.oderstatus as orderStatus,
+        s1.nick_name as nickName,
+        IF(s1.phonenumber='', '', CONCAT(LEFT(s1.phonenumber, 3), '****', RIGHT(s1.phonenumber,4))) AS dephone,
+        g.shiming as shiming,
+        g.create_time as goodsCreateTime,
+        g.account_type as accountType,
+        o.pay_record_id as payRecordId,
+        o.no as no,
+        p.pay_end_time as payEndTime,
+        o.cancel_time as  cancelTime,
+        o.finish_time as finishTime,
+        o.goods_amount as goodsAmount,
+        o.guarantee_type as guaranteeType,
+        o.close_time as closeTime,
+        o.guarantee_amount as guaranteeAmount,
+        o.refund_amount as refundAmount,
+        o.paid_amount as paidAmount,
+        o.after_sale_id as afterSaleId,
+        o.after_sale_value as afterSaleValue,
+        o.after_sale_remark as afterSaleRemark
+        FROM
+        order_rec o
+        LEFT JOIN goods_info g ON g.id = o.accountid
+        LEFT JOIN sys_user s1 on s1.user_id=g.create_id
+        left join pay_record p on p.id=o.pay_record_id
+    </sql>
+
+    <select id="orderRecLimitOne" resultType="com.ruoyi.system.model.dto.OrderRecRes">
+        <include refid="limitOne"/>
+        where o.salechanelid = #{salechanelid}
+        order by createTime desc
+        limit 1
+    </select>
+
+    <select id="selectTimeOutOrder" parameterType="OrderRec" resultMap="OrderRecResult">
+        select id,remake,pay_record_id,accountid from order_rec
+        where oderstatus=3 and close_time is not null and NOW() > close_time
+    </select>
+
+    <select id="selectOrderStatus" resultType="map">
+        select pay_record.order_state as orderState from order_rec
+        left join pay_record on order_rec.pay_record_id=pay_record.id
+        where order_rec.id=#{id}
+    </select>
+</mapper>

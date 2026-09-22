@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.goodInfo.mapper.GoodsInfoImgMapper">
+    
+    <resultMap type="GoodsInfoImg" id="GoodsInfoImgResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="type"    column="type"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="fileName"    column="file_name"    />
+    </resultMap>
+
+    <sql id="selectGoodsInfoImgVo">
+        select id, create_id, create_time, goods_id, type, img_url, file_name from goods_info_img
+    </sql>
+
+    <select id="selectGoodsInfoImgList" parameterType="GoodsInfoImg" resultMap="GoodsInfoImgResult">
+        <include refid="selectGoodsInfoImgVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectGoodsInfoImgById" parameterType="Long" resultMap="GoodsInfoImgResult">
+        <include refid="selectGoodsInfoImgVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGoodsInfoImg" parameterType="GoodsInfoImg" useGeneratedKeys="true" keyProperty="id">
+        insert into goods_info_img
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="goodsId != null">goods_id,</if>
+            <if test="type != null">type,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="fileName != null">file_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="fileName != null">#{fileName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGoodsInfoImg" parameterType="GoodsInfoImg">
+        update goods_info_img
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGoodsInfoImgById" parameterType="Long">
+        delete from goods_info_img where id = #{id}
+    </delete>
+
+    <delete id="deleteGoodsInfoImgByIds" parameterType="String">
+        delete from goods_info_img where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByGoodsId">
+        delete from goods_info_img where goods_id = #{goodsId} and type = #{type}
+    </delete>
+
+    <insert id="insertBacthGoodsInfoImg" parameterType="GoodsInfoImg" useGeneratedKeys="true" keyProperty="id">
+        <foreach item="GoodsInfoImg" collection="goodsInfoImgList" separator=";">
+            insert into `goods_info_img`
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="GoodsInfoImg.createId != null">create_id,</if>
+                <if test="GoodsInfoImg.createTime != null">create_time,</if>
+                <if test="GoodsInfoImg.imgUrl != null">img_url,</if>
+                <if test="GoodsInfoImg.fileName != null">file_name,</if>
+                <if test="GoodsInfoImg.type != null">`type`,</if>
+                <if test="GoodsInfoImg.goodsId != null">goods_id,</if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="GoodsInfoImg.createId != null">#{GoodsInfoImg.createId},</if>
+                <if test="GoodsInfoImg.createTime != null">#{GoodsInfoImg.createTime},</if>
+                <if test="GoodsInfoImg.imgUrl != null">#{GoodsInfoImg.imgUrl},</if>
+                <if test="GoodsInfoImg.fileName != null">#{GoodsInfoImg.fileName},</if>
+                <if test="GoodsInfoImg.type != null">#{GoodsInfoImg.type},</if>
+                <if test="GoodsInfoImg.goodsId != null">#{GoodsInfoImg.goodsId},</if>
+            </trim>
+        </foreach>
+    </insert>
+
+</mapper>

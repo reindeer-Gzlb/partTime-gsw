@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.recycle.mapper.KrecycleMapper">
+    
+    <resultMap type="Krecycle" id="KrecycleResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createName"    column="create_name"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="expprice"    column="expprice"    />
+        <result property="bprice"    column="bprice"    />
+        <result property="tprice"    column="tprice"    />
+        <result property="tel"    column="tel"    />
+        <result property="suplair"    column="suplair"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="backId"    column="back_id"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="suplairName"    column="suplair_name"    />
+        <result property="clientName"    column="client_name"    />
+        <result property="account"    column="account"    />
+    </resultMap>
+
+    <sql id="selectKrecycleVo">
+        select id, create_id, create_name, update_id, create_time, update_time, expprice, bprice, tprice, tel, suplair, client_id, back_id, status,account, remark from krecycle
+    </sql>
+
+    <select id="selectKrecycleList" parameterType="Krecycle" resultMap="KrecycleResult">
+        SELECT
+        k.id,
+        k.create_id,
+        k.create_name,
+        k.update_id,
+        k.create_time,
+        k.update_time,
+        k.expprice,
+        k.bprice,
+        k.tprice,
+        k.tel,
+        k.suplair,
+        k.client_id,
+        k.back_id,
+        k.account,
+        k.STATUS,
+        k.remark ,
+        u.nick_name as suplair_name,
+        u1.nick_name as client_name
+        FROM
+        krecycle k
+        LEFT JOIN sys_user u on u.user_id = k.suplair
+        LEFT JOIN sys_user u1 on u1.user_id = k.client_id
+        <where>
+            <if test="createId != null "> and k.create_id = #{createId}</if>
+            <if test="createName != null "> and k.create_name like concat('%', #{createName}, '%')</if>
+            <if test="updateId != null "> and k.update_id = #{updateId}</if>
+            <if test="expprice != null  and expprice != ''"> and k.expprice = #{expprice}</if>
+            <if test="bprice != null  and bprice != ''"> and k.bprice = #{bprice}</if>
+            <if test="tprice != null  and tprice != ''"> and k.tprice = #{tprice}</if>
+            <if test="tel != null  and tel != ''"> and k.tel = #{tel}</if>
+            <if test="suplair != null "> and k.suplair = #{suplair}</if>
+            <if test="clientId != null "> and k.client_id = #{clientId}</if>
+            <if test="backId != null "> and k.back_id = #{backId}</if>
+            <if test="status != null  and status != ''"> and k.status = #{status}</if>
+            <if test="account != null  and account != ''"> and k.account = #{account}</if>
+        </where>
+    </select>
+    
+    <select id="selectKrecycleById" parameterType="Long" resultMap="KrecycleResult">
+        <include refid="selectKrecycleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKrecycle" parameterType="Krecycle" useGeneratedKeys="true" keyProperty="id">
+        insert into krecycle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="expprice != null">expprice,</if>
+            <if test="bprice != null">bprice,</if>
+            <if test="tprice != null">tprice,</if>
+            <if test="tel != null">tel,</if>
+            <if test="suplair != null">suplair,</if>
+            <if test="clientId != null">client_id,</if>
+            <if test="backId != null">back_id,</if>
+            <if test="status != null">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="account != null">account,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="expprice != null">#{expprice},</if>
+            <if test="bprice != null">#{bprice},</if>
+            <if test="tprice != null">#{tprice},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="suplair != null">#{suplair},</if>
+            <if test="clientId != null">#{clientId},</if>
+            <if test="backId != null">#{backId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="account != null">#{account},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKrecycle" parameterType="Krecycle">
+        update krecycle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="expprice != null">expprice = #{expprice},</if>
+            <if test="bprice != null">bprice = #{bprice},</if>
+            <if test="tprice != null">tprice = #{tprice},</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="suplair != null">suplair = #{suplair},</if>
+            <if test="clientId != null">client_id = #{clientId},</if>
+            <if test="backId != null">back_id = #{backId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="account != null">account = #{account},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKrecycleById" parameterType="Long">
+        delete from krecycle where id = #{id}
+    </delete>
+
+    <delete id="deleteKrecycleByIds" parameterType="String">
+        delete from krecycle where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

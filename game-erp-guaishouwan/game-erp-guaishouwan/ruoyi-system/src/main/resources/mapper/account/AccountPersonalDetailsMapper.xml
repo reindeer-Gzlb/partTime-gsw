@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.AccountPersonalDetailsMapper">
+    
+    <resultMap type="AccountPersonalDetails" id="AccountPersonalDetailsResult">
+        <result property="id"    column="id"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="name"    column="name"    />
+        <result property="gender"    column="gender"    />
+        <result property="idcard"    column="idcard"    />
+        <result property="nation"    column="nation"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="address"    column="address"    />
+        <result property="phone"    column="phone"    />
+        <result property="fatherPhone"    column="father_phone"    />
+        <result property="motherPhone"    column="mother_phone"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="reamrk"    column="reamrk"    />
+    </resultMap>
+
+    <sql id="selectAccountPersonalDetailsVo">
+        select id, account_id, name, gender, idcard, nation, birthday, address, phone, father_phone, mother_phone, create_time, update_time, update_user, reamrk from account_personal_details
+    </sql>
+
+    <select id="selectAccountPersonalDetailsList" parameterType="AccountPersonalDetails" resultMap="AccountPersonalDetailsResult">
+        <include refid="selectAccountPersonalDetailsVo"/>
+        <where>  
+            <if test="accountId != null"> and account_id = #{accountId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="gender != null "> and gender = #{gender}</if>
+            <if test="idcard != null  and idcard != ''"> and idcard = #{idcard}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="birthday != null "> and birthday = #{birthday}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="fatherPhone != null  and fatherPhone != ''"> and father_phone = #{fatherPhone}</if>
+            <if test="motherPhone != null  and motherPhone != ''"> and mother_phone = #{motherPhone}</if>
+            <if test="updateUser != null  and updateUser != ''"> and update_user = #{updateUser}</if>
+            <if test="reamrk != null  and reamrk != ''"> and reamrk = #{reamrk}</if>
+        </where>
+    </select>
+
+    <select id="selectAccountPersonalDetails" parameterType="AccountPersonalDetails" resultMap="AccountPersonalDetailsResult">
+        <include refid="selectAccountPersonalDetailsVo"/>
+        <where>
+            <if test="accountId != null"> and account_id = #{accountId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="gender != null "> and gender = #{gender}</if>
+            <if test="idcard != null  and idcard != ''"> and idcard = #{idcard}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="birthday != null "> and birthday = #{birthday}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="fatherPhone != null  and fatherPhone != ''"> and father_phone = #{fatherPhone}</if>
+            <if test="motherPhone != null  and motherPhone != ''"> and mother_phone = #{motherPhone}</if>
+            <if test="updateUser != null  and updateUser != ''"> and update_user = #{updateUser}</if>
+            <if test="reamrk != null  and reamrk != ''"> and reamrk = #{reamrk}</if>
+        </where>
+    </select>
+    
+    <select id="selectAccountPersonalDetailsById" parameterType="Long" resultMap="AccountPersonalDetailsResult">
+        select p.*
+        from account_personal_details p
+        where p.account_id = #{id}
+    </select>
+        
+    <insert id="insertAccountPersonalDetails" parameterType="AccountPersonalDetails">
+        insert into account_personal_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="name != null">name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="idcard != null">idcard,</if>
+            <if test="nation != null">nation,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="address != null">address,</if>
+            <if test="phone != null">phone,</if>
+            <if test="fatherPhone != null">father_phone,</if>
+            <if test="motherPhone != null">mother_phone,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="reamrk != null">reamrk,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="idcard != null">#{idcard},</if>
+            <if test="nation != null">#{nation},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="address != null">#{address},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="fatherPhone != null">#{fatherPhone},</if>
+            <if test="motherPhone != null">#{motherPhone},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="reamrk != null">#{reamrk},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAccountPersonalDetails" parameterType="AccountPersonalDetails">
+        update account_personal_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="idcard != null">idcard = #{idcard},</if>
+            <if test="nation != null">nation = #{nation},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="fatherPhone != null">father_phone = #{fatherPhone},</if>
+            <if test="motherPhone != null">mother_phone = #{motherPhone},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="reamrk != null">reamrk = #{reamrk},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccountPersonalDetailsById" parameterType="Long">
+        delete from account_personal_details where account_id = #{id}
+    </delete>
+
+    <delete id="deleteAccountPersonalDetailsByIds" parameterType="String">
+        delete from account_personal_details where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

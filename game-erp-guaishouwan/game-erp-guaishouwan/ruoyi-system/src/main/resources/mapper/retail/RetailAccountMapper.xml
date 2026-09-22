@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.retail.mapper.RetailAccountMapper">
+
+    <resultMap type="RetailAccount" id="RetailAccountResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="oldPrice"    column="old_price"    />
+        <result property="newPrice"    column="new_price"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="gameName"    column="game_name"    />
+        <result property="type"    column="type"    />
+        <result property="regional"    column="regional"    />
+        <result property="level"    column="level"    />
+        <result property="heroes"    column="heroes"    />
+        <result property="skins"    column="skins"    />
+        <result property="suit"    column="suit"    />
+        <result property="guns"    column="guns"    />
+        <result property="des"    column="des"    />
+        <result property="price"    column="price"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="saleTime"    column="sale_time"    />
+        <result property="rise"    column="rise"    />
+        <result property="saleState"    column="sale_state"    />
+        <result property="titleImg"    column="title_img"    />
+        <result property="campId"    column="camp_id"    />
+        <result property="superId"    column="super_id"    />
+    </resultMap>
+
+    <sql id="selectRetailAccountVo">
+        SELECT
+            r.id,
+            a.id as account_id,
+            r.create_time,
+            r.create_id,
+            r.super_id,
+            r.rise,
+            a.type,
+            a.regional,
+            r.new_price,
+            a.LEVEL,
+            a.heroes,
+            a.sale_state,
+            a.create_time,
+            a.skins,
+            a.suit,
+            a.guns,
+            a.des,
+            a.camp_id,
+            a.price,
+            a.update_time,
+            a.sale_time,
+            a.game_name,
+            a.title_img
+        FROM
+            account_info a
+                INNER JOIN
+            retail_account r ON a.id = r.account_id
+    </sql>
+
+    <select id="selectRetailAccountList" parameterType="RetailAccount" resultMap="RetailAccountResult">
+        <include refid="selectRetailAccountVo"/>
+        <where>
+            1 = 1 and  a.del = 0
+            <if test="accountId != null">and a.id = #{accountId}</if>
+            <if test="type != null ">and a.type = #{type}</if>
+            <if test="superId != null ">and r.super_id = #{superId}</if>
+            <if test="regional != null  and regional != ''">and a.regional = #{regional}</if>
+            <if test="createId != null  and createId != ''">and r.create_id = #{createId}</if>
+            <if test="saleState != null  and saleState != ''">and a.sale_state = #{saleState}</if>
+            <if test="regionalAddr != null and regionalAddr.size > 0">
+                and a.regional in
+                <foreach item="regional" collection="regionalAddr" open="(" separator="," close=")">
+                    #{regional}
+                </foreach>
+            </if>
+            <if test="heroStart != null and heroEnd != null">and (a.heroes &gt;= #{heroStart} and a.heroes &lt;
+                #{heroEnd})
+            </if>
+            <if test="skinStart != null and skinEnd != null">and (a.skins &gt;= #{skinStart} and a.skins &lt; #{skinEnd})
+            </if>
+            <if test="suitStart != null and suitEnd != null">and (a.suit &gt;= #{suitStart} and a.suit &lt; #{suitEnd})</if>
+            <if test="gunsStart != null and gunsEnd != null">and (a.guns &gt;= #{gunsStart} and a.guns &lt; #{gunsEnd})</if>
+            <if test="des != null  and des != ''">
+                and (a.des like '%${des}%'
+                or a.id like '%${des}%'
+                )
+            </if>
+            <if test="supplyIdAddr != null and  supplyIdAddr.size > 0">
+                and a.supply_id in
+                <foreach item="supplyId" collection="supplyIdAddr" open="(" separator="," close=")">
+                    #{supplyId}
+                </foreach>
+            </if>
+            <if test="salesIdAddr != null and  salesIdAddr.size > 0">
+                and a.sales_id in
+                <foreach item="salesId" collection="salesIdAddr" open="(" separator="," close=")">
+                    #{salesId}
+                </foreach>
+            </if>
+            <if test="priceStart != null  and priceEnd != null">and (a.price &gt;= #{priceStart} and a.price &lt;
+                #{priceEnd})
+            </if>
+            <if test="saleTimeStart != null  and saleTimeEnd != null">and (a.sale_time &gt;= #{saleTimeStart} and
+                a.sale_time &lt;= #{saleTimeEnd})
+            </if>
+            <if test="createTimeStart != null  and createTimeEnd != null">and (a.create_time &gt;= #{createTimeStart} and
+                a.create_time &lt;= #{createTimeEnd})
+            </if>
+            <if test="updateTimeStart != null  and updateTimeEnd != null">and (a.update_time &gt;= #{updateTimeStart} and
+                a.update_time &lt;= #{updateTimeEnd})
+            </if>
+            <if test="levelAddr != null and levelAddr.size > 0">
+                and a.level in
+                <foreach item="level" collection="levelAddr" open="(" separator="," close=")">
+                    #{level}
+                </foreach>
+            </if>
+
+        </where>
+        order by
+        <if test="sort != null and sort != '' and sortColumn != null and sortColumn != ''">
+            ${sortColumn} ${sort} ,
+        </if>
+        r.create_time desc
+    </select>
+    <select id="retailAccountList" parameterType="RetailAccount" resultMap="RetailAccountResult">
+        <include refid="selectRetailAccountVo"/>
+        <include refid="h5where"/>
+        order by
+        r.create_time desc
+        limit #{page}, #{rows}
+    </select>
+    <select id="retailAccountListCount" parameterType="com.ruoyi.system.h5.Hreq" resultType="int">
+        select count(*) from   account_info a
+        INNER JOIN
+        retail_account r ON a.id = r.account_id
+        <include refid="h5where"/>
+    </select>
+
+    <sql id="h5where">
+        <where>
+            and a.sale_state = 1 and a.del = 0
+            <if test="YXLX != null  and YXLX != ''">
+                and a.type = #{YXLX}
+            </if>
+            <if test="id != null and id != 0">
+                and r.create_id = #{id}
+            </if>
+            <if test="ZHID != null  and ZHID != ''">
+                and a.id = #{ZHID}
+            </if>
+            <if test="ZDYGJZ != null  and ZDYGJZ != ''">
+                and (a.des like '%${ZDYGJZ}%'
+                or a.id like '%${ZDYGJZ}%')
+            </if>
+            <if test="DWGJZ != null  and DWGJZ != ''">
+                and a.`level` like '%${DWGJZ}%'
+            </if>
+            <if test="JJGJZ != null  and JJGJZ != ''">
+                and (a.des like '%${JJGJZ}%'
+                or a.id like '%${JJGJZ}%')
+            </if>
+            <if test="YXDQ != null  and YXDQ != ''">
+                and a.regional = #{YXDQ}
+            </if>
+            <if test="CSJGMax != null  and CSJGMax != '' and CSJGMin != null and CSJGMin != ''">
+                and r.new_price &gt;= #{DWGJZ} and r.new_price &lt;= #{CSJGMax}
+            </if>
+            <if test="YXMin != null  and YXMin != '' and YXMax != null and YXMax != ''">
+                and a.heroes &gt;= #{YXMin} and a.heroes &lt;= #{YXMax}
+            </if>
+            <if test="SuitMin != null  and SuitMin != '' and SuitMax != null and SuitMax != ''">
+                and a.suit &gt;= #{SuitMin} and a.suit &lt;= #{SuitMin}
+            </if>
+            <if test="GunSkinMin != null  and GunSkinMin != '' and GunSkinMax != null and GunSkinMax != ''">
+                and a.guns &gt;= #{SuitMin} and a.guns &lt;= #{SuitMin}
+            </if>
+            <if test="skinList != null and skinList.size > 0">
+                and
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="skinList">
+                        des LIKE  '%${skin}%' and
+                    </foreach>
+                </trim>
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="selectRetailAccountById" parameterType="Long" resultMap="RetailAccountResult">
+        <include refid="selectRetailAccountVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRetailAccount" parameterType="RetailAccount" useGeneratedKeys="true" keyProperty="id">
+        insert into retail_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="oldPrice != null">old_price,</if>
+            <if test="newPrice != null">new_price,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="rise != null">rise,</if>
+            <if test="superId != null">super_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="oldPrice != null">#{oldPrice},</if>
+            <if test="newPrice != null">#{newPrice},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="rise != null">#{rise},</if>
+            <if test="superId != null">#{super_id},</if>
+         </trim>
+    </insert>
+    <select id="selectDisctSuperId" parameterType="long" resultType="java.lang.Long">
+        SELECT DISTINCT super_id FROM retail_account WHERE create_id = #{createId}
+    </select>
+
+    <update id="updateRetailAccount" parameterType="RetailAccount">
+        update retail_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="oldPrice != null">old_price = #{oldPrice},</if>
+            <if test="newPrice != null">new_price = #{newPrice},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="rise != null">rise = #{rise},</if>
+            <if test="superId != null">super_id = #{superId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="bacthUpdata" parameterType="list">
+        <foreach item="retailAccount" collection="retailAccountList" separator=";">
+        update retail_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="retailAccount.createId != null">create_id = #{retailAccount.createId},</if>
+            <if test="retailAccount.accountId != null">account_id = #{retailAccount.accountId},</if>
+            <if test="retailAccount.oldPrice != null">old_price = #{retailAccount.oldPrice},</if>
+            <if test="retailAccount.newPrice != null">new_price = #{retailAccount.newPrice},</if>
+            <if test="retailAccount.createTime != null">create_time = #{retailAccount.createTime},</if>
+            <if test="retailAccount.rise != null">rise = #{retailAccount.rise},</if>
+            <if test="retailAccount.superId != null">super_id = #{retailAccount.superId},</if>
+        </trim>
+        where id = #{retailAccount.id}
+        </foreach>
+    </update>
+
+    <delete id="deleteRetailAccountById" parameterType="Long">
+        delete from retail_account where id = #{id}
+    </delete>
+
+    <delete id="deleteRetailAccountByIds" parameterType="String">
+        delete from retail_account where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

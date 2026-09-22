@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.font.mapper.CheckAccountMapper">
+
+    <resultMap type="CheckAccount" id="CheckAccountResult">
+        <result property="id" column="id"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateId" column="update_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="account" column="account"/>
+        <result property="name" column="name"/>
+        <result property="state" column="state"/>
+        <result property="qqtype" column="qqtype"/>
+        <result property="qq" column="qq"/>
+        <result property="weixin" column="weixin"/>
+        <result property="qrCode" column="qr_code"/>
+        <result property="workTime" column="work_time"/>
+        <result property="collection" column="collection"/>
+        <result property="customer" column="customer"/>
+        <result property="hxname" column="hxname"/>
+        <result property="worktype" column="worktype"/>
+        <result property="workState" column="work_state"/>
+        <result property="type" column="type"/>
+        <result property="sort" column="sort"/>
+        <result property="gameIds" column="game_ids"/>
+        <result property="gameNames" column="game_names"/>
+        <result property="typeResource"    column="type_resource"    />
+    </resultMap>
+
+    <sql id="selectCheckAccountVo">
+        SELECT c.id,c.create_id,c.update_id,c.create_time,c.update_time,c.account,c.NAME,c.`type`,c.`sort`,
+        c.game_ids,c.game_names,c.state,c.qqtype,c.qq,c.weixin,c.qr_code,c.work_time,c.collection,
+        c.customer,c.hxname,c.worktype,  c.type_resource,c.work_state,s.hxusername
+        FROM check_account c
+        LEFT JOIN sys_user s ON c.customer=s.user_id
+    </sql>
+
+    <select id="selectCheckAccountList" parameterType="CheckAccount" resultMap="CheckAccountResult">
+        <include refid="selectCheckAccountVo"/>
+        <where>
+            <if test="createId != null ">and c.create_id = #{createId}</if>
+            <if test="updateId != null ">and c.update_id = #{updateId}</if>
+            <if test="account != null  and account != ''">and c.account = #{account}</if>
+            <if test="name != null  and name != ''">and c.name like concat('%', #{name}, '%')</if>
+            <if test="state != null  and state != ''">and c.state = #{state}</if>
+            <if test="qqtype != null  and qqtype != ''">and c.qqtype = #{qqtype}</if>
+            <if test="qq != null  and qq != ''">and c.qq = #{qq}</if>
+            <if test="weixin != null  and weixin != ''">and c.weixin = #{weixin}</if>
+            <if test="yzString != null  and yzString != ''">and (c.qq = #{yzString} or c.weixin = #{yzString})</if>
+            <if test="collection != null  and collection != ''">and c.collection = #{collection}</if>
+            <if test="customer != null  and customer != ''">and c.customer = #{customer}</if>
+            <if test="hxname != null  and hxname != ''">and c.hxname = #{hxname}</if>
+            <if test="worktype != null  and worktype != ''">and c.worktype = #{worktype}</if>
+            <if test="typeResource != null ">and c.type_resource = #{typeResource}</if>
+            <if test="workState != null  and workState != ''">and c.work_state = #{workState}</if>
+            <if test="workTypes != null  and workTypes.size > 0">
+                and
+                <foreach item="type" collection="workTypes" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="type != null  and type != ''">and c.`type` = #{type}</if>
+            <if test="gameIdsArr!=null and gameIdsArr.length > 0">
+                <foreach collection="gameIdsArr" item="gameId" open=" and (" close=")" index="index"
+                         separator=" and ">
+                    find_in_set (#{gameId},c.game_ids)
+                </foreach>
+            </if>
+        </where>
+        order by c.sort asc ,c.id desc
+    </select>
+
+    <select id="selectCheckAccountById" parameterType="Long" resultMap="CheckAccountResult">
+        <include refid="selectCheckAccountVo"/>
+        where c.id = #{id}
+    </select>
+
+    <select id="getByCustomer" parameterType="Long" resultMap="CheckAccountResult">
+        <include refid="selectCheckAccountVo"/>
+        where c.customer = #{userId}
+    </select>
+
+    <insert id="insertCheckAccount" parameterType="CheckAccount" useGeneratedKeys="true" keyProperty="id">
+        insert into check_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="account != null">account,</if>
+            <if test="name != null">name,</if>
+            <if test="state != null">state,</if>
+            <if test="qqtype != null">qqtype,</if>
+            <if test="qq != null">qq,</if>
+            <if test="weixin != null">weixin,</if>
+            <if test="qrCode != null">qr_code,</if>
+            <if test="workTime != null">work_time,</if>
+            <if test="collection != null">collection,</if>
+            <if test="customer != null">customer,</if>
+            <if test="hxname != null">hxname,</if>
+            <if test="worktype != null">worktype,</if>
+            <if test="workState != null">work_state,</if>
+            <if test="type != null">`type`,</if>
+            <if test="gameIds != null">`game_ids`,</if>
+            <if test="sort != null">`sort`,</if>
+            <if test="gameNames != null">`game_names`,</if>
+            <if test="typeResource != null">`type_resource`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="account != null">#{account},</if>
+            <if test="name != null">#{name},</if>
+            <if test="state != null">#{state},</if>
+            <if test="qqtype != null">#{qqtype},</if>
+            <if test="qq != null">#{qq},</if>
+            <if test="weixin != null">#{weixin},</if>
+            <if test="qrCode != null">#{qrCode},</if>
+            <if test="workTime != null">#{workTime},</if>
+            <if test="collection != null">#{collection},</if>
+            <if test="customer != null">#{customer},</if>
+            <if test="hxname != null">#{hxname},</if>
+            <if test="worktype != null">#{worktype},</if>
+            <if test="workState != null">#{workState},</if>
+            <if test="type != null">#{type},</if>
+            <if test="gameIds != null">#{gameIds},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="gameNames != null">#{gameNames},</if>
+            <if test="typeResource != null">#{typeResource},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCheckAccount" parameterType="CheckAccount">
+        update check_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="qqtype != null">qqtype = #{qqtype},</if>
+            <if test="qq != null">qq = #{qq},</if>
+            <if test="weixin != null">weixin = #{weixin},</if>
+            <if test="qrCode != null">qr_code = #{qrCode},</if>
+            <if test="workTime != null">work_time = #{workTime},</if>
+            <if test="collection != null">collection = #{collection},</if>
+            <if test="customer != null">customer = #{customer},</if>
+            <if test="hxname != null">hxname = #{hxname},</if>
+            <if test="worktype != null">worktype = #{worktype},</if>
+            <if test="workState != null">work_state = #{workState},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="sort != null">`sort` = #{sort},</if>
+            <if test="gameIds != null">game_ids = #{gameIds},</if>
+            <if test="gameNames != null">game_names = #{gameNames},</if>
+            <if test="typeResource != null">type_resource = #{typeResource},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="changeWorkState" parameterType="CheckAccount">
+        update check_account set work_state=#{workState} where customer =#{userId}
+    </update>
+
+    <delete id="deleteCheckAccountById" parameterType="Long">
+        delete from check_account where id = #{id}
+    </delete>
+
+    <delete id="deleteCheckAccountByIds" parameterType="String">
+        delete from check_account where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectCheckAccountNameNotEmptyList" parameterType="CheckAccount" resultMap="CheckAccountResult">
+        <include refid="selectCheckAccountVo"/>
+        <where>
+            `name`<![CDATA[ <> ]]>''
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="account != null  and account != ''">and account = #{account}</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="state != null  and state != ''">and state = #{state}</if>
+            <if test="qqtype != null  and qqtype != ''">and qqtype = #{qqtype}</if>
+            <if test="qq != null  and qq != ''">and qq = #{qq}</if>
+            <if test="weixin != null  and weixin != ''">and weixin = #{weixin}</if>
+            <if test="collection != null  and collection != ''">and collection = #{collection}</if>
+            <if test="type != null  and type != ''">and `type` = #{type}</if>
+            <if test="customer != null  and customer != ''">and `customer` = #{customer}</if>
+            <if test="gameIdsArr!=null and gameIdsArr.length > 0">
+                <foreach collection="gameIdsArr" item="gameId" open=" and (" close=")" index="index"
+                         separator=" and ">
+                    find_in_set (#{gameId},game_ids)
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.operation.mapper.OperationHistoryMapper">
+
+    <resultMap type="OperationHistory" id="OperationHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="operator"    column="operator"    />
+        <result property="operatTime"    column="operat_time"    />
+        <result property="status"    column="status"    />
+        <result property="reason"    column="reason"    />
+    </resultMap>
+
+    <sql id="selectOperationHistoryVo">
+        select id, account_id, operator, operat_time, status, reason from operation_history
+    </sql>
+
+    <select id="selectOperationHistoryList" parameterType="OperationHistory" resultMap="OperationHistoryResult">
+        <include refid="selectOperationHistoryVo"/>
+        <where>
+--             and operator != 'admin'
+            1 = 1
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="startTime != null and startTime != ''">and operat_time &gt;= #{startTime}</if>
+            <if test="endTime != null and endTime != ''">and operat_time &lt;= #{endTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectOperationHistoryById" parameterType="Long" resultMap="OperationHistoryResult">
+        <include refid="selectOperationHistoryVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectOperationStatus" resultType="java.util.Map">
+        SELECT t.status FROM operation_history t GROUP BY t.status
+    </select>
+
+    <insert id="insertOperationHistory" parameterType="OperationHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into operation_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">account_id,</if>
+            <if test="operator != null">operator,</if>
+            <if test="alteration != null">alteration,</if>
+            <if test="operatTime != null">operat_time,</if>
+            <if test="status != null">status,</if>
+            <if test="reason != null">reason,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">#{accountId},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="alteration != null">#{alteration},</if>
+            <if test="operatTime != null">#{operatTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="reason != null">#{reason},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOperationHistory" parameterType="OperationHistory">
+        update operation_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="operatTime != null">operat_time = #{operatTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="reason != null">reason = #{reason},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOperationHistoryById" parameterType="Long">
+        delete from operation_history where id = #{id}
+    </delete>
+
+    <delete id="deleteOperationHistoryByIds" parameterType="String">
+        delete from operation_history where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

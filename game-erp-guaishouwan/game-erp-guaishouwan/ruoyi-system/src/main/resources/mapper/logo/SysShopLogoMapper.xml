@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.logo.mapper.SysShopLogoMapper">
+    
+    <resultMap type="SysShopLogo" id="SysShopLogoResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="logoImg"    column="logo_img"    />
+        <result property="bannerImg"    column="banner_img"    />
+    </resultMap>
+
+    <sql id="selectSysShopLogoVo">
+        select id, create_id, logo_img ,banner_img from sys_shop_logo
+    </sql>
+
+    <select id="selectSysShopLogoList" parameterType="SysShopLogo" resultMap="SysShopLogoResult">
+        <include refid="selectSysShopLogoVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysShopLogoById" parameterType="Long" resultMap="SysShopLogoResult">
+        <include refid="selectSysShopLogoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysShopLogo" parameterType="SysShopLogo" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_shop_logo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="logoImg != null">logo_img,</if>
+            <if test="bannerImg != null">banner_img,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="logoImg != null">#{logoImg},</if>
+            <if test="bannerImg != null">#{bannerImg},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysShopLogo" parameterType="SysShopLogo">
+        update sys_shop_logo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="logoImg != null">logo_img = #{logoImg},</if>
+            <if test="bannerImg != null">banner_img = #{bannerImg},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysShopLogoById" parameterType="Long">
+        delete from sys_shop_logo where id = #{id}
+    </delete>
+
+    <delete id="deleteSysShopLogoByIds" parameterType="String">
+        delete from sys_shop_logo where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

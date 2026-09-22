@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysUserMapper">
+
+    <resultMap type="SysUser" id="SysUserResult">
+        <id property="userId" column="user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="email" column="email"/>
+        <result property="phonenumber" column="phonenumber"/>
+        <result property="sex" column="sex"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="loginIp" column="login_ip"/>
+        <result property="loginDate" column="login_date"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="odr" column="odr"/>
+        <result property="domain" column="domain"/>
+        <result property="rise" column="rise"/>
+        <result property="discountt" column="discountt"/>
+        <result property="isshow" column="isshow"/>
+        <result property="supydiscount" column="supydiscount"/>
+        <result property="userNewType" column="user_new_type"/>
+        <result property="userUse" column="user_use"/>
+        <result property="idCard" column="id_card"/>
+        <result property="adress" column="adress"/>
+        <result property="businessLicenseImg" column="business_license_img"/>
+        <result property="handIdCardImg" column="hand_idCard_img"/>
+        <result property="frontIdCardImg" column="front_idCard_img"/>
+        <result property="reverseIdCardImg" column="reverse_idCard_img"/>
+        <result property="realName" column="real_name"/>
+        <result property="campNumber" column="camp_number"/>
+        <result property="hxusername" column="hxusername"/>
+        <result property="hxuuid" column="hxuuid"/>
+        <result property="supydiscountminamount" column="supydiscountminamount"/>
+        <result property="qq" column="qq"/>
+        <result property="weixin" column="weixin"/>
+        <result property="realStatus" column="real_status"/>
+        <result property="guaranteeRatio" column="guarantee_ratio"/>
+        <result property="guaranteeRoyalty" column="guarantee_royalty"/>
+        <result property="host" column="host"/>
+        <result property="steamNumber" column="steam_number"/>
+        <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
+        <collection property="roles" javaType="java.util.List" resultMap="RoleResult"/>
+    </resultMap>
+
+    <resultMap id="deptResult" type="SysDept">
+        <id property="deptId" column="dept_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="leader" column="leader"/>
+        <result property="status" column="dept_status"/>
+        <result property="status" column="dept_status"/>
+    </resultMap>
+
+    <resultMap id="RoleResult" type="SysRole">
+        <id property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleKey" column="role_key"/>
+        <result property="roleSort" column="role_sort"/>
+        <result property="dataScope" column="data_scope"/>
+        <result property="status" column="role_status"/>
+    </resultMap>
+
+    <sql id="selectUserVo">
+        select u.user_id,u.discountt,u.isshow, u.dept_id, u.user_name, u.nick_name, u.odr,u.email, u.avatar, u.phonenumber,
+        u.password, u.sex,u.rise, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,u.domain,
+        u.user_new_type,u.user_use,u.id_card,u.adress,u.business_license_img,u.hand_idCard_img,u.front_idCard_img,u.reverse_idCard_img,u.real_name,
+        u.camp_number,u.hxusername,u.hxuuid,u.supydiscountminamount,u.qq,u.weixin,u.real_status,u.guarantee_ratio,u.guarantee_royalty,
+        d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,u.supydiscount,
+        r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status ,u.host ,u.steam_number
+        from sys_user u
+		    left join sys_dept d on u.dept_id = d.dept_id
+		    left join sys_user_role ur on u.user_id = ur.user_id
+		    left join sys_role r on r.role_id = ur.role_id
+    </sql>
+
+    <select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
+        select u.user_id, u.discountt,u.dept_id, u.nick_name,u.isshow, u.user_name,u.odr, u.email,
+        u.avatar,u.domain,u.hxusername,u.hxuuid,
+        u.phonenumber,u.guarantee_ratio,u.guarantee_royalty,
+        u.password,u.rise,u.supydiscount,u.camp_number,u.supydiscountminamount,u.qq,u.weixin,u.real_status,
+        u.user_new_type,u.user_use,u.id_card,u.adress,u.business_license_img,u.hand_idCard_img,u.front_idCard_img,u.reverse_idCard_img,
+        u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name,u.host,u.steam_number,
+        d.leader
+        from sys_user u
+        left join sys_dept d on u.dept_id = d.dept_id
+        where u.del_flag = '0'
+        <if test="userId != null and userId != 0">
+            AND u.user_id = #{userId}
+        </if>
+        <if test="domain != null and domain != ''">
+            AND u.domain = #{domain}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND u.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="nickName != null and nickName != ''">
+            AND u.nick_name like concat('%', #{nickName}, '%')
+        </if>
+        <if test="status != null and status != ''">
+            AND u.status = #{status}
+        </if>
+        <if test="userNewType != null and userNewType != ''">
+            AND u.user_new_type = #{userNewType}
+        </if>
+        <if test="userUse != null and userUse != ''">
+            AND u.user_use = #{userUse}
+        </if>
+        <if test="idCard != null and idCard != ''">
+            AND u.id_card = #{idCard}
+        </if>
+        <if test="phonenumber != null and phonenumber != ''">
+            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+        </if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            AND date_format(u.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        <if test="deptId != null and deptId != 0">
+            AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId},
+            ancestors) ))
+        </if>
+        <if test="createIds != null and createIds.size > 0">
+            and u.user_id in
+            <foreach collection="createIds" item="userId" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+        </if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+
+    <select id="selectUserSelectList" parameterType="SysUser" resultType="com.ruoyi.system.domain.vo.SysUserSelectVo">
+        select u.user_id, u.nick_name, u.user_name
+        from sys_user u
+        where u.del_flag = '0'
+        <if test="userId != null and userId != 0">
+            AND u.user_id = #{userId}
+        </if>
+        <if test="domain != null and domain != ''">
+            AND u.domain = #{domain}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND u.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="nickName != null and nickName != ''">
+            AND u.nick_name like concat('%', #{nickName}, '%')
+        </if>
+        <if test="status != null and status != ''">
+            AND u.status = #{status}
+        </if>
+        <if test="userNewType != null and userNewType != ''">
+            AND u.user_new_type = #{userNewType}
+        </if>
+        <if test="userUse != null and userUse != ''">
+            AND u.user_use = #{userUse}
+        </if>
+        <if test="idCard != null and idCard != ''">
+            AND u.id_card = #{idCard}
+        </if>
+        <if test="phonenumber != null and phonenumber != ''">
+            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+        </if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            AND date_format(u.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        <if test="deptId != null and deptId != 0">
+            AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId},
+            ancestors) ))
+        </if>
+        <if test="createIds != null and createIds.size > 0">
+            and u.user_id in
+            <foreach collection="createIds" item="userId" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+        </if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+
+    <select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
+        select distinct u.user_id, u.discountt, u.dept_id, u.isshow,u.user_name, u.nick_name, u.email,
+        u.phonenumber,u.rise, u.status, u.create_time,u.supydiscount,u.qq,u.weixin
+        from sys_user u
+        left join sys_dept d on u.dept_id = d.dept_id
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where u.del_flag = '0' and r.role_id = #{roleId}
+        <if test="userName != null and userName != ''">
+            AND u.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="phonenumber != null and phonenumber != ''">
+            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+    <select id="queryById" resultType="com.ruoyi.common.core.domain.entity.SysUser" parameterType="long">
+		SELECT
+		*
+		FROM
+		sys_user where user_id = #{id}
+	</select>
+    <select id="selectUserByIds" resultType="com.ruoyi.common.core.domain.entity.SysUser" parameterType="long">
+        SELECT
+        *
+        FROM
+        sys_user where
+        <if test="ids != null and ids.size > 0">
+            user_id in
+            <foreach collection="ids" item="userId" open="(" separator="," close=")">
+                #{userId}
+            </foreach>
+        </if>
+    </select>
+    <select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
+        select distinct u.user_id,u.discountt, u.dept_id,u.isshow, u.user_name, u.nick_name, u.email, u.phonenumber,
+        u.status, u.create_time
+        from sys_user u
+        left join sys_dept d on u.dept_id = d.dept_id
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
+        where u.del_flag = '0' and (r.role_id != #{roleId} or r.role_id IS NULL)
+        and u.user_id not in (select u.user_id from sys_user u inner join sys_user_role ur on u.user_id = ur.user_id and
+        ur.role_id = #{roleId})
+        <if test="userName != null and userName != ''">
+            AND u.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="phonenumber != null and phonenumber != ''">
+            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+        </if>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+
+    <select id="selectUserByUserName" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.user_name = #{userName}
+    </select>
+    <select id="selectUserByHxUserName" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.hxusername = #{toUser}
+    </select>
+    <select id="selectDisCountt" parameterType="String" resultMap="SysUserResult">
+    </select>
+    <select id="getHXUserList" resultType="com.ruoyi.system.model.dto.SysUserIMRes">
+        select u.user_id,u.discountt,u.isshow, u.dept_id, u.user_name, u.nick_name, u.odr,u.email, u.avatar,
+        u.phonenumber,
+        u.password, u.sex,u.rise, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time,
+        u.remark,u.domain,
+        u.user_new_type,u.user_use,u.id_card,u.adress,u.business_license_img,u.hand_idCard_img,u.front_idCard_img,u.reverse_idCard_img,u.real_name,
+        u.camp_number,u.hxusername,u.hxuuid,u.supydiscountminamount,u.qq,u.weixin,u.real_status,r.remark_name
+        from sys_user u
+        left join user_remark r on u.user_id=r.to_user_id and type=1 and from_hx_id=#{fromHxId}
+        <where>
+            hxusername in
+            <foreach collection="hxusernames" item="username" open="(" separator="," close=")">
+                #{username}
+            </foreach>
+        </where>
+
+    </select>
+
+
+    <select id="selectUserNameByHxUserName" resultType="string">
+        select user_name from sys_user
+        <where>
+            hxusername in
+            <foreach collection="hxusernames" item="username" open="(" separator="," close=")">
+                #{username}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="getHaveHXUserList" resultType="com.ruoyi.common.core.domain.entity.SysUser">
+        <include refid="selectUserVo"/>
+        where u.`status`=0
+        and u.del_flag='0'
+        and u.hxusername is not null
+        and u.hxusername <![CDATA[ != ]]> ''
+    </select>
+
+    <select id="selectHxUserList" resultType="com.ruoyi.system.model.dto.SysUserIMRes">
+        select u.user_id,u.discountt,u.isshow, u.dept_id, u.user_name, u.nick_name, u.odr,u.email, u.avatar, u.phonenumber,
+        u.password, u.sex,u.rise, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,u.domain,
+        u.user_new_type,u.user_use,u.id_card,u.adress,u.business_license_img,u.hand_idCard_img,u.front_idCard_img,u.reverse_idCard_img,u.real_name,
+        u.camp_number,u.hxusername,u.hxuuid,u.supydiscountminamount,u.qq,u.weixin,u.real_status,r.remark_name
+        from sys_user u
+        left join user_remark r on u.user_id=r.to_user_id and type=1 and from_hx_id=#{fromHxId}
+        where u.`status`=0
+        and u.del_flag='0'
+        and u.hxusername is not null
+        and u.hxusername <![CDATA[ != ]]> ''
+        and (u.nick_name like concat('%', #{keyWords}, '%') or r.remark_name like concat('%', #{keyWords}, '%'))
+    </select>
+
+    <select id="getSupplyUser" parameterType="String" resultMap="SysUserResult">
+		SELECT
+			*
+		FROM
+			sys_user
+		WHERE
+			user_id IN ( SELECT user_id FROM sys_user_role WHERE role_id = ( SELECT role_id FROM sys_role WHERE role_key = 'supplyCustomer' ) )
+		ORDER BY discountt
+	</select>
+
+    <select id="selectUserById" parameterType="Long" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.user_id = #{userId}
+    </select>
+    <select id="selectTelById" parameterType="Long" resultType="string">
+        SELECT phonenumber FROM sys_user
+        where user_id = #{userId}
+    </select>
+
+    <select id="checkUserNameUnique" parameterType="String" resultType="int">
+		select count(1) from sys_user where user_name = #{userName} limit 1
+	</select>
+
+    <select id="checkPhoneUnique" parameterType="String" resultMap="SysUserResult">
+		select user_id, phonenumber from sys_user where phonenumber = #{phonenumber} limit 1
+	</select>
+
+    <select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">
+		select user_id, email from sys_user where email = #{email} limit 1
+	</select>
+    <select id="selectUserByPhonenumber" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.phonenumber = #{phone}
+    </select>
+    <select id="getUserByHost" resultType="java.lang.Long" parameterType="java.lang.String">
+        select user_id from sys_user where FIND_IN_SET(#{host},`host`)
+    </select>
+
+    <insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into sys_user(
+        <if test="userId != null and userId != 0">user_id,</if>
+        <if test="deptId != null and deptId != 0">dept_id,</if>
+        <if test="userName != null and userName != ''">user_name,</if>
+        <if test="nickName != null and nickName != ''">nick_name,</if>
+        <if test="email != null and email != ''">email,</if>
+        <if test="avatar != null and avatar != ''">avatar,</if>
+        <if test="phonenumber != null and phonenumber != ''">phonenumber,</if>
+        <if test="sex != null and sex != ''">sex,</if>
+        <if test="password != null and password != ''">password,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        <if test="odr != null and odr != ''">odr,</if>
+        <if test="domain != null and domain != ''">domain,</if>
+        <if test="rise != null and rise != ''">rise,</if>
+        <if test="discountt != null and discountt != ''">discountt,</if>
+        <if test="isshow != null and isshow != ''">isshow,</if>
+        <if test="supydiscount != null and supydiscount != ''">supydiscount,</if>
+        <if test="userNewType != null and userNewType != ''">user_new_type,</if>
+        <if test="userUse != null and userUse != ''">user_use,</if>
+        <if test="idCard != null and idCard != ''">id_card,</if>
+        <if test="adress != null and adress != ''">adress,</if>
+        <if test="businessLicenseImg != null and businessLicenseImg != ''">business_license_img,</if>
+        <if test="handIdCardImg != null and handIdCardImg != ''">hand_idCard_img,</if>
+        <if test="frontIdCardImg != null and frontIdCardImg != ''">front_idCard_img,</if>
+        <if test="reverseIdCardImg != null and reverseIdCardImg != ''">reverse_idCard_img,</if>
+        <if test="realName != null and realName != ''">real_name,</if>
+        <if test="campNumber != null and campNumber != ''">camp_number,</if>
+        <if test="hxusername != null and hxusername != ''">hxusername,</if>
+        <if test="hxuuid != null and hxuuid != ''">hxuuid,</if>
+        <if test="supydiscountminamount != null and supydiscountminamount != ''">supydiscountminamount,</if>
+        <if test="qq != null and qq != ''">qq,</if>
+        <if test="weixin != null and weixin != ''">weixin,</if>
+        <if test="realStatus != null and realStatus != ''">real_status,</if>
+        <if test="guaranteeRatio != null and guaranteeRatio != ''">guarantee_ratio,</if>
+        <if test="guaranteeRoyalty != null and guaranteeRoyalty != ''">guarantee_royalty,</if>
+        <if test="host != null">host,</if>
+        <if test="steamNumber != null">steam_number,</if>
+        create_time
+        )values(
+        <if test="userId != null and userId != ''">#{userId},</if>
+        <if test="deptId != null and deptId != ''">#{deptId},</if>
+        <if test="userName != null and userName != ''">#{userName},</if>
+        <if test="nickName != null and nickName != ''">#{nickName},</if>
+        <if test="email != null and email != ''">#{email},</if>
+        <if test="avatar != null and avatar != ''">#{avatar},</if>
+        <if test="phonenumber != null and phonenumber != ''">#{phonenumber},</if>
+        <if test="sex != null and sex != ''">#{sex},</if>
+        <if test="password != null and password != ''">#{password},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        <if test="odr != null and odr != ''">#{odr},</if>
+        <if test="domain != null and domain != ''">#{domain},</if>
+        <if test="rise != null and rise != ''">#{rise},</if>
+        <if test="discountt != null and discountt != ''">#{discountt},</if>
+        <if test="isshow != null and isshow != ''">#{isshow},</if>
+        <if test="supydiscount != null and supydiscount != ''">#{supydiscount},</if>
+        <if test="userNewType != null and userNewType != ''">#{userNewType},</if>
+        <if test="userUse != null and userUse != ''">#{userUse},</if>
+        <if test="idCard != null and idCard != ''">#{idCard},</if>
+        <if test="adress != null and adress != ''">#{adress},</if>
+        <if test="businessLicenseImg != null and businessLicenseImg != ''">#{businessLicenseImg},</if>
+        <if test="handIdCardImg != null and handIdCardImg != ''">#{handIdCardImg},</if>
+        <if test="frontIdCardImg != null and frontIdCardImg != ''">#{frontIdCardImg},</if>
+        <if test="reverseIdCardImg != null and reverseIdCardImg != ''">#{reverseIdCardImg},</if>
+        <if test="realName != null and realName != ''">#{realName},</if>
+        <if test="campNumber != null and campNumber != ''">#{campNumber},</if>
+        <if test="hxusername != null and hxusername != ''">#{hxusername},</if>
+        <if test="hxuuid != null and hxuuid != ''">#{hxuuid},</if>
+        <if test="supydiscountminamount != null and supydiscountminamount != ''">#{supydiscountminamount},</if>
+        <if test="qq != null and qq != ''">#{qq},</if>
+        <if test="weixin != null and weixin != ''">#{weixin},</if>
+        <if test="realStatus != null and realStatus != ''">#{realStatus},</if>
+        <if test="guaranteeRatio != null and guaranteeRatio != ''">#{guaranteeRatio},</if>
+        <if test="guaranteeRoyalty != null and guaranteeRoyalty != ''">#{guaranteeRoyalty},</if>
+        <if test="host != null">#{host},</if>
+        <if test="steamNumber != null">#{steamNumber},</if>
+        sysdate()
+        )
+    </insert>
+
+    <update id="updateUser" parameterType="SysUser">
+        update sys_user
+        <set>
+            <if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+            <if test="email != null ">email = #{email},</if>
+            <if test="phonenumber != null ">phonenumber = #{phonenumber},</if>
+            <if test="sex != null and sex != ''">sex = #{sex},</if>
+            <if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="loginIp != null and loginIp != ''">login_ip = #{loginIp},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="odr != null and odr != 0">odr = #{odr},</if>
+            <if test="domain != null and domain != ''">domain = #{domain},</if>
+            <if test="rise != null and rise != 0">rise = #{rise},</if>
+            <if test="discountt != null">discountt = #{discountt},</if>
+            <if test="isshow != null">isshow = #{isshow},</if>
+            <if test="supydiscount != null">supydiscount = #{supydiscount},</if>
+            <if test="userNewType != null">user_new_type = #{userNewType},</if>
+            <if test="userUse != null">user_use = #{userUse},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="adress != null">adress = #{adress},</if>
+            <if test="businessLicenseImg != null">business_license_img = #{businessLicenseImg},</if>
+            <if test="handIdCardImg != null">hand_idCard_img = #{handIdCardImg},</if>
+            <if test="frontIdCardImg != null">front_idCard_img = #{frontIdCardImg},</if>
+            <if test="reverseIdCardImg != null">reverse_idCard_img = #{reverseIdCardImg},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="campNumber != null">camp_number = #{campNumber},</if>
+            <if test="hxusername != null">hxusername = #{hxusername},</if>
+            <if test="hxuuid != null">hxuuid = #{hxuuid},</if>
+            <if test="supydiscountminamount != null">supydiscountminamount = #{supydiscountminamount},</if>
+            <if test="qq != null">qq = #{qq},</if>
+            <if test="weixin != null">weixin = #{weixin},</if>
+            <if test="realStatus != null">real_status = #{realStatus},</if>
+            <if test="guaranteeRatio != null">guarantee_ratio = #{guaranteeRatio},</if>
+            <if test="guaranteeRoyalty != null">guarantee_royalty = #{guaranteeRoyalty},</if>
+            <if test="host != null">host = #{host},</if>
+            <if test="steamNumber != null">steam_number = #{steamNumber},</if>
+            update_time = sysdate()
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateUserStatus" parameterType="SysUser">
+ 		update sys_user set status = #{status} where user_id = #{userId}
+	</update>
+
+    <update id="updateUserAvatar" parameterType="SysUser">
+ 		update sys_user set avatar = #{avatar} where user_name = #{userName}
+	</update>
+
+    <update id="resetUserPwd" parameterType="SysUser">
+ 		update sys_user set password = #{password} where user_name = #{userName}
+	</update>
+
+    <update id="upCampNumber" parameterType="SysUser">
+        update sys_user set camp_number = #{campNumber} where user_id = #{userId}
+    </update>
+    <update id="upSteamNumber" parameterType="SysUser">
+        update sys_user set steam_number = #{number} where user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserById" parameterType="Long">
+		update sys_user set del_flag = '2' where user_id = #{userId}
+ 	</delete>
+
+    <delete id="deleteUserByIds" parameterType="Long">
+        update sys_user set del_flag = '2' where user_id in
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+</mapper>

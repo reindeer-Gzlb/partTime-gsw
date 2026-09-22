@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.tool.mapper.ErrorInfoMapper">
+    
+    <resultMap type="ErrorInfo" id="ErrorInfoResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="errId"    column="err_id"    />
+        <result property="errMsg"    column="err_msg"    />
+    </resultMap>
+
+    <sql id="selectErrorInfoVo">
+        select id, create_by, create_time, update_by, update_time, err_id, err_msg from error_info
+    </sql>
+
+    <select id="selectErrorInfoList" parameterType="ErrorInfo" resultMap="ErrorInfoResult">
+        <include refid="selectErrorInfoVo"/>
+        <where>  
+            <if test="errId != null "> and err_id = #{errId}</if>
+            <if test="errMsg != null  and errMsg != ''"> and err_msg = #{errMsg}</if>
+        </where>
+    </select>
+    
+    <select id="selectErrorInfoById" parameterType="Long" resultMap="ErrorInfoResult">
+        <include refid="selectErrorInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertErrorInfo" parameterType="ErrorInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into error_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="errId != null">err_id,</if>
+            <if test="errMsg != null">err_msg,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="errId != null">#{errId},</if>
+            <if test="errMsg != null">#{errMsg},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErrorInfo" parameterType="ErrorInfo">
+        update error_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="errId != null">err_id = #{errId},</if>
+            <if test="errMsg != null">err_msg = #{errMsg},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteErrorInfoById" parameterType="Long">
+        delete from error_info where id = #{id}
+    </delete>
+
+    <delete id="deleteErrorInfoByIds" parameterType="String">
+        delete from error_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

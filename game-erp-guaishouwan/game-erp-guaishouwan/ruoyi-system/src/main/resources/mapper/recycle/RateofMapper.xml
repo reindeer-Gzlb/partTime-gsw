@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.recycle.mapper.RateofMapper">
+    
+    <resultMap type="Rateof" id="RateofResult">
+        <result property="id"    column="id"    />
+        <result property="sort"    column="sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="level"    column="level"    />
+        <result property="rangeo"    column="rangeo"    />
+        <result property="type"    column="type"    />
+    </resultMap>
+
+    <sql id="selectRateofVo">
+        select id, sort, create_by, create_time, remark, level, rangeo, type from rateof
+    </sql>
+
+    <select id="selectRateofList" parameterType="Rateof" resultMap="RateofResult">
+        <include refid="selectRateofVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectRateofById" parameterType="Long" resultMap="RateofResult">
+        <include refid="selectRateofVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertRateof" parameterType="Rateof" useGeneratedKeys="true" keyProperty="id">
+        insert into rateof
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sort != null">sort,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="level != null">level,</if>
+            <if test="rangeo != null">`rangeo`,</if>
+            <if test="type != null">type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sort != null">#{sort},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="level != null">#{level},</if>
+            <if test="rangeo != null">#{rangeo},</if>
+            <if test="type != null">#{type},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRateof" parameterType="Rateof">
+        update rateof
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="rangeo != null">`rangeo` = #{rangeo},</if>
+            <if test="type != null">type = #{type},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRateofById" parameterType="Long">
+        delete from rateof where id = #{id}
+    </delete>
+
+    <delete id="deleteRateofByIds" parameterType="String">
+        delete from rateof where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

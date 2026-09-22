@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.ImportHistoryMapper">
+
+    <resultMap type="ImportHistory" id="ImportHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="importCount"    column="import_count"    />
+        <result property="supplyName"    column="supply_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="recType"    column="rec_type"    />
+    </resultMap>
+
+    <sql id="selectImportHistoryVo">
+        select id, create_id, user_id, import_count, supply_name, create_time,rec_type from import_history
+    </sql>
+
+    <select id="selectImportHistoryList" parameterType="ImportHistory" resultMap="ImportHistoryResult">
+        <include refid="selectImportHistoryVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="importCount != null "> and import_count = #{importCount}</if>
+            <if test="recType != null  and recType != ''"> and rec_type = #{recType}</if>
+            <if test="supplyName != null  and supplyName != ''"> and supply_name like concat('%', #{supplyName}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectImportHistoryById" parameterType="Long" resultMap="ImportHistoryResult">
+        <include refid="selectImportHistoryVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertImportHistory" parameterType="ImportHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into import_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="importCount != null">import_count,</if>
+            <if test="supplyName != null">supply_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="recType != null">rec_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="importCount != null">#{importCount},</if>
+            <if test="supplyName != null">#{supplyName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="recType != null">#{recType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateImportHistory" parameterType="ImportHistory">
+        update import_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="importCount != null">import_count = #{importCount},</if>
+            <if test="supplyName != null">supply_name = #{supplyName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="recType != null">rec_type = #{recType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteImportHistoryById" parameterType="Long">
+        delete from import_history where id = #{id}
+    </delete>
+
+    <delete id="deleteImportHistoryByIds" parameterType="String">
+        delete from import_history where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

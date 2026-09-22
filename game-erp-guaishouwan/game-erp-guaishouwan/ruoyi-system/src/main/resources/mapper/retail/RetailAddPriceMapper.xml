@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.retail.mapper.RetailAddPriceMapper">
+
+    <resultMap type="RetailAddPrice" id="RetailAddPriceResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="superId"    column="super_id"    />
+        <result property="rrise"    column="rise"    />
+        <result property="type"    column="type"    />
+        <result property="push"    column="push"    />
+        <result property="cmdsuper"    column="cmdsuper"    />
+        <result property="gametype"    column="gametype"    />
+    </resultMap>
+
+    <sql id="selectRetailAddPriceVo">
+        select id, create_id, update_id, create_time, update_time, super_id, rise, type, push,cmdsuper,gametype from retail_add_price
+    </sql>
+
+    <select id="selectRetailAddPriceList" parameterType="RetailAddPrice" resultMap="RetailAddPriceResult">
+        <include refid="selectRetailAddPriceVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="superId != null "> and super_id = #{superId}</if>
+            <if test="rrise != null "> and rise = #{rrise}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="push != null  and push != ''"> and push = #{push}</if>
+            <if test="push != null  and push != ''"> and push = #{push}</if>
+            <if test="cmdsuper != null  and cmdsuper != ''"> and cmdsuper = #{cmdsuper}</if>
+            <if test="gametype != null  and gametype != ''"> and gametype = #{gametype}</if>
+        </where>
+    </select>
+
+    <select id="selectRetailAddPriceById" parameterType="Long" resultMap="RetailAddPriceResult">
+        <include refid="selectRetailAddPriceVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRetailAddPrice" parameterType="RetailAddPrice" useGeneratedKeys="true" keyProperty="id">
+        insert into retail_add_price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="superId != null">super_id,</if>
+            <if test="rrise != null">rise,</if>
+            <if test="type != null">type,</if>
+            <if test="push != null">push,</if>
+            <if test="cmdsuper != null">cmdsuper,</if>
+            <if test="gametype != null">gametype,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="superId != null">#{superId},</if>
+            <if test="rrise != null">#{rrise},</if>
+            <if test="type != null">#{type},</if>
+            <if test="push != null">#{push},</if>
+            <if test="cmdsuper != null">#{cmdsuper},</if>
+            <if test="gametype != null">#{gametype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRetailAddPrice" parameterType="RetailAddPrice">
+        update retail_add_price
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="superId != null">super_id = #{superId},</if>
+            <if test="rrise != null">rise = #{rrise},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="push != null">push = #{push},</if>
+            <if test="cmdsuper != null">cmdsuper = #{cmdsuper},</if>
+            <if test="gametype != null">gametype = #{gametype},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRetailAddPriceById" parameterType="Long">
+        delete from retail_add_price where id = #{id}
+    </delete>
+    <delete id="deleteRetailAddPriceByCeateId" parameterType="Long">
+        delete from retail_add_price where create_id = #{userId}
+    </delete>
+
+    <delete id="deleteRetailAddPriceByIds" parameterType="String">
+        delete from retail_add_price where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <insert id="bacthInsertRetailAddPrice" parameterType="RetailAddPrice">
+        <foreach item="RetailAddPrice" collection="retailAddPriceList" separator=";">
+            insert into retail_add_price
+            (
+            <trim suffixOverrides=",">
+                <if test="RetailAddPrice.superId != null">super_id,</if>
+                <if test="RetailAddPrice.gametype != null">gametype,</if>
+                <if test="RetailAddPrice.rrise != null">rise,</if>
+                <if test="RetailAddPrice.createId != null">create_id,</if>
+                <if test="RetailAddPrice.createTime != null">create_time,</if>
+            </trim>
+            )
+            values
+            (
+            <trim suffixOverrides=",">
+                <if test="RetailAddPrice.superId != null">#{RetailAddPrice.superId},</if>
+                <if test="RetailAddPrice.gametype != null">#{RetailAddPrice.gametype},</if>
+                <if test="RetailAddPrice.rrise != null">#{RetailAddPrice.rrise},</if>
+                <if test="RetailAddPrice.createId != null">#{RetailAddPrice.createId},</if>
+                <if test="RetailAddPrice.createTime != null">#{RetailAddPrice.createTime},</if>
+            </trim>
+            )
+        </foreach>
+    </insert>
+
+</mapper>

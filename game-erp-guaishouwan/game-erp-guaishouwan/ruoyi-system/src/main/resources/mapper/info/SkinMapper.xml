@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.SkinMapper">
+
+    <resultMap type="Skin" id="SkinResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="title"    column="title"    />
+        <result property="skinId"    column="skin_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="type"    column="type"    />
+        <result property="classPrice"    column="class_price"    />
+        <result property="skinPrice"    column="skin_price"    />
+        <result property="configid"    column="configid"    />
+        <result property="img"    column="img"    />
+    </resultMap>
+
+    <sql id="selectSkinVo">
+        select id, create_id, update_id, create_time, update_time, title, skin_id, parent_id,class_price,skin_price,type,configid,img from skin
+    </sql>
+
+    <select id="selectSkinList" parameterType="Skin" resultMap="SkinResult">
+        <include refid="selectSkinVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="skinId != null "> and skin_id = #{skinId}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="skinPrice != null "> and skin_price = #{skinPrice}</if>
+            <if test="classPrice != null "> and class_price = #{classPrice}</if>
+            <if test="configid != null "> and configid = #{configid}</if>
+            <if test="img != null "> and img = #{img}</if>
+        </where>
+    </select>
+
+    <select id="selectSkinById" parameterType="Long" resultMap="SkinResult">
+        <include refid="selectSkinVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSkin" parameterType="Skin" useGeneratedKeys="true" keyProperty="id">
+        insert into skin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="title != null">title,</if>
+            <if test="skinId != null">skin_id,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="classPrice != null">class_price,</if>
+            <if test="skinPrice != null">skin_price,</if>
+            <if test="type != null">type,</if>
+            <if test="configid != null">configid,</if>
+            <if test="img != null">img,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="title != null">#{title},</if>
+            <if test="skinId != null">#{skinId},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="classPrice != null">#{classPrice},</if>
+            <if test="skinPrice != null">#{skinPrice},</if>
+            <if test="type != null">#{type},</if>
+            <if test="configid != null">#{configid},</if>
+            <if test="img != null">#{img},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSkin" parameterType="Skin">
+        update skin
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="skinId != null">skin_id = #{skinId},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="classPrice != null">class_price = #{classPrice},</if>
+            <if test="skinPrice != null">skin_price = #{skinPrice},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="configid != null">type = #{configid},</if>
+            <if test="img != null">img = #{img},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSkinById" parameterType="Long">
+        delete from skin where id = #{id}
+    </delete>
+    <delete id="deleteSkinByCOnfig" parameterType="Long">
+        delete from skin where configid = #{config}
+    </delete>
+
+    <delete id="deleteSkinByIds" parameterType="String">
+        delete from skin where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

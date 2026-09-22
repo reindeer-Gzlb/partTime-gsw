@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.SalePartnerGroupMapper">
+    
+    <resultMap type="SalePartnerGroup" id="SalePartnerGroupResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="name"    column="name"    />
+        <result property="configIds"    column="config_ids"    />
+        <result property="configNames"    column="config_names"    />
+    </resultMap>
+
+    <sql id="selectSalePartnerGroupVo">
+        select id, create_id, update_id, create_time, update_time, name, config_ids, config_names from sale_partner_group
+    </sql>
+
+    <select id="selectSalePartnerGroupList" parameterType="SalePartnerGroup" resultMap="SalePartnerGroupResult">
+        <include refid="selectSalePartnerGroupVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="configIds != null  and configIds != ''"> and config_ids = #{configIds}</if>
+            <if test="configNames != null  and configNames != ''"> and config_names = #{configNames}</if>
+        </where>
+    </select>
+    
+    <select id="selectSalePartnerGroupById" parameterType="Long" resultMap="SalePartnerGroupResult">
+        <include refid="selectSalePartnerGroupVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSalePartnerGroup" parameterType="SalePartnerGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into sale_partner_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="name != null">name,</if>
+            <if test="configIds != null">config_ids,</if>
+            <if test="configNames != null">config_names,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="name != null">#{name},</if>
+            <if test="configIds != null">#{configIds},</if>
+            <if test="configNames != null">#{configNames},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSalePartnerGroup" parameterType="SalePartnerGroup">
+        update sale_partner_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="configIds != null">config_ids = #{configIds},</if>
+            <if test="configNames != null">config_names = #{configNames},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSalePartnerGroupById" parameterType="Long">
+        delete from sale_partner_group where id = #{id}
+    </delete>
+
+    <delete id="deleteSalePartnerGroupByIds" parameterType="String">
+        delete from sale_partner_group where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

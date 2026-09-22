@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.AccountLableMapper">
+
+    <resultMap type="AccountLable" id="AccountLableResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="infoId"    column="info_id"    />
+        <result property="lable"    column="lable"    />
+    </resultMap>
+
+    <sql id="selectAccountLableVo">
+        select id, create_id, update_id, create_time, update_time, info_id, lable from account_lable
+    </sql>
+
+    <select id="selectAccountLableList" parameterType="AccountLable" resultMap="AccountLableResult">
+        <include refid="selectAccountLableVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="infoId != null "> and info_id = #{infoId}</if>
+            <if test="lable != null  and lable != ''"> and lable = #{lable}</if>
+        </where>
+    </select>
+
+    <select id="selectAccountLableById" parameterType="Long" resultMap="AccountLableResult">
+        <include refid="selectAccountLableVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectByLables" resultMap="AccountLableResult">
+        <include refid="selectAccountLableVo"/>
+        where 1=1
+        <if test="skinList.size > 0">
+            and lable in
+            <foreach item="lable" collection="skinList" open="(" separator="," close=")">
+                #{lable}
+            </foreach>
+        </if>
+    </select>
+    <select id="selectByInfoIds" resultMap="groupLable">
+        SELECT
+        a.id,a.info_id AS infoId,b.lable
+        FROM
+        account_lable a
+        INNER JOIN ( SELECT info_id,id, lable FROM account_lable ) b ON a.info_id = b.info_id AND a.id = b.id
+        WHERE 1=1
+        <if test="ids.size > 0">
+            and a.info_id in
+            <foreach item="id" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+    <resultMap id="groupLable" type="LableOne">
+        <!--team中的基本属性-->
+        <id column="infoId" property="infoId"/>
+
+        <!--关联属性的映射关系-->
+        <collection property="accountLables" ofType="AccountLable">
+            <id column="info_id" property="infoId"/>
+            <result column="lable" property="lable"/>
+        </collection>
+    </resultMap>
+
+
+    <insert id="insertAccountLable" parameterType="AccountLable" useGeneratedKeys="true" keyProperty="id">
+        insert into account_lable
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="infoId != null">info_id,</if>
+            <if test="lable != null">lable,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="infoId != null">#{infoId},</if>
+            <if test="lable != null">#{lable},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAccountLable" parameterType="AccountLable">
+        update account_lable
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="infoId != null">info_id = #{infoId},</if>
+            <if test="lable != null">lable = #{lable},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccountLableById" parameterType="Long">
+        delete from account_lable where id = #{id}
+    </delete>
+    <delete id="deleteByInfoId" parameterType="Long">
+        delete from account_lable where info_id = #{infoId}
+    </delete>
+
+    <delete id="deleteAccountLableByIds" parameterType="String">
+        delete from account_lable where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.reply.mapper.ReplyMapper">
+    
+    <resultMap type="Reply" id="ReplyResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="content"    column="content"    />
+        <result property="type"    column="type"    />
+    </resultMap>
+
+    <sql id="selectReplyVo">
+        select id, create_id, create_time, content, type from reply
+    </sql>
+
+    <select id="selectReplyList" parameterType="Reply" resultMap="ReplyResult">
+        <include refid="selectReplyVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeList != null  and typeList.size > 0"> and create_id in
+                <foreach item="type" collection="typeList" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+             </if>
+
+        </where>
+    </select>
+    
+    <select id="selectReplyById" parameterType="Long" resultMap="ReplyResult">
+        <include refid="selectReplyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertReply" parameterType="Reply" useGeneratedKeys="true" keyProperty="id">
+        insert into reply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="content != null">content,</if>
+            <if test="type != null">type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="content != null">#{content},</if>
+            <if test="type != null">#{type},</if>
+         </trim>
+    </insert>
+
+    <update id="updateReply" parameterType="Reply">
+        update reply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="type != null">type = #{type},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteReplyById" parameterType="Long">
+        delete from reply where id = #{id}
+    </delete>
+
+    <delete id="deleteReplyByIds" parameterType="String">
+        delete from reply where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

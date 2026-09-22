@@ -1,0 +1,1 @@
+alter table `goods_info` add column `ars_phone` varchar(255) DEFAULT ''  COMMENT 'ars手机号';

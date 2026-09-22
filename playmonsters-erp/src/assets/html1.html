@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
+    <title> </title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <style>
+        html,
+        body,
+        iframe,
+        frame {
+            margin: 0;
+            padding: 0;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <script language="javascript">
+        function isIos() {
+            return /iP(?:hone|od|ad)/i.test(navigator.userAgent);
+        }
+
+        function inMQQ() {
+            return /QQ\/([\d.]+)/.test(navigator.userAgent)
+        }
+
+        var src = "https\x3A\x2F\x2Fxui.ptlogin2.qq.com\x2Fcgi-bin\x2Fxlogin\x3Fpt_enable_pwd\x3D1\x26appid\x3D716027609\x26pt_3rd_aid\x3D1105412664\x26daid\x3D381\x26pt_skey_valid\x3D0\x26style\x3D35\x26force_qr\x3D1\x26autorefresh\x3D1\x26s_url\x3Dhttp\x253A\x252F\x252Fconnect.qq.com\x26refer_cgi\x3Dm_authorize\x26ucheck\x3D1\x26fall_to_wv\x3D1\x26status_os\x3D9\x26redirect_uri\x3Dauth\x253A\x252F\x252Ftauth.qq.com\x252F\x26client_id\x3D1105412664\x26pf\x3Dopenmobile_android\x26response_type\x3Dtoken\x26scope\x3Dall\x26sdkp\x3Da\x26sdkv\x3D3.5.7.lite\x26sign\x3D2CE042C4EE43D8B67CC2FBE565C345D2\x26status_machine\x3DGM1910\x26switch\x3D1\x26loginfrom\x3Dadd\x26h5sig\x3Dlm2WJjJmQYTT5cpuu03FAVp7yFSJm8Imy1wEmR10hfM\x26loginty\x3D6";
+
+        if (isIos()) {
+            if (inMQQ()) {
+                window.open(src, '_self')
+            } else {
+                document.write('<body><iframe border="0" frameborder="0" src="', src, '"></iframe></body>');
+            }
+        } else {
+            location.replace(src);
+        }
+        if(!inMQQ()){
+            document.title = ' 授权并登录 ';
+        }
+    </script>
+</body>
+
+</html>

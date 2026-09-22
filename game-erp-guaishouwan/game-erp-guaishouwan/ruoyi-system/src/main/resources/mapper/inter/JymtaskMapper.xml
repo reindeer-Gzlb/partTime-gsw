@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.JymtaskMapper">
+    
+    <resultMap type="Jymtask" id="JymtaskResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="accountid"    column="accountid"    />
+        <result property="jymId"    column="jym_id"    />
+        <result property="jymAddTaskId"    column="jym_add_task_id"    />
+        <result property="jymEditTaskId"    column="jym_edit_task_id"    />
+        <result property="jymDelTaskId"    column="jym_del_task_id"    />
+        <result property="addStatus"    column="add_status"    />
+        <result property="editStatus"    column="edit_status"    />
+        <result property="delStatus"    column="del_status"    />
+        <result property="res"    column="res"    />
+        <result property="salecode"    column="salecode"    />
+    </resultMap>
+
+    <sql id="selectJymtaskVo">
+        select id, create_id, update_id, create_time, update_time, accountid, jym_id, jym_add_task_id, jym_edit_task_id, jym_del_task_id, add_status, edit_status, del_status,res,salecode from jymtask
+    </sql>
+
+    <select id="selectJymtaskList" parameterType="Jymtask" resultMap="JymtaskResult">
+        <include refid="selectJymtaskVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="accountid != null "> and accountid = #{accountid}</if>
+            <if test="jymId != null "> and jym_id = #{jymId}</if>
+            <if test="jymAddTaskId != null "> and jym_add_task_id = #{jymAddTaskId}</if>
+            <if test="jymEditTaskId != null "> and jym_edit_task_id = #{jymEditTaskId}</if>
+            <if test="jymDelTaskId != null "> and jym_del_task_id = #{jymDelTaskId}</if>
+            <if test="addStatus != null  and addStatus != ''"> and add_status = #{addStatus}</if>
+            <if test="editStatus != null  and editStatus != ''"> and edit_status = #{editStatus}</if>
+            <if test="delStatus != null  and delStatus != ''"> and del_status = #{delStatus}</if>
+            <if test="salecode != null  and salecode != ''"> and salecode = #{salecode}</if>
+            <if test="config != null  and config != ''"> and config = #{config}</if>
+        </where>
+    </select>
+    
+    <select id="selectJymtaskById" parameterType="Long" resultMap="JymtaskResult">
+        <include refid="selectJymtaskVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertJymtask" parameterType="Jymtask" useGeneratedKeys="true" keyProperty="id">
+        insert into jymtask
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="accountid != null">accountid,</if>
+            <if test="jymId != null">jym_id,</if>
+            <if test="jymAddTaskId != null">jym_add_task_id,</if>
+            <if test="jymEditTaskId != null">jym_edit_task_id,</if>
+            <if test="jymDelTaskId != null">jym_del_task_id,</if>
+            <if test="addStatus != null">add_status,</if>
+            <if test="editStatus != null">edit_status,</if>
+            <if test="delStatus != null">del_status,</if>
+            <if test="res != null">res,</if>
+            <if test="salecode != null">salecode,</if>
+            <if test="config != null">config,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="accountid != null">#{accountid},</if>
+            <if test="jymId != null">#{jymId},</if>
+            <if test="jymAddTaskId != null">#{jymAddTaskId},</if>
+            <if test="jymEditTaskId != null">#{jymEditTaskId},</if>
+            <if test="jymDelTaskId != null">#{jymDelTaskId},</if>
+            <if test="addStatus != null">#{addStatus},</if>
+            <if test="editStatus != null">#{editStatus},</if>
+            <if test="delStatus != null">#{delStatus},</if>
+            <if test="salecode != null">#{salecode},</if>
+            <if test="config != null">#{config},</if>
+         </trim>
+    </insert>
+
+    <update id="updateJymtask" parameterType="Jymtask">
+        update jymtask
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="accountid != null">accountid = #{accountid},</if>
+            <if test="jymId != null">jym_id = #{jymId},</if>
+            <if test="jymAddTaskId != null">jym_add_task_id = #{jymAddTaskId},</if>
+            <if test="jymEditTaskId != null">jym_edit_task_id = #{jymEditTaskId},</if>
+            <if test="jymDelTaskId != null">jym_del_task_id = #{jymDelTaskId},</if>
+            <if test="addStatus != null">add_status = #{addStatus},</if>
+            <if test="editStatus != null">edit_status = #{editStatus},</if>
+            <if test="delStatus != null">del_status = #{delStatus},</if>
+            <if test="res != null">res = #{res},</if>
+            <if test="salecode != null">salecode = #{salecode},</if>
+            <if test="config != null">config = #{config},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteJymtaskById" parameterType="Long">
+        delete from jymtask where id = #{id}
+    </delete>
+
+    <delete id="deleteJymtaskBySaleCode" parameterType="String">
+        delete from jymtask where salecode = #{id}
+    </delete>
+
+    <delete id="deleteJymtaskByIds" parameterType="String">
+        delete from jymtask where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

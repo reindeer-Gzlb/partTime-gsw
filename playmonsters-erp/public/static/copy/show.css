@@ -1,0 +1,261 @@
+a,
+a:hover {
+    text-decoration: none;
+}
+
+.show-container{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding-top: 4.266667vw;
+    padding-bottom: 13.333333vw;
+    box-sizing: border-box;
+}
+
+.show-main {
+    padding: 0 4.266667vw;
+    padding-bottom: 11.6666667vw;
+    box-sizing: border-box;
+}
+.show-info {
+    padding: 4.266667vw;
+    margin-top: 4.266667vw;
+    background-color: #222426;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 3.2vw;
+    border-bottom: 1px solid #999999;
+    margin: 0 auto;
+    color: white;
+    letter-spacing: 0.05rem;
+    font-size: 4.266667vw;
+    line-height: 4.266667vw;
+    position: relative;
+    margin-bottom: 4.266667vw;
+    box-sizing: border-box;
+}
+.line-bianhao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4.266667vw;
+}
+.showid {
+    color: #fff;
+    font-size: 4.266667vw;
+    line-height: 5.8666667vw;
+}
+.showprice {
+    color: #F9BE3A;
+    display: flex;
+    font-weight: 700;
+    font-size: 3.2vw;
+}
+.te-text {
+    width: 4.266667vw;
+    height: 4.266667vw;
+    font-size: 3.2vw;
+    background-color: #F9BE3A;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 4.266667vw;
+    color: #222426;
+    font-weight: 700;
+    margin-right: 1.066667vw;
+    box-sizing: border-box;
+}
+.showarea-container {
+    display: flex;
+    margin-top: 2.4vw;
+}
+.showarea{
+    height: 4.266667vw;
+    line-height: 4.266667vw;
+    padding: 0 1.6vw;
+    font-size: 2.666667vw;
+    box-sizing: border-box;
+    background: rgba(93, 137, 228, 0.2);
+    border-radius: 10px;
+    color: #5D89E5;
+    margin: 0 2.133333vw 2.133333vw 0;
+}
+.user-info-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.6vw;
+
+}
+.showintro {
+    font-size: 3.2vw;
+    color: #838b99;
+    margin-top: 1.6vw;
+}
+.imgDetails {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 4.266667vw;
+}
+.buy-container {
+    
+    width: 100%;
+    padding: 4.266667vw;
+    margin-top: 7.4666667vw;
+    box-sizing: border-box;
+    background-color: #222426;
+    border-radius: 8px;
+}
+
+.buy,.texts-title {
+    font-size: 4.266667vw;
+    color: #fff;
+    margin-bottom: 2.133333vw;
+}
+.buytext {
+    display: flex;
+    align-items: center;
+    font-size: 3.2vw;
+    color: #838B99;
+    
+}
+.buytext img {
+    width: 6.933333vw;
+    height: 2.666667vw;
+    padding: 0 2.666667vw;
+}
+.texts {
+    width: 100%;
+    padding: 4.266667vw;
+    margin-top: 4.4666667vw;
+    box-sizing: border-box;
+    background-color: #222426;
+    border-radius: 8px;
+}
+.texts-text-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.text {
+    font-size: 3.2vw;
+    color: #838B99;
+    margin-right: 2.4666667vw;
+    margin-bottom: 1vw;
+}
+.text:nth-child(3) {
+    margin-right: 0;
+}
+.showname,.showlevel,.showhero,.shownum {
+    font-size: 3.2vw;
+    color: #838B99;
+    width: 50%;
+    text-align: left;
+    overflow: hidden;
+}
+.show-copy-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 22.133333vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #222426;
+}
+/* padding: 4.266667vw; */
+
+.imgDetails{
+    display: block;
+    height: auto;
+    width: 100%;
+}
+/* #showimg {
+    padding-bottom: 56%;
+    width: 100%;
+    position: relative;
+}
+
+#showimg img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+} */
+
+.back {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 4.266667vw;
+    height: 100%;
+    padding-bottom: 3.2vw;
+}
+
+.back img {
+    width: 2.4vw;
+    height: 4.533333vw;
+}
+
+.back span {
+    letter-spacing: 0rem;
+}
+
+.home {
+    height: 0.45rem;
+    display: block;
+    position: absolute;
+    right: 0.5rem;
+    top: 0rem;
+    font-size: 0.5rem;
+}
+
+.home img {
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-bottom: -0.15rem;
+    margin-right: 0.1rem;
+}
+
+.home span {
+    letter-spacing: 0rem;
+    color: white;
+}
+
+
+
+
+
+.copy {
+    width: 91.466667vw;
+    height: 10.666667vw;
+    background: #F9BE3A;
+    color: #FFFFFF;
+    font-size: 3.733333vw;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: none;
+}
+
+
+.copy img {
+    height: 0.5rem;
+    width: 0.5rem;
+    margin-right: 0.1rem;
+}
+
+.copy span {
+    font-size: 0.4rem;
+    color: white;
+}
+
+
+

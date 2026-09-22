@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.operation.mapper.UplodHistoryMapper">
+
+    <resultMap type="UplodHistory" id="UplodHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="num"    column="num"    />
+    </resultMap>
+
+    <sql id="selectUplodHistoryVo">
+        select id, create_id, create_time, num from uplod_history
+    </sql>
+
+    <select id="selectUplodHistoryList" parameterType="UplodHistory" resultMap="UplodHistoryResult">
+        <include refid="selectUplodHistoryVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+             and create_id != 1
+            <if test="num != null "> and num = #{num}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectUplodHistoryById" parameterType="Long" resultMap="UplodHistoryResult">
+        <include refid="selectUplodHistoryVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertUplodHistory" parameterType="UplodHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into uplod_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="num != null">num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="num != null">#{num},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUplodHistory" parameterType="UplodHistory">
+        update uplod_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="num != null">num = #{num},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUplodHistoryById" parameterType="Long">
+        delete from uplod_history where id = #{id}
+    </delete>
+
+    <delete id="deleteUplodHistoryByIds" parameterType="String">
+        delete from uplod_history where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,859 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.goodInfo.mapper.GoodsInfoMapper">
+
+    <resultMap type="GoodsInfo" id="GoodsInfoResult">
+        <result property="id" column="id"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateId" column="update_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="gameId" column="game_id"/>
+        <result property="gameName" column="game_name"/>
+        <result property="gameType" column="game_type"/>
+        <result property="systemId" column="system_id"/>
+        <result property="systemName" column="system_name"/>
+        <result property="carrierId" column="carrier_id"/>
+        <result property="carrierName" column="carrier_name"/>
+        <result property="groupId" column="group_id"/>
+        <result property="groupName" column="group_name"/>
+        <result property="serverId" column="server_id"/>
+        <result property="serverName" column="server_name"/>
+        <result property="title" column="title"/>
+        <result property="price" column="price"/>
+        <result property="des" column="des"/>
+        <result property="supplyId" column="supply_id"/>
+        <result property="saleState" column="sale_state"/>
+        <result property="del" column="del"/>
+        <result property="accountType" column="account_type"/>
+        <result property="isshow" column="isshow"/>
+        <result property="allField" column="all_field"/>
+        <result property="titleImg" column="title_img"/>
+        <result property="problemDes" column="problem_des"/>
+        <result property="downDes" column="down_des"/>
+        <result property="thirdId" column="third_id"/>
+        <result property="accountNumber" column="account_number"/>
+        <result property="accountPassword" column="account_password"/>
+        <result property="securityPhone" column="security_phone"/>
+        <result property="jymtask" column="jymtask"/>
+        <result property="costPrice" column="cost_price"/>
+        <result property="selltype" column="selltype"/>
+        <result property="saletime" column="saletime"/>
+        <result property="saleid" column="saleid"/>
+        <result property="note" column="note"/>
+        <result property="telid" column="telid"/>
+        <result property="telnote" column="telnote"/>
+        <result property="importantRemark" column="important_remark"/>
+        <result property="salepartnerids" column="salepartnerids"/>
+        <result property="salepartnername" column="salepartnername"/>
+        <result property="correspondjym" column="correspondjym"/>
+        <result property="retrieveDes" column="retrieve_des"/>
+        <result property="shiming" column="shiming"/>
+        <result property="goodsTypeIds" column="goods_type_ids"/>
+        <result property="goodsTypeValues" column="goods_type_values"/>
+        <result property="hireState" column="hire_state"/>
+        <result property="hireHour" column="hire_hour"/>
+        <result property="hireNight" column="hire_night"/>
+        <result property="hireDay" column="hire_day"/>
+        <result property="hireWeek" column="hire_week"/>
+        <result property="imgShow" column="img_show"/>
+        <result property="deposit" column="deposit"/>
+        <result property="auditDes" column="audit_des"/>
+        <result property="isTop" column="is_top"/>
+        <result property="branchRoadTypeId" column="branch_road_type_id"/>
+        <result property="branchRoadTypeName" column="branch_road_type_name"/>
+        <result property="branchRoadValue" column="branch_road_value"/>
+        <result property="shimingImg" column="shiming_img"/>
+        <result property="orderRecId" column="order_rec_id"/>
+        <result property="assurance" column="assurance"/>
+        <result property="vxNickName" column="vx_nick_name"/>
+        <result property="attributione" column="attributione"/>
+        <result property="email" column="email"/>
+        <result property="businessCode" column="business_code"/>
+        <result property="recoveryTime" column="recovery_time"/>
+        <result property="fastPrice" column="fast_price"/>
+        <result property="recoveryFirstTime" column="recovery_first_time"/>
+        <result property="gameThirdId" column="game_third_id"/>
+        <result property="toPlatform" column="to_platform"/>
+        <result property="isPush" column="is_push"/>
+        <result property="gsState" column="gs_state"/>
+        <result property="downPrice" column="down_price"/>
+        <result property="quanqiuAccount" column="quanqiu_account"/>
+        <result property="quanqiuPassword" column="quanqiu_password"/>
+        <result property="quanqiuEmail" column="quanqiu_email"/>
+        <result property="quanqiuEmailPassword" column="quanqiu_email_password"/>
+        <result property="quanqiuRemark" column="quanqiu_remark"/>
+        <result property="lookCount" column="look_count"/>
+        <result property="arsPhone" column="ars_phone"/>
+        <result property="bindEmail" column="bind_email"/>
+        <result property="isOnSpecialOffer" column="is_on_special_offer"/>
+        <result property="isGuarantee" column="is_guarantee"/>
+    </resultMap>
+
+    <sql id="selectGoodsInfoVo">
+        select id, create_id, update_id, create_time, update_time, game_id, game_name, game_type, system_id,assurance,
+        system_name, carrier_id, carrier_name, group_id, group_name, server_id, server_name, title, price, des,
+        supply_id, sale_state, del, account_type, isshow, title_img, problem_des, down_des, third_id,
+        shiming_img,order_rec_id,
+        account_number,hire_state,hire_hour,hire_night,hire_day,hire_week,img_show,deposit,audit_des,is_top,branch_road_type_id,
+        branch_road_type_name,branch_road_value,account_password,security_phone,jymtask,cost_price,selltype,saletime,saleid,
+        note,telid,telnote,important_remark,  salepartnerids,salepartnername,correspondjym,retrieve_des,shiming,goods_type_ids,
+        goods_type_values,vx_nick_name,attributione,email,business_code,recovery_time,fast_price,recovery_first_time,game_third_id,to_platform
+        ,is_push,gs_state,down_price,quanqiu_account,quanqiu_password,quanqiu_email,quanqiu_email_password,quanqiu_remark
+        ,look_count,ars_phone,bind_email,is_on_special_offer, is_guarantee
+          from goods_info
+    </sql>
+
+    <select id="selectGoodsInfoList" parameterType="GoodsInfo" resultMap="GoodsInfoResult">
+        <include refid="selectGoodsInfoVo"/>
+        <where>
+            del = 0
+            <if test="id != null ">and id = #{id}</if>
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="telid != null ">and telid = #{telid}</if>
+            <if test="telnote != null ">and telnote = #{telnote}</if>
+            <if test="saleid != null ">and saleid = #{saleid}</if>
+            <if test="selltype != null ">and selltype = #{selltype}</if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="gameId != null ">and game_id = #{gameId}</if>
+            <if test="email != null ">and email like concat('%',#{email},'%')</if>
+            <if test="businessCode != null ">and business_code like concat('%',#{businessCode},'%')</if>
+            <if test="gameName != null  and gameName != ''">and game_name like concat('%', #{gameName}, '%')</if>
+            <if test="gameType != null  and gameType != ''">and game_type = #{gameType}</if>
+            <if test="systemId != null ">and system_id = #{systemId}</if>
+            <if test="systemName != null ">and system_name like concat('%', #{systemName}, '%')</if>
+            <if test="carrierId != null ">and carrier_id = #{carrierId}</if>
+            <if test="attributione != null ">and attributione = #{attributione}</if>
+            <if test="vxNickName != null ">and vx_nick_name = #{vxNickName}</if>
+            <if test="gameThirdId != null ">and game_third_id = #{gameThirdId}</if>
+            <if test="toPlatform != null ">and to_platform = #{toPlatform}</if>
+            <if test="carrierName != null  and carrierName != ''">and carrier_name like concat('%', #{carrierName},
+                '%')
+            </if>
+            <if test="groupId != null ">and group_id = #{groupId}</if>
+            <if test="groupName != null  and groupName != ''">and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="serverId != null ">and server_id = #{serverId}</if>
+            <if test="serverName != null  and serverName != ''">and server_name like concat('%', #{serverName}, '%')
+            </if>
+            <if test="title != null  and title != ''">and title = #{title}</if>
+            <if test="correspondjym != null  and correspondjym != ''">and correspondjym = #{correspondjym}</if>
+            <if test="price != null ">and price = #{price}</if>
+            <if test="des != null  and des != ''">and des = #{des}</if>
+            <if test="supplyId != null ">and supply_id = #{supplyId}</if>
+            <if test="saleState != null ">and sale_state = #{saleState}</if>
+            <if test="del != null ">and del = #{del}</if>
+            <if test="accountType != null ">and account_type = #{accountType}</if>
+            <if test="isshow != null  and isshow != ''">and isshow = #{isshow}</if>
+            <if test="jymtask != null  and jymtask != ''">and jymtask = #{jymtask}</if>
+            <if test="assurance != null  and assurance != ''">and assurance = #{assurance}</if>
+            <if test="createTimeStart != null  and createTimeEnd != null">and (create_time &gt;= #{createTimeStart}
+                and
+                create_time &lt;= #{createTimeEnd})
+            </if>
+            <if test="problemDes != null  and problemDes != ''">and problem_des like concat('%', #{problemDes}, '%')
+            </if>
+            <if test="downDes != null  and downDes != ''">and down_des like concat('%', #{downDes}, '%')</if>
+            <if test="thirdId != null  and thirdId != ''">and third_id = #{thirdId}</if>
+            <if test="accountNumber != null  and accountNumber != ''">and account_number = #{accountNumber}</if>
+            <if test="accountPassword != null  and accountPassword != ''">and account_password = #{accountPassword}</if>
+            <if test="securityPhone != null  and securityPhone != ''">and security_phone = #{securityPhone}</if>
+            <if test="recoveryTimeStart != null ">and recovery_time > #{recoveryTimeStart}</if>
+            <if test="recoveryTimeEnd != null ">and #{recoveryTimeEnd} >recovery_time</if>
+            <if test="retrieveDes != null  and retrieveDes != ''">and retrieve_des like concat('%', #{retrieveDes},
+                '%')
+            </if>
+            <if test="isTop != null ">and is_top = #{isTop}</if>
+            <if test="isPush != null ">and is_push = #{isPush}</if>
+            <if test="isGuarantee != null ">and is_guarantee = #{isGuarantee}</if>
+            <if test="isOnSpecialOffer != null ">and is_on_special_offer = #{isOnSpecialOffer}</if>
+            <if test="arsPhone != null ">and ars_phone like concat('%',#{arsPhone},'%')</if>
+            <if test="ids != null and ids.size > 0">
+                and id in
+                <foreach item="id" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="createIds != null and createIds.size > 0">
+                and create_id in
+                <foreach item="createId" collection="createIds" open="(" separator="," close=")">
+                    #{createId}
+                </foreach>
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectGoodsInfoById" parameterType="Long" resultMap="GoodsInfoResult">
+        <include refid="selectGoodsInfoVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectGoodsInfoByCorrespondjym" parameterType="string" resultMap="GoodsInfoResult">
+        <include refid="selectGoodsInfoVo"/>
+        where 1 = 1
+        <if test="correspondjym != null and correspondjym != ''">
+            and correspondjym = #{correspondjym}
+        </if>
+    </select>
+    <select id="selectPush" parameterType="com.ruoyi.system.model.dto.GoodReq" resultMap="GoodsInfoResult">
+        SELECT
+        good.*
+        FROM
+        goods_info good
+        WHERE
+        1=1
+        <if test="saleCode != null and saleCode != ''">
+            AND good.id NOT IN ( SELECT c.account_id FROM inter_rec c WHERE c.sale_code = #{saleCode})
+        </if>
+        AND good.sale_state = 1
+        AND good.del = 0
+        AND good.is_push = 1
+        AND good.title_img IS NOT NULL
+        AND good.des IS NOT NULL
+        AND good.title IS NOT NULL
+        <if test="createIds != null and createIds.size > 0">
+            and good.create_id in
+            <foreach item="createId" collection="createIds" open="(" separator="," close=")">
+                #{createId}
+            </foreach>
+        </if>
+        <if test="gameNames != null and  gameNames!= '' and gameNames.size > 0">
+            and good.game_name in
+            <foreach item="game" collection="gameNames" open="(" separator="," close=")">
+                #{game}
+            </foreach>
+        </if>
+        LIMIT #{pageSize}
+    </select>
+
+    <insert id="insertGoodsInfo" parameterType="GoodsInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into goods_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="gameId != null">game_id,</if>
+            <if test="gameName != null">game_name,</if>
+            <if test="gameType != null">game_type,</if>
+            <if test="systemId != null">system_id,</if>
+            <if test="systemName != null">system_name,</if>
+            <if test="carrierId != null">carrier_id,</if>
+            <if test="carrierName != null">carrier_name,</if>
+            <if test="groupId != null">group_id,</if>
+            <if test="groupName != null">group_name,</if>
+            <if test="serverId != null">server_id,</if>
+            <if test="serverName != null">server_name,</if>
+            <if test="title != null">title,</if>
+            <if test="price != null">price,</if>
+            <if test="des != null">des,</if>
+            <if test="supplyId != null">supply_id,</if>
+            <if test="saleState != null">sale_state,</if>
+            <if test="del != null">del,</if>
+            <if test="accountType != null">account_type,</if>
+            <if test="isshow != null">isshow,</if>
+            <if test="allField != null">all_field,</if>
+            <if test="titleImg != null">title_img,</if>
+            <if test="problemDes != null">problem_des,</if>
+            <if test="downDes != null">down_des,</if>
+            <if test="thirdId != null">third_id,</if>
+            <if test="accountNumber != null">account_number,</if>
+            <if test="accountPassword != null">account_password,</if>
+            <if test="securityPhone != null">security_phone,</if>
+            <if test="jymtask != null">jymtask,</if>
+            <if test="costPrice != null">cost_price,</if>
+            <if test="selltype != null">selltype,</if>
+            <if test="saletime != null">saletime,</if>
+            <if test="saleid != null">saleid,</if>
+            <if test="note != null">note,</if>
+            <if test="telid != null">telid,</if>
+            <if test="telnote != null">telnote,</if>
+            <if test="importantRemark != null">important_remark,</if>
+            <if test="salepartnername != null and salepartnername != ''">salepartnername,</if>
+            <if test="salepartnerids != null and salepartnerids != ''">salepartnerids,</if>
+            <if test="correspondjym != null and correspondjym != ''">correspondjym,</if>
+            <if test="retrieveDes != null">retrieve_des,</if>
+            <if test="shiming != null">shiming,</if>
+            <if test="goodsTypeIds != null">goods_type_ids,</if>
+            <if test="goodsTypeValues != null">goods_type_values,</if>
+            <if test="hireState != null">hire_state,</if>
+            <if test="hireHour != null">hire_hour,</if>
+            <if test="hireNight != null">hire_night,</if>
+            <if test="hireDay != null">hire_day,</if>
+            <if test="hireWeek != null">hire_week,</if>
+            <if test="imgShow != null">img_show,</if>
+            <if test="deposit != null">deposit,</if>
+            <if test="auditDes != null">audit_des,</if>
+            <if test="isTop != null">is_top,</if>
+            <if test="branchRoadTypeId != null">branch_road_type_id,</if>
+            <if test="branchRoadTypeName != null">branch_road_type_name,</if>
+            <if test="branchRoadValue != null">branch_road_value,</if>
+            <if test="shimingImg != null">shiming_img,</if>
+            <if test="orderRecId != null">order_rec_id,</if>
+            <if test="assurance != null">assurance,</if>
+            <if test="vxNickName != null">vx_nick_name,</if>
+            <if test="attributione != null">attributione,</if>
+            <if test="email != null">email,</if>
+            <if test="businessCode != null">business_code,</if>
+            <if test="recoveryTime != null">recovery_time,</if>
+            <if test="fastPrice != null">fast_price,</if>
+            <if test="recoveryFirstTime != null">recovery_first_time,</if>
+            <if test="gameThirdId != null">game_third_id,</if>
+            <if test="toPlatform != null">to_platform,</if>
+            <if test="isPush != null">is_push,</if>
+            <if test="gsState != null">gs_state,</if>
+            <if test="downPrice != null">down_price,</if>
+            <if test="quanqiuAccount != null">quanqiu_account,</if>
+            <if test="quanqiuPassword != null">quanqiu_password,</if>
+            <if test="quanqiuEmail != null">quanqiu_email,</if>
+            <if test="quanqiuEmailPassword != null">quanqiu_email_password,</if>
+            <if test="quanqiuRemark != null">quanqiu_remark,</if>
+            <if test="lookCount != null">look_count,</if>
+            <if test="arsPhone != null">ars_phone,</if>
+            <if test="bindEmail != null">bind_email,</if>
+            <if test="isOnSpecialOffer != null">is_on_special_offer,</if>
+            <if test="isGuarantee != null">is_guarantee,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="gameId != null">#{gameId},</if>
+            <if test="gameName != null">#{gameName},</if>
+            <if test="gameType != null">#{gameType},</if>
+            <if test="systemId != null">#{systemId},</if>
+            <if test="systemName != null">#{systemName},</if>
+            <if test="carrierId != null">#{carrierId},</if>
+            <if test="carrierName != null">#{carrierName},</if>
+            <if test="groupId != null">#{groupId},</if>
+            <if test="groupName != null">#{groupName},</if>
+            <if test="serverId != null">#{serverId},</if>
+            <if test="serverName != null">#{serverName},</if>
+            <if test="title != null">#{title},</if>
+            <if test="price != null">#{price},</if>
+            <if test="des != null">#{des},</if>
+            <if test="supplyId != null">#{supplyId},</if>
+            <if test="saleState != null">#{saleState},</if>
+            <if test="del != null">#{del},</if>
+            <if test="accountType != null">#{accountType},</if>
+            <if test="isshow != null">#{isshow},</if>
+            <if test="allField != null">#{allField},</if>
+            <if test="titleImg != null">#{titleImg},</if>
+            <if test="problemDes != null">#{problemDes},</if>
+            <if test="downDes != null">#{downDes},</if>
+            <if test="thirdId != null">#{thirdId},</if>
+            <if test="accountNumber != null">#{accountNumber},</if>
+            <if test="accountPassword != null">#{accountPassword},</if>
+            <if test="securityPhone != null">#{securityPhone},</if>
+            <if test="jymtask != null">#{jymtask},</if>
+            <if test="costPrice != null">#{costPrice},</if>
+            <if test="selltype != null">#{selltype},</if>
+            <if test="saletime != null">#{saletime},</if>
+            <if test="saleid != null">#{saleid},</if>
+            <if test="note != null">#{note},</if>
+            <if test="telid != null">#{telid},</if>
+            <if test="telnote != null">#{telnote},</if>
+            <if test="importantRemark != null">#{importantRemark},</if>
+            <if test="salepartnername != null">#{salepartnername},</if>
+            <if test="salepartnerids != null">#{salepartnerids},</if>
+            <if test="correspondjym != null">#{correspondjym},</if>
+            <if test="retrieveDes != null">#{retrieveDes},</if>
+            <if test="shiming != null">#{shiming},</if>
+            <if test="goodsTypeIds != null">#{goodsTypeIds},</if>
+            <if test="goodsTypeValues != null">#{goodsTypeValues},</if>
+            <if test="hireState != null">#{hireState},</if>
+            <if test="hireHour != null">#{hireHour},</if>
+            <if test="hireNight != null">#{hireNight},</if>
+            <if test="hireDay != null">#{hireDay},</if>
+            <if test="hireWeek != null">#{hireWeek},</if>
+            <if test="imgShow != null">#{imgShow},</if>
+            <if test="deposit != null">#{deposit},</if>
+            <if test="auditDes != null">#{auditDes},</if>
+            <if test="isTop != null">#{isTop},</if>
+            <if test="branchRoadTypeId != null">#{branchRoadTypeId},</if>
+            <if test="branchRoadTypeName != null">#{branchRoadTypeName},</if>
+            <if test="branchRoadValue != null">#{branchRoadValue},</if>
+            <if test="shimingImg != null">#{shimingImg},</if>
+            <if test="orderRecId != null">#{orderRecId},</if>
+            <if test="assurance != null">#{assurance},</if>
+            <if test="vxNickName != null">#{vxNickName},</if>
+            <if test="attributione != null">#{attributione},</if>
+            <if test="email != null">#{email},</if>
+            <if test="businessCode != null">#{businessCode},</if>
+            <if test="recoveryTime != null">#{recoveryTime},</if>
+            <if test="fastPrice != null">#{fastPrice},</if>
+            <if test="recoveryFirstTime != null">#{recoveryFirstTime},</if>
+            <if test="gameThirdId != null">#{gameThirdId},</if>
+            <if test="toPlatform != null">#{toPlatform},</if>
+            <if test="isPush != null">#{isPush},</if>
+            <if test="gsState != null">#{gsState},</if>
+            <if test="downPrice != null">#{downPrice},</if>
+            <if test="quanqiuAccount != null">#{quanqiuAccount},</if>
+            <if test="quanqiuPassword != null">#{quanqiuPassword},</if>
+            <if test="quanqiuEmail != null">#{quanqiuEmail},</if>
+            <if test="quanqiuEmailPassword != null">#{quanqiuEmailPassword},</if>
+            <if test="quanqiuRemark != null">#{quanqiuRemark},</if>
+            <if test="lookCount != null">#{lookCount},</if>
+            <if test="arsPhone != null">#{arsPhone},</if>
+            <if test="bindEmail != null">#{bindEmail},</if>
+            <if test="isOnSpecialOffer != null">#{isOnSpecialOffer},</if>
+            <if test="isGuarantee != null">#{isGuarantee},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGoodsInfo" parameterType="GoodsInfo">
+        update goods_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="gameId != null">game_id = #{gameId},</if>
+            <if test="gameName != null">game_name = #{gameName},</if>
+            <if test="gameType != null">game_type = #{gameType},</if>
+            <if test="systemId != null">system_id = #{systemId},</if>
+            <if test="systemName != null">system_name = #{systemName},</if>
+            <if test="carrierId != null">carrier_id = #{carrierId},</if>
+            <if test="carrierName != null">carrier_name = #{carrierName},</if>
+            <if test="groupId != null">group_id = #{groupId},</if>
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="serverId != null">server_id = #{serverId},</if>
+            <if test="serverName != null">server_name = #{serverName},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="des != null">des = #{des},</if>
+            <if test="supplyId != null">supply_id = #{supplyId},</if>
+            <if test="saleState != null">sale_state = #{saleState},</if>
+            <if test="del != null">del = #{del},</if>
+            <if test="accountType != null">account_type = #{accountType},</if>
+            <if test="isshow != null">isshow = #{isshow},</if>
+            <if test="allField != null">all_field = #{allField},</if>
+            <if test="titleImg != null">title_img = #{titleImg},</if>
+            <if test="problemDes != null">problem_des = #{problemDes},</if>
+            <if test="downDes != null">down_des = #{downDes},</if>
+            <if test="thirdId != null">third_id = #{thirdId},</if>
+            <if test="accountNumber != null">account_number = #{accountNumber},</if>
+            <if test="accountPassword != null">account_password = #{accountPassword},</if>
+            <if test="securityPhone != null">security_phone = #{securityPhone},</if>
+            <if test="jymtask != null">jymtask= #{jymtask},</if>
+            <if test="costPrice != null">cost_price = #{costPrice},</if>
+            <if test="selltype != null">selltype = #{selltype},</if>
+            <if test="saletime != null">saletime = #{saletime},</if>
+            <if test="saleid != null">saleid = #{saleid},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="telid != null">telid = #{telid},</if>
+            <if test="telnote != null">telnote = #{telnote},</if>
+            <if test="importantRemark != null">important_remark = #{importantRemark},</if>
+            <if test="salepartnerids != null">salepartnerids = #{salepartnerids},</if>
+            <if test="salepartnername != null">salepartnername = #{salepartnername},</if>
+            <if test="correspondjym != null">correspondjym = #{correspondjym},</if>
+            <if test="retrieveDes != null">retrieve_des = #{retrieveDes},</if>
+            <if test="shiming != null">shiming = #{shiming},</if>
+            <if test="goodsTypeIds != null">goods_type_ids = #{goodsTypeIds},</if>
+            <if test="goodsTypeValues != null">goods_type_values = #{goodsTypeValues},</if>
+            <if test="hireState != null">hire_state = #{hireState},</if>
+            <if test="hireHour != null">hire_hour = #{hireHour},</if>
+            <if test="hireNight != null">hire_night = #{hireNight},</if>
+            <if test="hireDay != null">hire_day = #{hireDay},</if>
+            <if test="hireWeek != null">hire_week = #{hireWeek},</if>
+            <if test="imgShow != null">img_show = #{imgShow},</if>
+            <if test="deposit != null">deposit = #{deposit},</if>
+            <if test="auditDes != null">audit_des = #{auditDes},</if>
+            <if test="isTop != null">is_top = #{isTop},</if>
+            <if test="branchRoadTypeId != null">branch_road_type_id = #{branchRoadTypeId},</if>
+            <if test="branchRoadTypeName != null">branch_road_type_name = #{branchRoadTypeName},</if>
+            <if test="branchRoadValue != null">branch_road_value = #{branchRoadValue},</if>
+            <if test="shimingImg != null">shiming_img = #{shimingImg},</if>
+            <if test="orderRecId != null">order_rec_id = #{orderRecId},</if>
+            <if test="assurance != null">assurance = #{assurance},</if>
+            <if test="vxNickName != null">vx_nick_name = #{vxNickName},</if>
+            <if test="attributione != null">attributione = #{attributione},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="businessCode != null">business_code = #{businessCode},</if>
+            <if test="recoveryTime != null">recovery_time = #{recoveryTime},</if>
+            <if test="fastPrice != null">fast_price = #{fastPrice},</if>
+            <if test="recoveryFirstTime != null">recovery_first_time = #{recoveryFirstTime},</if>
+            <if test="toPlatform != null">to_platform = #{toPlatform},</if>
+            <if test="gameThirdId != null">game_third_id = #{gameThirdId},</if>
+            <if test="isPush != null">is_push = #{isPush},</if>
+            <if test="gsState != null">gs_state = #{gsState},</if>
+            <if test="downPrice != null">down_price = #{downPrice},</if>
+            <if test="quanqiuAccount != null">quanqiu_account = #{quanqiuAccount},</if>
+            <if test="quanqiuPassword != null">quanqiu_password = #{quanqiuPassword},</if>
+            <if test="quanqiuEmail != null">quanqiu_email = #{quanqiuEmail},</if>
+            <if test="quanqiuEmailPassword != null">quanqiu_email_password = #{quanqiuEmailPassword},</if>
+            <if test="quanqiuRemark != null">quanqiu_remark = #{quanqiuRemark},</if>
+            <if test="lookCount != null">look_count = #{lookCount},</if>
+            <if test="arsPhone != null">ars_phone = #{arsPhone},</if>
+            <if test="bindEmail != null">bind_email = #{bindEmail},</if>
+            <if test="isOnSpecialOffer != null">is_on_special_offer = #{isOnSpecialOffer},</if>
+            <if test="isGuarantee != null">is_guarantee = #{isGuarantee},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGoodsInfoById" parameterType="Long">
+        update goods_info set del = 1
+        where id = #{id} and del = 0
+    </delete>
+
+    <delete id="deleteGoodsInfoByIds" parameterType="String">
+        update goods_info set del = 1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and del = 0
+    </delete>
+    <select id="accIds" parameterType="GoodsInfo" resultType="long">
+        SELECT id FROM goods_info WHERE sale_state &lt;&gt; 1
+    </select>
+    <update id="auditGoods" parameterType="String">
+        update goods_info set sale_state = 1 where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and del = 0
+    </update>
+    <update id="down" parameterType="String">
+        update goods_info set sale_state = 4 where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and del = 0
+    </update>
+    <update id="submitAccount" parameterType="String">
+        update goods_info set sale_state = 2 where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and del = 0
+    </update>
+    <sql id="selectGoodsInfoAndAttrValueVo">
+        SELECT
+        goods.*,aav.f1,aav.f2,aav.f3,aav.f4,aav.f5,aav.f6,aav.f7,aav.f8,aav.f9,aav.f10,aav.f11,aav.f12,aav.f13,aav.f14,aav.f15,aav.f16,aav.f17,aav.f18,aav.f19,aav.f20,s1.nick_name as supplyName,s2.nick_name as salaName FROM goods_info goods
+        LEFT JOIN account_attr_value aav ON goods.id=aav.account_info_id
+        LEFT JOIN sys_user s1 on s1.user_id=goods.create_id
+        LEFT JOIN sys_user s2 on s2.user_id=goods.saleid
+    </sql>
+    <select id="selectGoodsInfoAndAttrValueById" parameterType="Long"
+            resultType="com.ruoyi.system.model.dto.GoodsInfoAndAttrValueDto">
+        <include refid="selectGoodsInfoAndAttrValueVo"/>
+        where goods.id = #{id}
+    </select>
+    <select id="selectGoodsInfoAndAttrList" resultType="com.ruoyi.system.model.dto.GoodsInfoAndAttrValueDto">
+        <include refid="selectGoodsInfoAndAttrValueVo"/>
+        <where>
+            del = 0
+            <if test="id != null ">and goods.id = #{id}</if>
+            <if test="createId != null ">and goods.create_id = #{createId}</if>
+            <if test="saleid != null ">and goods.saleid = #{saleid}</if>
+            <if test="updateId != null ">and goods.update_id = #{updateId}</if>
+            <if test="gameId != null ">and goods.game_id = #{gameId}</if>
+            <if test="gameName != null  and gameName != ''">and goods.game_name like concat('%', #{gameName}, '%')</if>
+            <if test="gameType != null  and gameType != ''">and goods.game_type = #{gameType}</if>
+            <if test="systemId != null ">and goods.system_id = #{systemId}</if>
+            <if test="selltype != null ">and goods.selltype = #{selltype}</if>
+            <if test="systemName != null ">and goods.system_name like concat('%', #{systemName}, '%')</if>
+            <if test="carrierId != null ">and goods.carrier_id = #{carrierId}</if>
+            <if test="carrierName != null  and carrierName != ''">and goods.carrier_name like concat('%',
+                #{carrierName}, '%')
+            </if>
+            <if test="groupId != null ">and goods.group_id = #{groupId}</if>
+            <if test="groupName != null  and groupName != ''">and goods.group_name like concat('%', #{groupName},
+                '%')
+            </if>
+            <if test="serverId != null ">and goods.server_id = #{serverId}</if>
+            <if test="goodsTypeValues != null ">and goods.goods_type_values like concat("%",#{goodsTypeValues},"%")</if>
+
+            <if test="serverName != null  and serverName != ''">and goods.server_name like concat('%',
+                #{serverName}, '%')
+            </if>
+            <if test="title != null  and title != ''">and goods.title = #{title}</if>
+            <if test="price != null ">and goods.price = #{price}</if>
+            <if test="des != null  and des != ''">and goods.des = #{des}</if>
+            <if test="supplyId != null ">and goods.supply_id = #{supplyId}</if>
+            <if test="saleState != null ">and goods.sale_state = #{saleState}</if>
+            <if test="del != null ">and goods.del = #{del}</if>
+            <if test="email != null ">and goods.email = #{email}</if>
+            <if test="businessCode != null ">and goods.business_code = #{businessCode}</if>
+            <if test="accountType != null ">and goods.account_type = #{accountType}</if>
+            <if test="isshow != null  and isshow != ''">and goods.isshow = #{isshow}</if>
+            <if test="problemDes != null  and problemDes != ''">and goods.problem_des like concat('%', #{problemDes},
+                '%')
+            </if>
+            <if test="downDes != null  and downDes != ''">and goods.down_des like concat('%', #{downDes},
+                '%')
+            </if>
+            <if test="retrieveDes != null  and retrieveDes != ''">and goods.retrieve_des like concat('%',
+                #{retrieveDes},
+                '%')
+            </if>
+            <if test="thirdId != null  and thirdId != ''">and goods.third_id = #{thirdId}</if>
+            <if test="isPush != null ">and goods.is_push = #{isPush}</if>
+            <if test="gameThirdId != null  and gameThirdId != ''">and goods.game_third_id = #{gameThirdId}</if>
+            <if test="toPlatform != null  and toPlatform != ''">and goods.to_platform = #{toPlatform}</if>
+            <if test="recoveryTimeStart != null ">and goods.recovery_time > #{recoveryTimeStart}</if>
+            <if test="recoveryTimeEnd != null ">and #{recoveryTimeEnd} > goods.recovery_time</if>
+            <if test="accountNumber != null  and accountNumber != ''">and goods.account_number = #{accountNumber}</if>
+            <if test="arsPhone != null ">and goods.ars_phone like concat('%',#{arsPhone},'%')</if>
+            <if test="accountPassword != null  and accountPassword != ''">and goods.account_password =
+                #{accountPassword}
+            </if>
+            <if test="securityPhone != null  and securityPhone != ''">and goods.security_phone = #{securityPhone}</if>
+            <if test="isTop != null ">and is_top = #{isTop}</if>
+            <if test="isOnSpecialOffer != null ">and is_on_special_offer = #{isOnSpecialOffer}</if>
+            <if test="isGuarantee != null ">and is_guarantee = #{isGuarantee}</if>
+            <if test="remark != null  and remark != ''">
+                ${remark}
+            </if>
+        </where>
+    </select>
+    <sql id="slectWhere">
+        <where>
+            del = 0
+            <if test="id != null ">and goods.id = #{id}</if>
+            <if test="createId != null ">and goods.create_id = #{createId}</if>
+            <if test="createIds != null and createIds.size > 0">
+                and goods.create_id in
+                <foreach item="createId" collection="createIds" open="(" separator="," close=")">
+                    #{createId}
+                </foreach>
+            </if>
+            <if test="telid != null ">and goods.telid = #{telid}</if>
+            <if test="assurance != null ">and goods.assurance = #{assurance}</if>
+            <if test="updateId != null ">and goods.update_id = #{updateId}</if>
+            <if test="gameId != null ">and goods.game_id = #{gameId}</if>
+            <if test="attributione != null ">and goods.attributione = #{attributione}</if>
+            <if test="gameName != null  and gameName != ''">and goods.game_name like concat('%', #{gameName}, '%')</if>
+            <if test="gameType != null  and gameType != ''">and goods.game_type = #{gameType}</if>
+            <if test="systemId != null ">and goods.system_id = #{systemId}</if>
+            <if test="systemName != null ">and goods.system_name like concat('%', #{systemName}, '%')</if>
+            <if test="carrierId != null ">and goods.carrier_id = #{carrierId}</if>
+            <if test="email != null ">and goods.email = #{email}</if>
+            <if test="businessCode != null ">and goods.business_code = #{businessCode}</if>
+            <if test="carrierName != null  and carrierName != ''">and goods.carrier_name like concat('%',
+                #{carrierName}, '%')
+            </if>
+            <if test="groupId != null ">and goods.group_id = #{groupId}</if>
+            <if test="groupName != null  and groupName != ''">and goods.group_name like concat('%', #{groupName},
+                '%')
+            </if>
+            <if test="serverId != null ">and goods.server_id = #{serverId}</if>
+            <if test="serverName != null  and serverName != ''">and goods.server_name like concat('%',
+                #{serverName}, '%')
+            </if>
+            <if test="title != null  and title != ''">and goods.title = #{title}</if>
+            <if test="priceStart != null and priceStart != ''">and goods.price <![CDATA[ >= ]]> #{priceStart}</if>
+            <if test="priceEnd != null and priceEnd != ''">and goods.price <![CDATA[ <= ]]> #{priceEnd}</if>
+            <if test="branchRoadTypeId != null  and branchRoadTypeId != ''">and goods.branch_road_type_id =
+                #{branchRoadTypeId}
+            </if>
+            <if test="branchRoadValueStart != null and branchRoadValueStart != ''">and goods.branch_road_value
+                <![CDATA[ >= ]]> #{branchRoadValueStart}
+            </if>
+            <if test="branchRoadValueEnd != null and branchRoadValueEnd != ''">and goods.branch_road_value
+                <![CDATA[ <= ]]> #{branchRoadValueEnd}
+            </if>
+            <if test="des != null  and des != ''">and goods.des like concat('%',#{des}, '%')</if>
+            <if test="keyWordArr != null and keyWordArr.size > 0">
+                <foreach item="keyWords" collection="keyWordArr">
+                    and (goods.all_field like '%${keyWords}%' or goods.des like '%${keyWords}%' or goods.id =
+                    '${keyWords}')
+                </foreach>
+            </if>
+            <if test="supplyId != null ">and goods.supply_id = #{supplyId}</if>
+            <if test="saleState != null ">and goods.sale_state = #{saleState}</if>
+            <if test="accountType != null ">and goods.account_type = #{accountType}</if>
+            <if test="isshow != null  and isshow != ''">and goods.isshow = #{isshow}</if>
+            <if test="problemDes != null  and problemDes != ''">and goods.problem_des like concat('%', #{problemDes},
+                '%')
+            </if>
+            <if test="downDes != null  and downDes != ''">and goods.down_des like concat('%', #{downDes},
+                '%')
+            </if>
+            <if test="retrieveDes != null  and retrieveDes != ''">and goods.retrieve_des like concat('%',
+                #{retrieveDes},
+                '%')
+            </if>
+            <if test="recoveryTimeStart != null ">and goods.recovery_time > #{recoveryTimeStart}</if>
+            <if test="recoveryTimeEnd != null ">and #{recoveryTimeEnd} > goods.recovery_time</if>
+            <if test="thirdId != null  and thirdId != ''">and goods.third_id = #{thirdId}</if>
+            <if test="accountNumber != null  and accountNumber != ''">and goods.account_number = #{accountNumber}</if>
+            <if test="accountPassword != null  and accountPassword != ''">and goods.account_password =
+                #{accountPassword}
+            </if>
+            <if test="securityPhone != null  and securityPhone != ''">and goods.security_phone = #{securityPhone}</if>
+            <if test="isTop != null ">and is_top = #{isTop}</if>
+            <if test="isPush != null ">and goods.is_push = #{isPush}</if>
+            <if test="gsState != null ">and goods.gs_state = #{gsState}</if>
+            <if test="goodsTypeValues != null ">and goods_type_values like concat("%",#{goodsTypeValues},"%")</if>
+            <if test="arsPhone != null ">and goods.ars_phone like concat('%',#{arsPhone},'%')</if>
+            <if test="goodsTypes!=null and goodsTypes.length > 0">
+                <foreach collection="goodsTypes" item="goodsType" open=" and (" close=")" index="index"
+                         separator=" and ">
+                    find_in_set (#{goodsType},goods_type_values)
+                </foreach>
+            </if>
+            <if test="hireState != null  and hireState != ''">and goods.hire_state = #{hireState}</if>
+            <if test="isOnSpecialOffer != null">and goods.is_on_special_offer = #{isOnSpecialOffer}</if>
+            <if test="isGuarantee != null">and goods.is_guarantee = #{isGuarantee}</if>
+            <if test="selectRetails != null and selectRetails.size > 0 ">
+                and (
+                <foreach item="retail" collection="selectRetails" open="(" separator="or" close=")">
+                    (
+                    <if test="retail.createId != null and retail.createId != ''">
+                        goods.create_id = #{retail.createId}
+                    </if>
+                    <if test="retail.type != null and retail.type.size > 0">
+                        and goods.game_id in
+                        <foreach item="type" collection="retail.type" open="(" separator="," close=")">
+                            #{type}
+                        </foreach>
+                    </if>
+                    )
+                </foreach>
+                )
+            </if>
+            <if test="remark != null  and remark != ''">
+                ${remark}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="slectWhereOrder">
+        <if test="sort != null and sort != '' and sortColumn != null and sortColumn != ''">
+            order by ${sortColumn} ${sort}
+        </if>
+        <if test="sort == null or sort == ''">
+            order by s1.odr desc, goods.create_time desc
+        </if>
+    </sql>
+
+    <select id="selectByResList" resultType="com.ruoyi.system.model.domain.GoodsInfo">
+        <include refid="selectGoodsInfoAndAttrValueVo"/>
+        <include refid="slectWhere"/>
+        <include refid="slectWhereOrder"/>
+    </select>
+
+    <select id="selectByResList_COUNT" resultType="Long">
+        select count(0) FROM goods_info goods
+        LEFT JOIN account_attr_value aav ON goods.id=aav.account_info_id
+        <include refid="slectWhere"/>
+    </select>
+
+    <select id="apiSelectGoodsCountBySupply" parameterType="GoodsInfo" resultType="java.lang.Integer">
+             select count(*) from goods_info where del = 0 and supply_id = #{supplyId} and sale_state = #{saleState}
+    </select>
+    <select id="selectGoodsInfoByThirdId" resultType="com.ruoyi.system.model.domain.GoodsInfo">
+        select * from goods_info where third_id=#{thirdId}
+    </select>
+    <select id="countForSupply" resultType="map">
+        SELECT count(*) cot,game_name as type FROM goods_info WHERE del = 0
+        <if test="create_id != null">
+            AND create_id = #{createId}
+        </if>
+        and sale_state = 1
+        GROUP BY game_id
+    </select>
+
+    <select id="userGameCount" resultType="map">
+            SELECT count(*) as cot,create_id,u.nick_name FROM goods_info a
+            INNER JOIN sys_user u on u.user_id = a.create_id
+            WHERE a.sale_state = 1
+            GROUP BY a.create_id
+    </select>
+    <select id="statistics" resultType="map">
+        SELECT count(*) as num,sum(price) as price FROM goods_info WHERE del = 0
+        <if test="gameId != null">
+            AND game_id = #{gameId}
+        </if>
+        <if test="saleState != null">
+            AND sale_state = #{saleState}
+        </if>
+        <if test="createTime != null">
+            AND TO_DAYS(create_time)=TO_DAYS(NOW())
+        </if>
+    </select>
+
+    <select id="getYesterdaySold" resultType="java.lang.Integer">
+            select count(*) from goods_info
+            where del=0
+            and sale_state=3
+            and to_days(now())-to_days(saletime) = 1
+    </select>
+
+    <select id="getGoodsInfoCount" resultType="java.lang.Integer">
+        select count(*) from goods_info
+        where del=0
+        <if test="saleState != null">
+            AND sale_state = #{saleState}
+        </if>
+        <if test="createId != null">
+            AND create_id = #{createId}
+        </if>
+        <if test="gameId != null">
+            AND game_id = #{gameId}
+        </if>
+
+    </select>
+
+    <update id="auditGoodsFailure">
+        update goods_info set sale_state = 99,audit_des= #{auditDes}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and del = 0
+    </update>
+    <select id="recentlydeal" resultMap="GoodsInfoResult">
+        <include refid="selectGoodsInfoVo"/>
+        where del=0
+        and sale_state=3
+        and DATE_SUB(CURDATE(), INTERVAL 30 DAY) <![CDATA[ <= ]]> date(saletime)
+        ORDER BY saletime desc
+    </select>
+
+
+    <select id="goodsCount" resultType="map">
+        SELECT count(*) cot,game_name as type FROM goods_info WHERE del = 0
+        <if test="saleState != null">
+            AND sale_state = #{saleState}
+        </if>
+        <if test="createTime != null">
+            AND TO_DAYS(create_time)=TO_DAYS(NOW())
+        </if>
+        GROUP BY game_id
+        ORDER BY cot desc
+    </select>
+
+    <select id="hotGame" resultType="map">
+        SELECT
+        game_name AS type,
+        SUM(CASE WHEN sale_state=1 THEN 1 ELSE 0 END ) as weishou,
+        SUM(CASE WHEN sale_state=6 THEN 1 ELSE 0 END ) as zhaohui,
+        SUM(CASE WHEN sale_state=5 THEN 1 ELSE 0 END ) as wenti
+        FROM goods_info
+        WHERE del = 0
+        GROUP BY game_id
+        ORDER BY weishou desc
+    </select>
+    <select id="statisticsData" resultType="java.util.Map"
+            parameterType="com.ruoyi.system.model.domain.GoodsInfo">
+        select sum(price) 'totalGoodsPrice',sum(cost_price) 'totalGoodsCostPrice' ,count(1) 'costGoodsCount'
+        from goods_info
+         where create_id = #{createId} and sale_state =#{saleState} and del =0 and gs_state = '1'
+
+    </select>
+    <select id="leftDateGoodsDetail" resultType="com.ruoyi.system.model.domain.GoodsInfo">
+        select id, game_id, game_name, game_type,
+        system_name,  carrier_name,  group_name, server_name, title, price, des,
+        account_type,  title_img,   account_number
+        from goods_info
+        where create_id = #{businessId}
+        and sale_state = 3
+        order by update_time desc
+
+    </select>
+</mapper>

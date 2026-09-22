@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.font.mapper.QuotationMapper">
+
+    <resultMap type="Quotation" id="QuotationResult">
+        <result property="id" column="id"/>
+        <result property="createId" column="create_id"/>
+        <result property="createName" column="create_name"/>
+        <result property="updateId" column="update_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="bprice" column="bprice"/>
+        <result property="backId" column="back_id"/>
+        <result property="rmsg" column="rmsg"/>
+    </resultMap>
+
+    <sql id="selectQuotationVo">
+        select id, create_id, create_name, update_id, create_time, update_time, status, bprice, back_id,rmsg from quotation
+    </sql>
+
+    <select id="kefuList" parameterType="Quotation" resultType="Quotation">
+        select q.id, q.create_id, q.create_name, q.update_id, q.create_time, q.update_time, q.status, q.bprice,
+        q.back_id,q.rmsg,u.nick_name as createName
+        from quotation q left join sys_user u on q.create_id=u.user_id
+        <where>
+            <if test="createId != null ">and q.create_id = #{createId}</if>
+            <if test="createName != null ">and q.create_name like concat('%', #{createName}, '%')</if>
+            <if test="updateId != null ">and q.update_id = #{updateId}</if>
+            <if test="status != null  and status != ''">and q.status = #{status}</if>
+            <if test="noStatus != null  and noStatus != ''">and q.status != #{noStatus}</if>
+            <if test="bprice != null  and bprice != ''">and q.bprice = #{bprice}</if>
+            <if test="backId != null ">and q.back_id = #{backId}</if>
+            <if test="rmsg != null ">and q.rmsg = #{rmsg}</if>
+        </where>
+    </select>
+
+    <select id="selectQuotationList" parameterType="Quotation" resultMap="QuotationResult">
+        <include refid="selectQuotationVo"/>
+        <where>
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="createName != null ">and create_name like concat('%', #{createName}, '%')</if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+            <if test="noStatus != null  and noStatus != ''">and status != #{noStatus}</if>
+            <if test="bprice != null  and bprice != ''">and bprice = #{bprice}</if>
+            <if test="backId != null ">and back_id = #{backId}</if>
+            <if test="rmsg != null ">and rmsg = #{rmsg}</if>
+        </where>
+    </select>
+
+    <select id="selectQuotationAndBack" parameterType="Quotation" resultType="Backlist">
+        SELECT
+        q.`rmsg` AS rmsg,
+        b.*,
+        q.back_id,
+        q.create_id AS suplair,
+        q.`status` bstatus,
+        q.bprice,
+        q.create_time btime,
+        u.nick_name supplyUserName
+        FROM
+        quotation q
+        INNER JOIN backlist b ON b.id = q.back_id and b.transfer = 2
+        INNER join sys_user u on u.user_id = q.create_id
+        <if test="createId != null ">and q.create_id = #{createId}</if>
+        <if test="status != null and status != ''">and q.status = #{status}</if>
+        <if test="noStatus != null and noStatus != ''">and q.status != #{noStatus}</if>
+        <if test="id != null ">and b.id = #{id}</if>
+        <if test="backId != null ">and b.id = #{backId}</if>
+        <if test="account != null ">and b.account like '%${account}%'</if>
+        <if test="type != null and type != ''">and b.type = #{type}</if>
+        <if test="des != null and des != '' ">and b.des like '%${des}%'</if>
+        order by q.id desc
+    </select>
+    <select id="selectMyQuotationAndBack" parameterType="Quotation" resultType="Backlist">
+        SELECT
+        b.*,
+        q.back_id,
+        q.create_id AS suplair,
+        q.`status` bstatus,
+        q.bprice,
+        q.create_time btime
+        FROM
+        quotation q
+        INNER JOIN backlist b ON b.id = q.back_id and b.transfer = 1
+        <if test="createId != null ">and q.create_id = #{createId}</if>
+        <if test="type != null and type != ''">and b.type = #{type}</if>
+        <if test="des != null and des != '' ">and b.des like '%${des}%'</if>
+        ORDER BY q.id desc
+    </select>
+    <select id="selectQuotationById" parameterType="Long" resultMap="QuotationResult">
+        <include refid="selectQuotationVo"/>
+        where id = #{id}
+    </select>
+    <select id="countOfferList" parameterType="map" resultType="map">
+        SELECT
+        count( * ) num,
+        u.nick_name as nickName,
+        u.user_id userId
+        FROM
+        quotation q
+        LEFT JOIN sys_user u ON u.user_id = q.create_id
+        WHERE 1 = 1
+        <if test="startTime != '' and startTime != null and endTime != '' and endTime != null">
+            and q.create_time &gt; #{startTime}
+            AND q.create_time &lt;= #{endTime}
+        </if>
+        GROUP BY
+        create_id
+    </select>
+
+    <insert id="insertQuotation" parameterType="Quotation" useGeneratedKeys="true" keyProperty="id">
+        insert into quotation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="bprice != null">bprice,</if>
+            <if test="backId != null">back_id,</if>
+            <if test="rmsg != null">rmsg,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="bprice != null">#{bprice},</if>
+            <if test="backId != null">#{backId},</if>
+            <if test="rmsg != null">#{rmsg},</if>
+        </trim>
+    </insert>
+
+    <update id="updateQuotation" parameterType="Quotation">
+        update quotation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="bprice != null">bprice = #{bprice},</if>
+            <if test="backId != null">back_id = #{backId},</if>
+            <if test="rmsg != null">rmsg = #{rmsg},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="bacthUpdate" parameterType="Quotation">
+        <foreach collection="quotations" item="item" separator=";">
+            update quotation
+            <trim prefix="SET" suffixOverrides=",">
+                <if test="item.createId != null">create_id = #{item.createId},</if>
+                <if test="item.createName != null">create_name = #{item.createName},</if>
+                <if test="item.updateId != null">update_id = #{item.updateId},</if>
+                <if test="item.createTime != null">create_time = #{item.createTime},</if>
+                <if test="item.updateTime != null">update_time = #{item.updateTime},</if>
+                <if test="item.status != null">status = #{item.status},</if>
+                <if test="item.bprice != null">bprice = #{item.bprice},</if>
+                <if test="item.backId != null">back_id = #{item.backId},</if>
+                <if test="item.rmsg != null">rmsg = #{item.rmsg},</if>
+            </trim>
+            where id = #{item.id}
+        </foreach>
+
+    </update>
+
+    <delete id="deleteQuotationById" parameterType="Long">
+        delete from quotation where id = #{id}
+    </delete>
+
+    <delete id="deleteQuotationByIds" parameterType="String">
+        delete from quotation where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getTodayCount" parameterType="Backlist" resultType="java.lang.Integer">
+        SELECT count(*) FROM quotation WHERE DATE(create_time)=CURDATE() AND back_id=#{id}
+    </select>
+</mapper>

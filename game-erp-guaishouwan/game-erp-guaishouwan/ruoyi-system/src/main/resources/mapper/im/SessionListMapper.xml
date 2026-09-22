@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.im.mapper.SessionListMapper">
+
+    <select id="getSessionList" resultType="com.ruoyi.system.model.dto.msghistory.SessionListRes">
+SELECT
+          s.*,
+            s1.nick_name AS fromNickName,
+            s1.avatar AS fromAvatar,
+            s2.nick_name AS toNickName,
+            s2.avatar AS toAvatar,
+            IF(FIND_IN_SET(#{formUser}, s.top_hx_ids ), 1, 2 ) AS isTop,
+            m.group_name as groupName
+        FROM
+            session_list s
+            LEFT JOIN msg_group_info m ON m.to_group = s.session_id and m.del=1
+            LEFT JOIN sys_user s1 ON s.form_user_id = s1.user_id
+            LEFT JOIN sys_user s2 ON s.to_user_id = s2.user_id
+        WHERE
+            s.del=1
+            and FIND_IN_SET(#{formUser}, s.belong_hx_ids)
+            and to_days(now())-to_days(coalesce(s.update_time,s.create_time)) <![CDATA[ <= ]]> #{day}
+        ORDER BY s.update_time DESC
+    </select>
+    <select id="getSessionListTop" resultType="com.ruoyi.system.model.dto.msghistory.SessionListRes">
+        SELECT
+          s.*,
+            s1.nick_name AS fromNickName,
+            s1.avatar AS fromAvatar,
+            s2.nick_name AS toNickName,
+            s2.avatar AS toAvatar,
+            1 AS isTop,
+            m.group_name as groupName
+        FROM
+            session_list s
+            LEFT JOIN msg_group_info m ON m.to_group = s.session_id and m.del=1
+            LEFT JOIN sys_user s1 ON s.form_user_id = s1.user_id
+            LEFT JOIN sys_user s2 ON s.to_user_id = s2.user_id
+        WHERE
+            s.del=1
+            and FIND_IN_SET(#{formUser}, s.belong_hx_ids)
+            and FIND_IN_SET(#{formUser}, s.top_hx_ids)
+        ORDER BY s.update_time DESC
+    </select>
+</mapper>

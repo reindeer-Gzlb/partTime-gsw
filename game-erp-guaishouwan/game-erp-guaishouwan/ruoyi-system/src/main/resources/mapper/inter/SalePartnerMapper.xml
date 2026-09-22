@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.SalePartnerMapper">
+
+    <resultMap type="SalePartner" id="SalePartnerResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="saleName"    column="sale_name"    />
+        <result property="saleKey"    column="sale_key"    />
+        <result property="other"    column="other"    />
+        <result property="twoOther"    column="two_other"    />
+        <result property="threeOther"    column="three_other"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="name"    column="name"    />
+        <result property="ofUser"    column="of_user"    />
+        <result property="seleep"    column="seleep"    />
+        <result property="type"    column="type"    />
+        <result property="type"    column="type"    />
+        <result property="seleepConfig"    column="seleep_config"    />
+    </resultMap>
+
+    <sql id="selectSalePartnerVo">
+        select id, create_id, update_id, sale_name, sale_key, other, two_other, three_other,
+         create_time, update_time,status,name,of_user,seleep,type ,seleep_config
+          from sale_partner
+    </sql>
+
+    <select id="selectSalePartnerList" parameterType="SalePartner" resultMap="SalePartnerResult">
+        <include refid="selectSalePartnerVo"/>
+        <where>
+            <if test="createId != null and createId != 1"> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="saleKey != null  and saleKey != ''"> and sale_key = #{saleKey}</if>
+            <if test="saleName != null  and saleName != ''"> and sale_name like concat('%', #{saleName}, '%')</if>
+            <if test="other != null  and other != ''"> and other = #{other}</if>
+            <if test="twoOther != null  and twoOther != ''"> and two_other = #{twoOther}</if>
+            <if test="threeOther != null  and threeOther != ''"> and three_other = #{threeOther}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="ofUser != null"> and of_user = #{ofUser}</if>
+            <if test="seleep != null"> and seleep = #{seleep}</if>
+            <if test="type != null"> and type = #{type}</if>
+            <if test="ids != null and ids.size > 0">
+                and id in
+                <foreach item="id" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSalePartnerById" parameterType="Long" resultMap="SalePartnerResult">
+        <include refid="selectSalePartnerVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectSalePartnerSaleCode" parameterType="string" resultMap="SalePartnerResult">
+        <include refid="selectSalePartnerVo"/>
+        where sale_name = #{saleName}
+    </select>
+
+    <insert id="insertSalePartner" parameterType="SalePartner" useGeneratedKeys="true" keyProperty="id">
+        insert into sale_partner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="saleName != null">sale_name,</if>
+            <if test="saleKey != null">sale_key,</if>
+            <if test="other != null">other,</if>
+            <if test="twoOther != null">two_other,</if>
+            <if test="threeOther != null">three_other,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="name != null">name,</if>
+            <if test="ofUser != null">of_user,</if>
+            <if test="seleep != null">seleep,</if>
+            <if test="type != null">type,</if>
+            <if test="seleepConfig != null">seleep_config,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="saleName != null">#{saleName},</if>
+            <if test="saleKey != null">#{saleKey},</if>
+            <if test="other != null">#{other},</if>
+            <if test="twoOther != null">#{twoOther},</if>
+            <if test="threeOther != null">#{threeOther},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="name != null">#{name},</if>
+            <if test="ofUser != null">#{ofUser},</if>
+            <if test="seleep != null">#{seleep},</if>
+            <if test="type != null">#{type},</if>
+            <if test="seleepConfig != null">#{seleepConfig},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSalePartner" parameterType="SalePartner">
+        update sale_partner
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="saleName != null">sale_name = #{saleName},</if>
+            <if test="saleKey != null">sale_key = #{saleKey},</if>
+            <if test="other != null">other = #{other},</if>
+            <if test="twoOther != null">two_other = #{twoOther},</if>
+            <if test="threeOther != null">three_other = #{threeOther},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="ofUser != null">of_user = #{ofUser},</if>
+            <if test="seleep != null">seleep = #{seleep},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="seleepConfig != null">seleep_config = #{seleepConfig},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSalePartnerById" parameterType="Long">
+        delete from sale_partner where id = #{id}
+    </delete>
+
+    <delete id="deleteSalePartnerByIds" parameterType="String">
+        delete from sale_partner where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

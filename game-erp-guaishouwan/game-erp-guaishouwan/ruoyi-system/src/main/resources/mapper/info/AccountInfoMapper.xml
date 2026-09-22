@@ -1,0 +1,1686 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.AccountInfoMapper">
+
+    <resultMap type="AccountInfo" id="AccountInfoResult">
+        <result property="id" column="id"/>
+        <result property="createId" column="create_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="accountId" column="account_id"/>
+        <result property="type" column="type"/>
+        <result property="regional" column="regional"/>
+        <result property="level" column="level"/>
+        <result property="heroes" column="heroes"/>
+        <result property="skins" column="skins"/>
+        <result property="suit" column="suit"/>
+        <result property="guns" column="guns"/>
+        <result property="des" column="des"/>
+        <result property="price" column="price"/>
+        <result property="supplyId" column="supply_id"/>
+        <result property="salesId" column="sales_id"/>
+        <result property="saleState" column="sale_state"/>
+        <result property="updateId" column="update_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="extractAccount" column="extract_account"/>
+        <result property="extractPwd" column="extract_pwd"/>
+        <result property="costPrice" column="cost_price"/>
+        <result property="sinNum" column="sin_num"/>
+        <result property="gameName" column="game_name"/>
+        <result property="extractTel" column="extract_tel"/>
+        <result property="buyId" column="buy_id"/>
+        <result property="realPrice" column="real_price"/>
+        <result property="remake" column="remake"/>
+        <result property="auditId" column="audit_id"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="note" column="note"/>
+        <result property="saleTime" column="sale_time"/>
+        <result property="specialPrice" column="special_price"/>
+        <result property="accType" column="acc_type"/>
+        <result property="recoveryState" column="recovery_state"/>
+        <result property="recoveryId" column="recovery_id"/>
+        <result property="auditFlag" column="audit_flag"/>
+        <result property="recoveryNote" column="recovery_note"/>
+        <result property="auditNote" column="audit_note"/>
+        <result property="verifyState" column="verify_state"/>
+        <result property="verifyId" column="verify_id"/>
+        <result property="recoveryName" column="recovery_name"/>
+        <result property="verifyName" column="verify_name"/>
+        <result property="campId" column="camp_id"/>
+        <result property="titleImg" column="title_img"/>
+        <result property="jymBatchId" column="jym_batch_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="author" column="author"/>
+        <result property="sdzId" column="sdz_id"/>
+        <result property="newPrice" column="new_price"/>
+        <result property="rise" column="rise"/>
+        <result property="supplyName" column="supplyName"/>
+        <result property="auditName" column="auditName"/>
+        <result property="salesName" column="salesName"/>
+        <result property="bid" column="bid"/>
+        <result property="cmdSupplyId" column="cmd_supply_id"/>
+        <result property="cmdSupplyName" column="cmd_supply_name"/>
+        <result property="uuid" column="uuid"/>
+        <result property="accountType" column="account_type"/>
+        <result property="acclable" column="acclable"/>
+        <result property="jymid" column="jymid"/>
+        <result property="isshow" column="isshow"/>
+        <result property="zid" column="zid"/>
+        <result property="sboid" column="sboid"/>
+        <result property="ldid" column="ldid"/>
+        <result property="bqwid" column="bqwid"/>
+        <result property="buyUid" column="buy_uid"/>
+        <result property="intercount" column="intercount"/>
+        <result property="kjsid" column="kjsid"/>
+        <result property="polishtime" column="polishtime"/>
+        <result property="offres" column="offres"/>
+        <result property="offtime" column="offtime"/>
+        <result property="ldvt" column="ldvt"/>
+        <result property="ydid" column="ydid"/>
+        <result property="selltype" column="selltype"/>
+        <result property="leishenid" column="leishenid"/>
+        <result property="kangehaoid" column="kangehaoid"/>
+        <result property="mhwid" column="mhwid"/>
+        <result property="YX7881id" column="YX7881id"/>
+        <result property="telid" column="telid"/>
+    </resultMap>
+
+    <sql id="selectAccountInfoVo">
+        SELECT
+            id,
+            create_id,
+            create_time,
+            account_id,
+            type,
+            regional,
+            LEVEL,
+            heroes,
+            skins,
+            suit,
+            guns,
+            des,
+            price,
+            supply_id,
+            sales_id,
+            sale_state,
+            update_id,
+            update_time,
+            extract_account,
+            extract_pwd,
+            cost_price,
+            sin_num,
+            game_name,
+            extract_tel,
+            buy_id,
+            real_price,
+            remake,
+            del_flag,
+            audit_id,
+            note,
+            sale_time,
+            special_price,
+            acc_type,
+            recovery_state,
+            recovery_id,
+            audit_flag,
+            recovery_note,
+            audit_note,
+        <if test="retailLogin != null  and retailLogin != ''">
+            case
+            when create_id = #{retailLogin} then 1
+            when create_id != #{retailLogin} then 2
+            end
+            as rodr,
+        </if>
+            verify_state,
+            verify_id,
+            recovery_name,
+            verify_name,
+            camp_id,
+            title_img,
+            jym_batch_id,
+            order_no,
+            author,
+            new_price,
+            rise,
+            sdz_id,
+            cmd_supply_id,
+            cmd_supply_name,
+            zid,
+            ldid,
+            ldvt,leishenid,telid,
+               uuid,
+               account_type,acclable,jymid,sboid,bqwid,intercount,kjsid,polishtime,offres,offtime,ydid,selltype,kangehaoid,mhwid,YX7881id
+        FROM
+            account_info
+    </sql>
+    <select id="selectJymData" resultMap="AccountInfoResult">
+        SELECT a.* FROM account_info a INNER JOIN inter_rec c on c.account_id = a.id and c.sale_code = 'JYM' where a.del
+        = 0 and sale_state = 1 and c.`status` = 0 and a.jym_batch_id is not null and a.jym_batch_id != ''
+        <if test="jimId != null and jimId != 0">
+            and a.jym_batch_id = #{jimId}
+        </if>
+    </select>
+
+    <!--  Exists (SELECT * FROM info_img r WHERE r.info_id = a.id)-->
+
+    <select id="slectPushAcc" resultMap="AccountInfoResult">
+        select * from (SELECT
+        a.*
+        FROM
+        account_info a
+        INNER JOIN info_img m on m.type = '1' and m.info_id = a.id
+        WHERE
+        <if test="salesName != null and salesName != ''">
+            a.id not in ( SELECT c.account_id FROM inter_rec c WHERE c.sale_code = #{salesName} )
+        </if>
+        <if test="accountType != null and accountType != ''">
+            and a.account_type = #{accountType}
+        </if>
+        <if test="level != null and level != ''">
+            and a.level = #{level}
+        </if>
+        <if test="jymid != null and jymid != ''">
+            and a.jymid = #{jymid}
+        </if>
+        and a.sale_state = 1
+        <if test="intercount != null">and a.intercount &lt;= #{intercount}</if>
+        AND a.title_img IS NOT NULL
+        and del = 0
+        and a.des is not null
+        <if test="createId != null and createId != ''">
+            a.create_id = #{createId}
+        </if>
+        <if test="createIds != null and createIds.size > 0">
+            and a.create_id in
+            <foreach item="createId" collection="createIds" open="(" separator="," close=")">
+                #{createId}
+            </foreach>
+        </if>
+        <if test="exsCreateId != null and exsCreateId.size > 0">
+            and a.create_id not in
+            <foreach item="createId" collection="exsCreateId" open="(" separator="," close=")">
+                #{createId}
+            </foreach>
+        </if>
+        <if test="games != null and  games!= '' and games.size > 0">
+            and a.type in
+            <foreach item="game" collection="games" open="(" separator="," close=")">
+                #{game}
+            </foreach>
+        </if>
+        <if test="createTimeStart != null  and createTimeEnd != null">and (a.create_time &gt;= #{createTimeStart}
+            and
+            a.create_time &lt;= #{createTimeEnd})
+        </if>
+        GROUP BY
+        a.id) a
+        limit #{pageSize}
+    </select>
+    <select id="selectAccountInfoList" parameterType="AccountInfo" resultMap="AccountInfoResult">
+        SELECT
+        a.id bid,
+        a.id,
+        a.create_id,
+        a.create_time,
+        a.account_id,
+        a.type,
+        a.regional,
+        a.LEVEL,
+        a.zid,
+        a.heroes,
+        a.skins,
+        a.suit,
+        a.guns,
+        a.des,
+        a.price,
+        a.supply_id,
+        a.sales_id,
+        a.sale_state,
+        a.update_id,
+        a.update_time,
+        a.extract_account,
+        a.extract_pwd,
+        a.cost_price,
+        a.sin_num,
+        a.game_name,
+        a.extract_tel,
+        a.buy_id,
+        a.real_price,
+        a.remake,
+        a.del_flag,
+        a.audit_id,
+        a.note,
+        a.sale_time,
+        a.special_price,
+        a.acc_type,
+        a.recovery_state,
+        a.recovery_id,
+        a.audit_flag,
+        a.recovery_note,
+        a.audit_note,
+        a.verify_state,
+        a.verify_id,
+        a.recovery_name,
+        a.verify_name,
+        a.camp_id,
+        a.title_img,
+        a.jym_batch_id,
+        a.order_no,
+        a.author,
+        a.new_price,
+        a.rise,
+        a.sdz_id,
+        a.cmd_supply_id,
+        a.account_type,
+        a.cmd_supply_name,
+        a.uuid,
+        a.acclable,
+        a.sboid,
+        a.jymid,
+        a.ydid,
+        a.ldid,
+        a.ldvt,
+        a.bqwid,
+        a.leishenid,
+        a.kjsid,
+        a.polishtime,
+        a.offres,
+        a.offtime,
+        a.selltype,
+        a.telid,
+        u1.nick_name as supplyName,
+        u2.nick_name as auditName,
+        u3.nick_name as salesName,
+        o1.pwd,o1.account,o1.tel,o1.remark as buyremrk,
+        o1.sale_id as buy_uid,
+        o1.sale_name as buy_name
+        FROM
+        account_info a
+        LEFT JOIN sys_user u1 ON u1.user_id = a.supply_id
+        LEFT JOIN sys_user u2 ON u2.user_id = a.audit_id
+        LEFT JOIN sys_user u3 ON u3.user_id = a.sales_id
+        LEFT JOIN account_order o1 ON o1.account_id = a.id
+        <where>
+            a.del = 0
+            <if test="accountId != null  and accountId != ''">and a.account_id = #{accountId}</if>
+            <if test="uuid != null  and uuid != ''">and a.uuid = #{uuid}</if>
+            <if test="ydid!= null  and ydid != ''">and a.ydid = #{ydid}</if>
+            <if test="ldvt != null  and ldvt != ''">and a.ldvt = #{ldvt}</if>
+            <if test="telid != null  and telid != ''">and a.telid = #{telid}</if>
+            <if test="account != null  and account != ''">and o1.account like '%${account}%'</if>
+            <if test="cmdSupplyId != null">and a.cmd_supply_id = #{cmdSupplyId}</if>
+            <if test="id != null">and a.id = #{id}</if>
+            <if test="intercount != null">and a.intercount &lt;= #{intercount}</if>
+            <if test="delSaleState != null">and a.sale_state &lt;&gt; #{delSaleState}</if>
+            <if test="jymid != null">and a.jymid = #{jymid}</if>
+            <if test="zid != null">and a.zid = #{zid}</if>
+            <if test="type != null and type != '' ">and a.type = #{type}</if>
+            <if test="campId != null and campId != '' ">and a.camp_id like '%${campId}%'</if>
+            <if test="titleImg != null and titleImg != '' ">and a.title_img = #{titleImg}</if>
+            <if test="regional != null  and regional != ''">and a.regional = #{regional}</if>
+            <if test="accpuntTypes    != null and accpuntTypes.size > 0">
+                and a.account_type in
+                <foreach item="accountType" collection="accpuntTypes" open="(" separator="," close=")">
+                    #{accountType}
+                </foreach>
+            </if>
+            <if test="types    != null and types.size > 0">
+                and a.type in
+                <foreach item="type" collection="types" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="exsCreateId    != null and exsCreateId.size > 0">
+                and a.create_id not in
+                <foreach item="create" collection="exsCreateId" open="(" separator="," close=")">
+                    #{create}
+                </foreach>
+            </if>
+            <if test="createIds    != null and createIds.size > 0">
+                and a.create_id in
+                <foreach item="create" collection="createIds" open="(" separator="," close=")">
+                    #{create}
+                </foreach>
+            </if>
+            <if test="regionalAddr != null and regionalAddr.size > 0">
+                and a.regional in
+                <foreach item="regional" collection="regionalAddr" open="(" separator="," close=")">
+                    #{regional}
+                </foreach>
+            </if>
+            <if test="createIds != null and createIds.size > 0 and cmdSupplyIds != null and cmdSupplyIds.size > 0">
+                and (a.create_id in
+                <foreach item="createId" collection="createIds" open="(" separator="," close=")">
+                    #{createId}
+                </foreach>
+                )
+            </if>
+            <if test="selectRetails != null and selectRetails.size > 0 ">
+                and (
+                <foreach item="retail" collection="selectRetails" open="(" separator="or" close=")">
+                    (
+                    <if test="retail.createId != null and retail.createId != ''">
+                        a.create_id = #{retail.createId}
+                    </if>
+                    <if test="retail.type != null and retail.type.size > 0">
+                        and a.type in
+                        <foreach item="type" collection="retail.type" open="(" separator="," close=")">
+                            #{type}
+                        </foreach>
+                    </if>
+                    )
+                </foreach>
+                )
+            </if>
+            <if test="desArr != null and desArr.size > 0">
+                and
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="des" collection="desArr">
+                        a.des LIKE '%${des}%' and
+                    </foreach>
+                </trim>
+            </if>
+            <if test="skinList != null and skinList.size > 0">
+                and
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="skinList">
+                        a.des LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+            </if>
+            <if test="levelAddr != null and levelAddr.size > 0">
+                and
+                <trim prefix="(" suffix=")" suffixOverrides="or">
+                    <foreach item="level" collection="levelAddr">
+                        a.level LIKE '%${level}%' or
+                    </foreach>
+                </trim>
+            </if>
+            <if test="level != null  and level != ''">and a.level like '%${level}%'</if>
+            <if test="acclable != null  and acclable != ''">and a.acclable like '%${acclable}%'</if>
+            <if test="campIdLike != null  and campIdLike != ''">and a.camp_id like '%${campIdLike}%'</if>
+            <if test="heroStart != null and heroEnd != null">and (a.heroes &gt;= #{heroStart} and a.heroes &lt;
+                #{heroEnd})
+            </if>
+            <if test="skinStart != null and skinEnd != null">and (a.skins &gt;= #{skinStart} and a.skins &lt;
+                #{skinEnd})
+            </if>
+            <if test="suitStart != null and suitEnd != null">and (a.suit &gt;= #{suitStart} and a.suit &lt;
+                #{suitEnd})
+            </if>
+            <if test="gunsStart != null and gunsEnd != null">and (a.guns &gt;= #{gunsStart} and a.guns &lt;
+                #{gunsEnd})
+            </if>
+            <if test="des != null  and des != ''">
+                and (a.des like '%${des}%'
+                or a.id like '%${des}%'
+                or a.extract_tel like '%${des}%'
+                or a.game_name like '%${des}%'
+                or a.order_no like '%${des}%'
+                or a.extract_account like '%${des}%')
+            </if>
+            <if test="priceStart != null  and priceEnd != null">and (a.price &gt;= #{priceStart} and a.price &lt;
+                #{priceEnd})
+            </if>
+            <if test="supplyId != null ">and a.supply_id = #{supplyId}</if>
+            <if test="supplyIdAddr != null and  supplyIdAddr.size > 0">
+                and a.supply_id in
+                <foreach item="supplyId" collection="supplyIdAddr" open="(" separator="," close=")">
+                    #{supplyId}
+                </foreach>
+            </if>
+            <if test="exeIds != null and  exeIds.size > 0">
+                and a.id not in
+                <foreach item="id" collection="exeIds" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="ids != null and  ids.size > 0">
+                and a.id in
+                <foreach item="id" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="salesIdAddr != null and  salesIdAddr.size > 0">
+                and a.sales_id in
+                <foreach item="salesId" collection="salesIdAddr" open="(" separator="," close=")">
+                    #{salesId}
+                </foreach>
+            </if>
+            <if test="uuids != null and  uuids.size > 0">
+                and a.game_name in
+                <foreach item="uuid" collection="uuids" open="(" separator="," close=")">
+                    #{uuid}
+                </foreach>
+            </if>
+            <if test="saleState != null ">and a.sale_state = #{saleState}</if>
+            <if test="operType != null and operType =='sale' and (saleState == 2 or saleState == 3 or saleState ==4) and loginId != null and loginId != 1">
+                and a.sales_id = #{loginId}
+            </if>
+            <if test="operType != null and operType =='supply' and loginId != null and loginId != 1">
+                and a.create_id = #{loginId}
+            </if>
+            <if test="updateId != null ">and a.update_id = #{updateId}</if>
+            <if test="createId != null and createId != 1">and a.create_id = #{createId}</if>
+            <if test="extractAccount != null  and extractAccount != ''">and a.extract_account = #{extractAccount}</if>
+            <if test="extractPwd != null  and extractPwd != ''">and a.extract_pwd = #{extractPwd}</if>
+            <if test="costPrice != null ">and a.cost_price = #{costPrice}</if>
+            <if test="sinNum != null  and sinNum != ''">and a.sin_num = #{sinNum}</if>
+            <if test="auditId != null  and auditId != ''">and a.audit_id = #{auditId}</if>
+            <if test="extractTel != null  and extractTel != ''">and a.extract_tel = #{extractTel}</if>
+            <if test="buyId != null  and buyId != ''">and a.buy_id = #{buyId}</if>
+            <if test="bqwid != null  and bqwid != ''">and a.bqwid = #{bqwid}</if>
+            <if test="realPrice != null  and realPrice != ''">and a.real_price = #{realPrice}</if>
+            <if test="note != null  and note != ''">and a.note = #{note}</if>
+            <if test="accountType != null and  accountType != ''">and a.account_type = #{accountType}</if>
+            <if test="addDayTime != null">and a.create_time &lt;= #{addDayTime}</if>
+            <if test="saleTimeStart != null  and saleTimeEnd != null">and (a.sale_time &gt;= #{saleTimeStart} and
+                a.sale_time &lt;= #{saleTimeEnd})
+            </if>
+            <if test="createTimeStart != null  and createTimeEnd != null">and (a.create_time &gt;= #{createTimeStart}
+                and
+                a.create_time &lt;= #{createTimeEnd})
+            </if>
+            <if test="updateTimeStart != null  and updateTimeEnd != null">and (a.update_time &gt;= #{updateTimeStart}
+                and
+                a.update_time &lt;= #{updateTimeEnd})
+            </if>
+            <if test="recoveryState != null ">and a.recovery_state = #{recoveryState}</if>
+            <if test="kjsid != null ">and a.kjsid = #{kjsid}</if>
+            <if test="recoveryId != null ">and a.recovery_id = #{recoveryId}</if>
+            <if test="auditFlag != null ">and a.audit_flag = #{auditFlag}</if>
+            <if test="recoveryNote != null  and recoveryNote != ''">and a.recovery_note = #{recoveryNote}</if>
+            <if test="orderNo != null ">and a.order_no = #{orderNo}</if>
+            <if test="author != null ">and a.author = #{author}</if>
+            <if test="auditNote != null  and auditNote != ''">and a.audit_note = #{auditNote}</if>
+            <if test="verifyState != null ">and a.verify_state = #{verifyState}</if>
+            <if test="verifyId != null ">and a.verify_id = #{verifyId}</if>
+            <if test="recoveryName != null  and recoveryName != ''">and a.recovery_name like concat('%',
+                #{recoveryName}, '%')
+            </if>
+            <if test="verifyName != null  and verifyName != ''">and a.verify_name like concat('%', #{verifyName}, '%')
+            </if>
+        </where>
+        order by
+        <if test="sort != null and sort != '' and sortColumn != null and sortColumn != ''">
+            a.${sortColumn} ${sort},
+        </if>
+        <if test="retailLogin != null and retailLogin != ''">
+            rodr,
+        </if>
+        id desc
+    </select>
+    <!--    order by acc_type desc, odr desc-->
+
+    <select id="selectRecoveryAccountInfoList" parameterType="AccountInfo" resultMap="AccountInfoResult">
+        <include refid="selectAccountInfoVo"/>
+        <where>
+            del = 0
+            <if test="accountId != null  and accountId != ''">and account_id = #{accountId}</if>
+            <if test="id != null">and id = #{id}</if>
+            <if test="jymid != null">and jymid = #{jymid}</if>
+            <if test="zid != null">and zid = #{zid}</if>
+            <if test="type != null ">and type = #{type}</if>
+            <if test="regional != null  and regional != ''">and regional = #{regional}</if>
+            <if test="regionalAddr != null and regionalAddr.size > 0">
+                and regional in
+                <foreach item="regional" collection="regionalAddr" open="(" separator="," close=")">
+                    #{regional}
+                </foreach>
+            </if>
+            <if test="level != null  and level != ''">and level like '%${level}%'</if>
+            <if test="acclable != null  and acclable != ''">and acclable like '%${acclable}%'</if>
+            <if test="heroStart != null and heroEnd != null">and (heroes &gt;= #{heroStart} and heroes &lt;
+                #{heroEnd})
+            </if>
+            <if test="skinStart != null and skinEnd != null">and (skins &gt;= #{skinStart} and skins &lt; #{skinEnd})
+            </if>
+            <if test="suitStart != null and suitEnd != null">and (suit &gt;= #{suitStart} and suit &lt; #{suitEnd})</if>
+            <if test="gunsStart != null and gunsEnd != null">and (guns &gt;= #{gunsStart} and guns &lt; #{gunsEnd})</if>
+            <if test="des != null  and des != ''">
+                and (des like '%${des}%'
+                or id like '%${des}%'
+                or extract_tel like '%${des}%'
+                or extract_account like '%${des}%')
+            </if>
+            <if test="priceStart != null  and priceEnd != null">and (price &gt;= #{priceStart} and price &lt;
+                #{priceEnd})
+            </if>
+            <if test="supplyId != null ">and supply_id = #{supplyId}</if>
+            <if test="supplyIdAddr != null and  supplyIdAddr.size > 0">
+                and supply_id in
+                <foreach item="supplyId" collection="supplyIdAddr" open="(" separator="," close=")">
+                    #{supplyId}
+                </foreach>
+            </if>
+            <if test="operType != null and operType =='sale' and (saleState == 2 or saleState == 3 or saleState ==4) and loginId != null and loginId != 1">
+                and sales_id = #{loginId}
+            </if>
+            <if test="operType != null and operType =='supply' and loginId != null and loginId != 1">
+                and create_id = #{loginId}
+            </if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="extractAccount != null  and extractAccount != ''">and extract_account = #{extractAccount}</if>
+            <if test="extractPwd != null  and extractPwd != ''">and extract_pwd = #{extractPwd}</if>
+            <if test="costPrice != null ">and cost_price = #{costPrice}</if>
+            <if test="sinNum != null  and sinNum != ''">and sin_num = #{sinNum}</if>
+            <if test="auditId != null  and auditId != ''">and audit_id = #{auditId}</if>
+            <if test="extractTel != null  and extractTel != ''">and extract_tel = #{extractTel}</if>
+            <if test="buyId != null  and buyId != ''">and buy_id = #{buyId}</if>
+            <if test="realPrice != null  and realPrice != ''">and real_price = #{realPrice}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+            <if test="addDayTime != null">and create_time &lt;= #{addDayTime}</if>
+            <if test="saleTimeStart != null  and saleTimeEnd != null">and (sale_time &gt;= #{saleTimeStart} and
+                sale_time &lt;= #{saleTimeEnd})
+            </if>
+            <if test="createTimeStart != null  and createTimeEnd != null">and (create_time &gt;= #{createTimeStart} and
+                create_time &lt;= #{createTimeEnd})
+            </if>
+            <if test="updateTimeStart != null  and updateTimeEnd != null">and (update_time &gt;= #{updateTimeStart} and
+                update_time &lt;= #{updateTimeEnd})
+            </if>
+            <if test="levelAddr != null and levelAddr.size > 0">
+                <foreach item="level" collection="levelAddr">
+                    and level like '%${level}%'
+                </foreach>
+            </if>
+            <if test="gameName != null  and gameName != ''">and game_name like concat('%', #{gameName}, '%')</if>
+            <if test="recoveryState != null ">and recovery_state = #{recoveryState}</if>
+            <if test="recoveryId != null ">and recovery_id = #{recoveryId}</if>
+            <if test="auditFlag != null ">and audit_flag = #{auditFlag}</if>
+            <if test="recoveryNote != null  and recoveryNote != ''">and recovery_note = #{recoveryNote}</if>
+            <if test="auditNote != null  and auditNote != ''">and audit_note = #{auditNote}</if>
+            <if test="verifyState != null ">and verify_state = #{verifyState}</if>
+            <if test="verifyId != null ">and verify_id = #{verifyId}</if>
+            <if test="kjsid != null ">and kjsid = #{kjsid}</if>
+            <if test="recoveryName != null  and recoveryName != ''">and recovery_name like concat('%', #{recoveryName},
+                '%')
+            </if>
+            <if test="verifyName != null  and verifyName != ''">and verify_name like concat('%', #{verifyName}, '%')
+            </if>
+        </where>
+        <if test="sort != null and sort != '' and sortColumn != null and sortColumn != ''">
+            order by ${sortColumn} ${sort}
+        </if>
+    </select>
+
+
+    <select id="selectAuditAccountInfoList" parameterType="AccountInfo" resultMap="AccountInfoResult">
+        <include refid="selectAccountInfoVo"/>
+        <where>
+            del = 0
+            <if test="accountId != null  and accountId != ''">and account_id = #{accountId}</if>
+            <if test="id != null">and id = #{id}</if>
+            <if test="jymid != null">and jymid = #{jymid}</if>
+            <if test="zid != null">and zid = #{zid}</if>
+            <if test="type != null ">and type = #{type}</if>
+            <if test="regional != null  and regional != ''">and regional = #{regional}</if>
+            <if test="regionalAddr != null and regionalAddr.size > 0">
+                and regional in
+                <foreach item="regional" collection="regionalAddr" open="(" separator="," close=")">
+                    #{regional}
+                </foreach>
+            </if>
+            <if test="level != null  and level != ''">and level like '%${level}%'</if>
+            <if test="acclable != null  and acclable != ''">and acclable like '%${acclable}%'</if>
+            <if test="heroStart != null and heroEnd != null">and (heroes &gt;= #{heroStart} and heroes &lt;
+                #{heroEnd})
+            </if>
+            <if test="skinStart != null and skinEnd != null">and (skins &gt;= #{skinStart} and skins &lt; #{skinEnd})
+            </if>
+            <if test="suitStart != null and suitEnd != null">and (suit &gt;= #{suitStart} and suit &lt; #{suitEnd})</if>
+            <if test="gunsStart != null and gunsEnd != null">and (guns &gt;= #{gunsStart} and guns &lt; #{gunsEnd})</if>
+            <if test="des != null  and des != ''">
+                and (des like '%${des}%'
+                or id like '%${des}%'
+                or extract_tel like '%${des}%'
+                or extract_account like '%${des}%')
+            </if>
+            <if test="priceStart != null  and priceEnd != null">and (price &gt;= #{priceStart} and price &lt;
+                #{priceEnd})
+            </if>
+            <if test="supplyId != null ">and supply_id = #{supplyId}</if>
+            <if test="supplyIdAddr != null and  supplyIdAddr.size > 0">
+                and supply_id in
+                <foreach item="supplyId" collection="supplyIdAddr" open="(" separator="," close=")">
+                    #{supplyId}
+                </foreach>
+            </if>
+            <if test="salesIdAddr != null and  salesIdAddr.size > 0">
+                and sales_id in
+                <foreach item="salesId" collection="salesIdAddr" open="(" separator="," close=")">
+                    #{salesId}
+                </foreach>
+            </if>
+            <if test="operType != null and operType =='sale' and (saleState == 2 or saleState == 3 or saleState ==4) and loginId != null and loginId != 1">
+                and sales_id = #{loginId}
+            </if>
+            <if test="operType != null and operType =='supply' and loginId != null and loginId != 1">
+                and create_id = #{loginId}
+            </if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="extractAccount != null  and extractAccount != ''">and extract_account = #{extractAccount}</if>
+            <if test="extractPwd != null  and extractPwd != ''">and extract_pwd = #{extractPwd}</if>
+            <if test="costPrice != null ">and cost_price = #{costPrice}</if>
+            <if test="sinNum != null  and sinNum != ''">and sin_num = #{sinNum}</if>
+            <if test="auditId != null  and auditId != ''">and audit_id = #{auditId}</if>
+            <if test="extractTel != null  and extractTel != ''">and extract_tel = #{extractTel}</if>
+            <if test="buyId != null  and buyId != ''">and buy_id = #{buyId}</if>
+            <if test="realPrice != null  and realPrice != ''">and real_price = #{realPrice}</if>
+            <if test="note != null  and note != ''">and note = #{note}</if>
+            <if test="addDayTime != null">and create_time &lt;= #{addDayTime}</if>
+            <if test="saleTimeStart != null  and saleTimeEnd != null">and (sale_time &gt;= #{saleTimeStart} and
+                sale_time &lt;= #{saleTimeEnd})
+            </if>
+            <if test="createTimeStart != null  and createTimeEnd != null">and (create_time &gt;= #{createTimeStart} and
+                create_time &lt;= #{createTimeEnd})
+            </if>
+            <if test="updateTimeStart != null  and updateTimeEnd != null">and (update_time &gt;= #{updateTimeStart} and
+                update_time &lt;= #{updateTimeEnd})
+            </if>
+            <if test="levelAddr != null and levelAddr.size > 0">
+                <foreach item="level" collection="levelAddr">
+                    and level like '%${level}%'
+                </foreach>
+            </if>
+            <if test="gameName != null  and gameName != ''">and game_name like concat('%', #{gameName}, '%')</if>
+            <if test="recoveryState != null ">and recovery_state = #{recoveryState}</if>
+            <if test="recoveryId != null ">and recovery_id = #{recoveryId}</if>
+            <if test="auditFlag != null ">and audit_flag = #{auditFlag}</if>
+            <if test="orderNo != null ">and order_no = #{orderNo}</if>
+            <if test="author != null ">and author = #{author}</if>
+            <if test="recoveryNote != null  and recoveryNote != ''">and recovery_note = #{recoveryNote}</if>
+            <if test="auditNote != null  and auditNote != ''">and audit_note = #{auditNote}</if>
+            <if test="verifyState != null ">and verify_state = #{verifyState}</if>
+            <if test="verifyId != null ">and verify_id = #{verifyId}</if>
+            <if test="saleState != null ">and sale_state = #{saleState}</if>
+            <if test="recoveryName != null  and recoveryName != ''">and recovery_name like concat('%', #{recoveryName},
+                '%')
+            </if>
+            <if test="verifyName != null  and verifyName != ''">and verify_name like concat('%', #{verifyName}, '%')
+            </if>
+        </where>
+        <if test="sort != null and sort != '' and sortColumn != null and sortColumn != ''">
+            order by ${sortColumn} ${sort}
+        </if>
+    </select>
+
+    <select id="selectAccountInfoById" parameterType="Long" resultMap="AccountInfoResult">
+        <include refid="selectAccountInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectAccountInfoCorrespondjym" parameterType="string" resultMap="AccountInfoResult">
+        <include refid="selectAccountInfoVo"/>
+        where 1=1
+        <if test="correspondjym != null and correspondjym = ''">
+            correspondjym = #{correspondjym}
+        </if>
+    </select>
+
+    <!-- 根据游戏账号查询是否已存在售卖的游戏账号 -->
+    <select id="selectAccountInfoByAccountId" parameterType="String" resultMap="AccountInfoResult">
+        <include refid="selectAccountInfoVo"/>
+        where extract_account = #{accountId}
+    </select>
+
+    <insert id="insertAccountInfo" parameterType="AccountInfo" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+        insert into account_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="type != null">type,</if>
+            <if test="regional != null">regional,</if>
+            <if test="level != null">level,</if>
+            <if test="heroes != null">heroes,</if>
+            <if test="skins != null">skins,</if>
+            <if test="suit != null">suit,</if>
+            <if test="guns != null">guns,</if>
+            <if test="des != null">des,</if>
+            <if test="price != null">price,</if>
+            <if test="supplyId != null">supply_id,</if>
+            <if test="salesId != null">sales_id,</if>
+            <if test="saleState != null">sale_state,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="extractAccount != null">extract_account,</if>
+            <if test="extractPwd != null">extract_pwd,</if>
+            <if test="costPrice != null">cost_price,</if>
+            <if test="sinNum != null">sin_num,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="gameName != null">game_name,</if>
+            <if test="extractTel != null">extract_tel,</if>
+            <if test="realPrice != null">real_price,</if>
+            <if test="buyId != null">buy_id,</if>
+            <if test="auditId != null">audit_id,</if>
+            <if test="note != null">note,</if>
+            <if test="saleTime != null">sale_time,</if>
+            <if test="specialPrice != null">special_price,</if>
+            <if test="accType != null">acc_type,</if>
+            <if test="odr != null">odr,</if>
+            <if test="accountType != null">account_type,</if>
+            <if test="recoveryState != null">recovery_state,</if>
+            <if test="recoveryId != null">recovery_id,</if>
+            <if test="auditFlag != null">audit_flag,</if>
+            <if test="recoveryNote != null">recovery_note,</if>
+            <if test="auditNote != null">audit_note,</if>
+            <if test="verifyState != null">verify_state,</if>
+            <if test="verifyId != null">verify_id,</if>
+            <if test="recoveryName != null">recovery_name,</if>
+            <if test="verifyName != null">verify_name,</if>
+            <if test="campId != null">camp_id,</if>
+            <if test="titleImg != null">title_img,</if>
+            <if test="jymBatchId != null">jym_batch_id,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="author != null">author,</if>
+            <if test="newPrice != null">new_price,</if>
+            <if test="rise != null">rise,</if>
+            <if test="cmdSupplyId != null">cmd_supply_id,</if>
+            <if test="cmdSupplyName != null">cmd_supply_name,</if>
+            <if test="uuid != null  and uuid != ''">uuid,</if>
+            <if test="acclable != null  and acclable != ''">acclable,</if>
+            <if test="jymid != null  and jymid != ''">jymid,</if>
+            <if test="zid != null  and zid != ''">zid,</if>
+            <if test="sboid != null  and sboid != ''">sboid,</if>
+            <if test="ldid != null  and ldid != ''">ldid,</if>
+            <if test="bqwid != null  and bqwid != ''">bqwid,</if>
+            <if test="intercount != null  and intercount != ''">intercount,</if>
+            <if test="kjsid != null  and kjsid != ''">kjsid,</if>
+            <if test="polishtime != null  and polishtime != ''">polishtime,</if>
+            <if test="offres != null  and offres != ''">offres,</if>
+            <if test="offtime != null  and offtime != ''">offtime,</if>
+            <if test="ldvt != null  and ldvt != ''">ldvt,</if>
+            <if test="ydid != null  and ydid != ''">ydid,</if>
+            <if test="leishenid != null  and leishenid != ''">leishenid,</if>
+            <if test="kangehaoid != null  and kangehaoid != ''">kangehaoid,</if>
+            <if test="telid != null  and telid != ''">telid,</if>
+            del
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="regional != null">#{regional},</if>
+            <if test="level != null">#{level},</if>
+            <if test="heroes != null">#{heroes},</if>
+            <if test="skins != null">#{skins},</if>
+            <if test="suit != null">#{suit},</if>
+            <if test="guns != null">#{guns},</if>
+            <if test="des != null">#{des},</if>
+            <if test="price != null">#{price},</if>
+            <if test="supplyId != null">#{supplyId},</if>
+            <if test="salesId != null">#{salesId},</if>
+            <if test="saleState != null">#{saleState},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="extractAccount != null">#{extractAccount},</if>
+            <if test="extractPwd != null">#{extractPwd},</if>
+            <if test="costPrice != null">#{costPrice},</if>
+            <if test="sinNum != null">#{sinNum},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="gameName != null">#{gameName},</if>
+            <if test="extractTel != null">#{extractTel},</if>
+            <if test="realPrice != null">#{realPrice},</if>
+            <if test="buyId != null">#{buyId},</if>
+            <if test="auditId != null">#{auditId},</if>
+            <if test="note != null">#{note},</if>
+            <if test="saleTime != null">#{saleTime},</if>
+            <if test="specialPrice != null">#{specialPrice},</if>
+            <if test="accType != null">#{accType},</if>
+            <if test="odr != null">#{odr},</if>
+            <if test="accountType != null">#{accountType},</if>
+            <if test="recoveryState != null">#{recoveryState},</if>
+            <if test="recoveryId != null">#{recoveryId},</if>
+            <if test="auditFlag != null">#{auditFlag},</if>
+            <if test="recoveryNote != null">#{recoveryNote},</if>
+            <if test="auditNote != null">#{auditNote},</if>
+            <if test="verifyState != null">#{verifyState},</if>
+            <if test="verifyId != null">#{verifyId},</if>
+            <if test="recoveryName != null">#{recoveryName},</if>
+            <if test="verifyName != null">#{verifyName},</if>
+            <if test="campId != null">#{campId},</if>
+            <if test="titleImg != null">#{titleImg},</if>
+            <if test="jymBatchId != null">#{jymBatchId},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="author != null">#{author},</if>
+            <if test="newPrice != null">#{newPrice},</if>
+            <if test="rise != null">#{rise},</if>
+            <if test="cmdSupplyId != null">#{cmdSupplyId},</if>
+            <if test="cmdSupplyName != null">#{cmdSupplyName},</if>
+            <if test="uuid != null  and uuid != ''">#{uuid},</if>
+            <if test="acclable != null  and acclable != ''">#{acclable},</if>
+            <if test="jymid != null  and jymid != ''">#{jymid},</if>
+            <if test="zid != null  and zid != ''">#{zid},</if>
+            <if test="sboid != null  and sboid != ''">#{sboid},</if>
+            <if test="ldid != null  and ldid != ''">#{ldid},</if>
+            <if test="bqwid != null  and bqwid != ''">#{bqwid},</if>
+            <if test="intercount != null  and intercount != ''">#{intercount},</if>
+            <if test="kjsid != null  and kjsid != ''">#{kjsid},</if>
+            <if test="polishtime != null  and polishtime != ''">#{polishtime},</if>
+            <if test="offres != null  and offres != ''">#{offres},</if>
+            <if test="offtime != null  and offtime != ''">#{offtime},</if>
+            <if test="ldvt != null  and ldvt != ''">#{ldvt},</if>
+            <if test="ydid != null  and ydid != ''">#{ydid},</if>
+            <if test="leishenid != null  and leishenid != ''">#{leishenid},</if>
+            <if test="kangehaoid != null  and kangehaoid != ''">#{kangehaoid},</if>
+            <if test="telid != null  and telid != ''">#{telid},</if>
+            0
+        </trim>
+    </insert>
+
+    <insert id="batchSave" parameterType="AccountInfo" useGeneratedKeys="true" keyProperty="AccountInfo.id">
+        <foreach item="AccountInfo" collection="accountInfos" separator=";">
+            insert into account_info
+            (
+            <trim suffixOverrides=",">
+                <if test="AccountInfo.newPrice != null">new_price,</if>
+                <if test="AccountInfo.createId != null">create_id,</if>
+                <if test="AccountInfo.createTime != null">create_time,</if>
+                <if test="AccountInfo.accountId != null">account_id,</if>
+                <if test="AccountInfo.type != null">type,</if>
+                <if test="AccountInfo.regional != null">regional,</if>
+                <if test="AccountInfo.level != null">level,</if>
+                <if test="AccountInfo.heroes != null">heroes,</if>
+                <if test="AccountInfo.skins != null">skins,</if>
+                <if test="AccountInfo.suit != null">suit,</if>
+                <if test="AccountInfo.guns != null">guns,</if>
+                <if test="AccountInfo.des != null">des,</if>
+                <if test="AccountInfo.price != null">price,</if>
+                <if test="AccountInfo.supplyId != null">supply_id,</if>
+                <if test="AccountInfo.salesId != null">sales_id,</if>
+                <if test="AccountInfo.saleState != null">sale_state,</if>
+                <if test="AccountInfo.updateId != null">update_id,</if>
+                <if test="AccountInfo.updateTime != null">update_time,</if>
+                <if test="AccountInfo.extractAccount != null">extract_account,</if>
+                <if test="AccountInfo.extractPwd != null">extract_pwd,</if>
+                <if test="AccountInfo.costPrice != null">cost_price,</if>
+                <if test="AccountInfo.sinNum != null">sin_num,</if>
+                <if test="AccountInfo.delFlag != null">del_flag,</if>
+                <if test="AccountInfo.gameName != null">game_name,</if>
+                <if test="AccountInfo.extractTel != null">extract_tel,</if>
+                <if test="AccountInfo.realPrice != null">real_price,</if>
+                <if test="AccountInfo.buyId != null">buy_id,</if>
+                <if test="AccountInfo.auditId != null">audit_id,</if>
+                <if test="AccountInfo.note != null">note,</if>
+                <if test="AccountInfo.saleTime != null">sale_time,</if>
+                <if test="AccountInfo.specialPrice != null">special_price,</if>
+                <if test="AccountInfo.accType != null">acc_type,</if>
+                <if test="AccountInfo.odr != null">odr,</if>
+                <if test="AccountInfo.accountType != null">account_type,</if>
+                <if test="AccountInfo.recoveryState != null">recovery_state,</if>
+                <if test="AccountInfo.recoveryId != null">recovery_id,</if>
+                <if test="AccountInfo.auditFlag != null">audit_flag,</if>
+                <if test="AccountInfo.recoveryNote != null">recovery_note,</if>
+                <if test="AccountInfo.auditNote != null">audit_note,</if>
+                <if test="AccountInfo.verifyState != null">verify_state,</if>
+                <if test="AccountInfo.verifyId != null">verify_id,</if>
+                <if test="AccountInfo.recoveryName != null">recovery_name,</if>
+                <if test="AccountInfo.verifyName != null">verify_name,</if>
+                <if test="AccountInfo.campId != null">camp_id,</if>
+                <if test="AccountInfo.titleImg != null">title_img,</if>
+                <if test="AccountInfo.jymBatchId != null">jym_batch_id,</if>
+                <if test="AccountInfo.orderNo != null">order_no,</if>
+                <if test="AccountInfo.author != null">author,</if>
+                <if test="AccountInfo.rise != null">rise,</if>
+                <if test="AccountInfo.cmdSupplyId != null">cmd_supply_id,</if>
+                <if test="AccountInfo.cmdSupplyName != null">cmd_supply_name,</if>
+                <if test="AccountInfo.uuid != null  and AccountInfo.uuid != ''">uuid,</if>
+                <if test="AccountInfo.acclable != null  and AccountInfo.acclable != ''">acclable,</if>
+                <if test="AccountInfo.zid != null  and AccountInfo.zid != ''">zid,</if>
+                <if test="AccountInfo.sboid != null  and AccountInfo.sboid != ''">sboid,</if>
+                <if test="AccountInfo.bqwid != null  and AccountInfo.bqwid != ''">bqwid,</if>
+                <if test="AccountInfo.intercount != null  and AccountInfo.intercount != ''">intercount,</if>
+                <if test="AccountInfo.kjsid != null  and AccountInfo.kjsid != ''">kjsid,</if>
+                <if test="AccountInfo.ldvt != null  and AccountInfo.ldvt != ''">ldvt,</if>
+                <if test="AccountInfo.ydid != null  and AccountInfo.ydid != ''">ydid,</if>
+                del
+            </trim>
+            )
+            values
+            (
+            <trim suffixOverrides=",">
+                <if test="AccountInfo.newPrice != null">#{AccountInfo.newPrice},</if>
+                <if test="AccountInfo.createId != null">#{AccountInfo.createId},</if>
+                <if test="AccountInfo.createTime != null">#{AccountInfo.createTime},</if>
+                <if test="AccountInfo.accountId != null">#{AccountInfo.accountId},</if>
+                <if test="AccountInfo.type != null">#{AccountInfo.type},</if>
+                <if test="AccountInfo.regional != null">#{AccountInfo.regional},</if>
+                <if test="AccountInfo.level != null">#{AccountInfo.level},</if>
+                <if test="AccountInfo.heroes != null">#{AccountInfo.heroes},</if>
+                <if test="AccountInfo.skins != null">#{AccountInfo.skins},</if>
+                <if test="AccountInfo.suit != null">#{AccountInfo.suit},</if>
+                <if test="AccountInfo.guns != null">#{AccountInfo.guns},</if>
+                <if test="AccountInfo.des != null">#{AccountInfo.des},</if>
+                <if test="AccountInfo.price != null">#{AccountInfo.price},</if>
+                <if test="AccountInfo.supplyId != null">#{AccountInfo.supplyId},</if>
+                <if test="AccountInfo.salesId != null">#{AccountInfo.salesId},</if>
+                <if test="AccountInfo.saleState != null">#{AccountInfo.saleState},</if>
+                <if test="AccountInfo.updateId != null">#{AccountInfo.updateId},</if>
+                <if test="AccountInfo.updateTime != null">#{AccountInfo.updateTime},</if>
+                <if test="AccountInfo.extractAccount != null">#{AccountInfo.extractAccount},</if>
+                <if test="AccountInfo.extractPwd != null">#{AccountInfo.extractPwd},</if>
+                <if test="AccountInfo.costPrice != null">#{AccountInfo.costPrice},</if>
+                <if test="AccountInfo.sinNum != null">#{AccountInfo.sinNum},</if>
+                <if test="AccountInfo.delFlag != null">#{AccountInfo.delFlag},</if>
+                <if test="AccountInfo.gameName != null">#{AccountInfo.gameName},</if>
+                <if test="AccountInfo.extractTel != null">#{AccountInfo.extractTel},</if>
+                <if test="AccountInfo.realPrice != null">#{AccountInfo.realPrice},</if>
+                <if test="AccountInfo.buyId != null">#{AccountInfo.buyId},</if>
+                <if test="AccountInfo.auditId != null">#{AccountInfo.auditId},</if>
+                <if test="AccountInfo.note != null">#{AccountInfo.note},</if>
+                <if test="AccountInfo.saleTime != null">#{AccountInfo.saleTime},</if>
+                <if test="AccountInfo.specialPrice != null">#{AccountInfo.specialPrice},</if>
+                <if test="AccountInfo.accType != null">#{AccountInfo.accType},</if>
+                <if test="AccountInfo.odr != null">#{AccountInfo.odr},</if>
+                <if test="AccountInfo.accountType != null">#{AccountInfo.accountType},</if>
+                <if test="AccountInfo.recoveryState != null">#{AccountInfo.recoveryState},</if>
+                <if test="AccountInfo.recoveryId != null">#{AccountInfo.recoveryId},</if>
+                <if test="AccountInfo.auditFlag != null">#{AccountInfo.auditFlag},</if>
+                <if test="AccountInfo.recoveryNote != null">#{AccountInfo.recoveryNote},</if>
+                <if test="AccountInfo.auditNote != null">#{AccountInfo.auditNote},</if>
+                <if test="AccountInfo.verifyState != null">#{AccountInfo.verifyState},</if>
+                <if test="AccountInfo.verifyId != null">#{AccountInfo.verifyId},</if>
+                <if test="AccountInfo.recoveryName != null">#{AccountInfo.recoveryName},</if>
+                <if test="AccountInfo.verifyName != null">#{AccountInfo.verifyName},</if>
+                <if test="AccountInfo.campId != null">#{AccountInfo.campId},</if>
+                <if test="AccountInfo.titleImg != null">#{AccountInfo.titleImg},</if>
+                <if test="AccountInfo.jymBatchId != null">#{AccountInfo.jymBatchId},</if>
+                <if test="AccountInfo.orderNo != null">#{AccountInfo.orderNo},</if>
+                <if test="AccountInfo.author != null">#{AccountInfo.author},</if>
+                <if test="AccountInfo.rise != null">#{AccountInfo.rise},</if>
+                <if test="AccountInfo.cmdSupplyId != null">#{AccountInfo.cmdSupplyId},</if>
+                <if test="AccountInfo.cmdSupplyName != null">#{AccountInfo.cmdSupplyName},</if>
+                <if test="AccountInfo.uuid != null">#{AccountInfo.uuid},</if>
+                <if test="AccountInfo.acclable != null">#{AccountInfo.acclable},</if>
+                <if test="AccountInfo.zid != null">#{AccountInfo.zid},</if>
+                <if test="AccountInfo.sboid != null">#{AccountInfo.sboid},</if>
+                <if test="AccountInfo.bqwid != null">#{AccountInfo.bqwid},</if>
+                <if test="AccountInfo.intercount != null">#{AccountInfo.intercount},</if>
+                <if test="AccountInfo.kjsid != null">#{AccountInfo.kjsid},</if>
+                <if test="AccountInfo.ldvt != null">#{AccountInfo.ldvt},</if>
+                <if test="AccountInfo.ydid != null">#{AccountInfo.ydid},</if>
+                0
+            </trim>
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateAccountInfo" parameterType="AccountInfo">
+        update account_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="regional != null">regional = #{regional},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="heroes != null">heroes = #{heroes},</if>
+            <if test="skins != null">skins = #{skins},</if>
+            <if test="suit != null">suit = #{suit},</if>
+            <if test="guns != null">guns = #{guns},</if>
+            <if test="des != null">des = #{des},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="supplyId != null">supply_id = #{supplyId},</if>
+            <if test="salesId != null">sales_id = #{salesId},</if>
+            <if test="saleState != null">sale_state = #{saleState},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="extractAccount != null">extract_account = #{extractAccount},</if>
+            <if test="extractPwd != null">extract_pwd = #{extractPwd},</if>
+            <if test="costPrice != null">cost_price = #{costPrice},</if>
+            <if test="sinNum != null">sin_num = #{sinNum},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="gameName != null">game_name = #{gameName},</if>
+            <if test="extractTel != null">extract_tel = #{extractTel},</if>
+            <if test="buyId != null">buy_id = #{buyId},</if>
+            <if test="realPrice != null">real_price = #{realPrice},</if>
+            <if test="auditId != null">audit_id = #{auditId},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="saleTime != null">sale_time = #{saleTime},</if>
+            <if test="specialPrice != null">special_price = #{specialPrice},</if>
+            <if test="accType != null">acc_type = #{accType},</if>
+            <if test="odr != null">odr = #{odr},</if>
+            <if test="accountType != null">account_type = #{accountType},</if>
+            <if test="recoveryState != null">recovery_state = #{recoveryState},</if>
+            <if test="recoveryId != null">recovery_id = #{recoveryId},</if>
+            <if test="auditFlag != null">audit_flag = #{auditFlag},</if>
+            <if test="recoveryNote != null">recovery_note = #{recoveryNote},</if>
+            <if test="auditNote != null">audit_note = #{auditNote},</if>
+            <if test="verifyState != null">verify_state = #{verifyState},</if>
+            <if test="verifyId != null">verify_id = #{verifyId},</if>
+            <if test="recoveryName != null">recovery_name = #{recoveryName},</if>
+            <if test="verifyName != null">verify_name = #{verifyName},</if>
+            <if test="campId != null">camp_id = #{campId},</if>
+            <if test="titleImg != null">title_img = #{titleImg},</if>
+            <if test="jymBatchId != null">jym_batch_id = #{jymBatchId},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="author != null">author = #{author},</if>
+            <if test="newPrice != null">new_price = #{newPrice},</if>
+            <if test="rise != null">rise = #{rise},</if>
+            <if test="sdzId != null">sdz_id = #{sdzId},</if>
+            <if test="cmdSupplyId != null">cmd_supply_id = #{cmdSupplyId},</if>
+            <if test="cmdSupplyName != null">cmd_supply_name = #{cmdSupplyName},</if>
+            <if test="uuid != null">uuid = #{uuid},</if>
+            <if test="acclable != null">acclable = #{acclable},</if>
+            <if test="jymid != null">jymid = #{jymid},</if>
+            <if test="zid != null">zid = #{zid},</if>
+            <if test="sboid != null">sboid = #{sboid},</if>
+            <if test="ldid != null">ldid = #{ldid},</if>
+            <if test="bqwid != null">bqwid = #{bqwid},</if>
+            <if test="intercount != null">intercount = #{intercount},</if>
+            <if test="kjsid != null">kjsid = #{kjsid},</if>
+            <if test="polishtime != null">polishtime = #{polishtime},</if>
+            <if test="offres != null">offres = #{offres},</if>
+            <if test="offtime != null">offtime = #{offtime},</if>
+            <if test="ldvt != null">ldvt = #{ldvt},</if>
+            <if test="ydid != null">ydid = #{ydid},</if>
+            <if test="leishenid != null">leishenid = #{leishenid},</if>
+            <if test="kangehaoid != null">kangehaoid = #{kangehaoid},</if>
+            <if test="selltype != null">selltype = #{selltype},</if>
+            <if test="mhwid != null">mhwid = #{mhwid},</if>
+            <if test="YX7881id != null">YX7881id = #{YX7881id},</if>
+            <if test="telid != null">telid = #{telid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <update id="updatePrice" parameterType="AccountInfo">
+        update account_info
+        <trim prefix="SET" suffixOverrides=",">
+            new_price = #{newPrice},
+            rise = #{rise}
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteAccountInfoById" parameterType="Long">
+        update account_info set del = 1
+        where id = #{id}  and del = 0
+    </delete>
+    <delete id="delByCmdSuplyId" parameterType="Long">
+        update account_info set del = 1
+        where cmd_supply_id = #{suplyId} and sale_state = 1 and account_type = 3
+    </delete>
+    <delete id="delBySuplyId" parameterType="Long">
+        update account_info set del = 2
+        where create_id = #{userId} and sale_state = 1
+    </delete>
+
+    <update id="addprice">
+        UPDATE account_info
+        SET price = price * #{divide}
+        WHERE
+            create_id = #{userId}
+            AND sale_state = 1
+            AND del = 0
+    </update>
+
+    <delete id="deleteAccountInfoByIds" parameterType="String">
+        update account_info set del = 1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and del = 0
+    </delete>
+    <update id="auditAccountInfoByIds" parameterType="String">
+        update account_info set sale_state = #{type}
+        <if test="operType == 'auit'">
+            , audit_id = #{userId}
+        </if>
+        <if test="operType == 'extractTel'">
+            , sale_time = #{saleDate}
+            , remake = #{remake}
+            , buy_id = #{buyId}
+            , real_price = #{realPrice}
+        </if>
+        <if test="operType == 'sale'">
+            , sales_id = #{userId}
+        </if>
+        <if test="operType == 'saleNull'">
+            , sales_id = null
+        </if>
+        <if test="note != null">
+            , note = #{note}
+        </if>
+        <if test="offres != null">
+            , offres = #{offres}
+        </if>
+        <if test="offtime != null">
+            , offtime = #{offtime}
+        </if>
+        , update_id = #{userId}
+        , update_time = #{saleDate}
+
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateOdrByIds" parameterType="String">
+        update account_info set odr = #{odr}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <select id="accountListLimit" parameterType="com.ruoyi.system.h5.Hreq" resultMap="AccountInfoResult">
+        <include refid="selectAccountInfoVo"/>
+        <include refid="h5where"/>
+        order by acc_type desc,
+        odr desc,
+        <if test="picreOdr != null and picreOdr != ''">
+            price ${picreOdr},
+        </if>
+        <if test="commonOdr == 1">
+            price desc,
+        </if>
+        <if test="commonOdr == 2">
+            price asc,
+        </if>
+        <if test="commonOdr == 3">
+            id desc,
+        </if>
+        <if test="commonOdr == 4">
+            id asc,
+        </if>
+        <if test="publicOdr != null and publicOdr != ''">
+            create_time ${publicOdr},
+        </if>
+        <if test="retailLogin != null and retailLogin != ''">
+            rodr,
+        </if>
+        id desc
+        limit #{page}, #{rows}
+    </select>
+    <select id="onGameType" resultType="map">
+            SELECT  type,count(*) ctt FROM account_info WHERE create_id = #{userId} and del = 0 GROUP BY type
+    </select>
+
+    <select id="selectByAccountList" parameterType="com.ruoyi.system.h5.Hreq" resultMap="AccountInfoResult">
+        <include refid="selectAccountInfoVo"/>
+        where sale_state = 1 and del = 0 and extract_account in
+        <foreach item="id" collection="accountList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="accountListLimitCount" parameterType="com.ruoyi.system.h5.Hreq" resultType="int">
+        select count(*) from account_info
+        <include refid="h5where"/>
+    </select>
+    <select id="byColums" parameterType="String" resultType="String">
+        SELECT DISTINCT(${colum}) FROM account_info where 1 = 1
+        <if test="type != null and type != ''">
+            and type = #{type}
+        </if>
+
+    </select>
+    <select id="selectOffAcc" resultType="long" parameterType="accountInfo">
+        SELECT id FROM account_info where create_time > DATE_SUB(CURDATE(), INTERVAL 3 MONTH) and sale_state in (7,3,4)
+        and del = 0 and account_type = 1
+        <if test="createId != null and createId != ''">
+            and create_id = #{createId}
+        </if>
+    </select>
+    <select id="selectByDel" resultType="long">
+         SELECT id FROM account_info where create_time > DATE_SUB(CURDATE(), INTERVAL 3 MONTH) and del = 1 and account_type = 1 order by id desc
+    </select>
+    <sql id="h5where">
+        <where>
+            and sale_state = 1
+            and del = 0
+            and isshow = 1
+            <if test="YXLX != null  and YXLX != '' and YXLX != 'null'">
+                and type = #{YXLX}
+            </if>
+            <if test="createIds != null and createIds.size > 0 and cmdSupplyIds != null and cmdSupplyIds.size > 0">
+                and (create_id in
+                <foreach item="createId" collection="createIds" open="(" separator="," close=")">
+                    #{createId}
+                </foreach>
+                )
+            </if>
+            <if test="ZHID != null  and ZHID != ''">
+                and id = #{ZHID}
+            </if>
+            <if test="ZDYGJZ != null  and ZDYGJZ != ''">
+                and (des like '%${ZDYGJZ}%'
+                or id like '%${ZDYGJZ}%'
+                or extract_tel like '%${ZDYGJZ}%')
+            </if>
+            <if test="DWGJZ != null  and DWGJZ != ''">
+                and `level` like '%${DWGJZ}%'
+            </if>
+            <if test="JJGJZ != null  and JJGJZ != ''">
+                and (des like '%${JJGJZ}%'
+                or id like '%${JJGJZ}%'
+                or extract_tel like '%${JJGJZ}%')
+            </if>
+            <if test="YXDQ != null  and YXDQ != ''">
+                and regional = #{YXDQ}
+            </if>
+            <if test="CSJGMax != null  and CSJGMax != '' and CSJGMin != null and CSJGMin != ''">
+                and price &gt;= #{CSJGMin} and price &lt;= #{CSJGMax}
+            </if>
+            <if test="YXMin != null  and YXMin != '' and YXMax != null and YXMax != ''">
+                and heroes &gt;= #{YXMin} and heroes &lt;= #{YXMax}
+            </if>
+            <if test="SuitMin != null  and SuitMin != '' and SuitMax != null and SuitMax != ''">
+                and suit &gt;= #{SuitMin} and suit &lt;= #{SuitMin}
+            </if>
+            <if test="GunSkinMin != null  and GunSkinMin != '' and GunSkinMax != null and GunSkinMax != ''">
+                and guns &gt;= #{SuitMin} and guns &lt;= #{SuitMin}
+            </if>
+            <!--            <if test="infoIds != null and infoIds.size > 0">-->
+            <!--                and id in-->
+            <!--                <foreach item="id" collection="infoIds" open="(" separator="," close=")">-->
+            <!--                    #{id}-->
+            <!--                </foreach>-->
+            <!--            </if>-->
+            <if test="skinList != null and skinList.size > 0">
+                and (
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="skinList">acclable LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                or
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="skinList">
+                        des LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                or
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="skinList">
+                        type LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                or
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="skinList">
+                        regional LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                or
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="skinList">
+                        level LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                )
+            </if>
+            <if test="gjzList != null and gjzList.length > 0">
+                and (
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="gjzList">
+                        acclable LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                or
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="gjzList">
+                        des LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                or
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="gjzList">
+                        regional LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                or
+                <trim prefix="(" suffix=")" suffixOverrides="and">
+                    <foreach item="skin" collection="gjzList">
+                        level LIKE '%${skin}%' and
+                    </foreach>
+                </trim>
+                )
+            </if>
+        </where>
+    </sql>
+    <select id="todayCount" resultType="int">
+        select count(*) from account_info where TO_DAYS(create_time)=TO_DAYS(NOW()) AND del = 0 AND sale_state = 3;
+    </select>
+    <select id="weekCount" resultType="int">
+        select count(*) from account_info where YEARWEEK(DATE_FORMAT(create_time,'%Y-%m-%d'))=YEARWEEK(NOW()) AND del = 0 AND sale_state = 3;
+    </select>
+    <select id="monthCount" resultType="int">
+        select count(*) from account_info where DATE_FORMAT(create_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') AND del = 0 AND sale_state = 3;
+    </select>
+    <select id="yearCount" resultType="int">
+        select count(*) from account_info where YEAR(create_time) =YEAR(NOW()) AND del = 0 AND sale_state = 3;
+    </select>
+
+    <select id="todaySum" resultType="int">
+        select sum(real_price) from account_info where TO_DAYS(create_time)=TO_DAYS(NOW()) AND del = 0 AND sale_state = 3;
+    </select>
+    <select id="weekSum" resultType="int">
+        select sum(real_price) from account_info where YEARWEEK(DATE_FORMAT(create_time,'%Y-%m-%d'))=YEARWEEK(NOW()) AND del = 0 AND sale_state = 3;
+    </select>
+    <select id="monthSum" resultType="int">
+        select sum(real_price) from account_info where DATE_FORMAT(create_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') AND del = 0 AND sale_state = 3;
+    </select>
+    <select id="yearSum" resultType="int">
+        select sum(real_price) from account_info where YEAR(create_time) =YEAR(NOW()) AND del = 0 AND sale_state = 3;
+    </select>
+    <select id="gameTypeFor" resultType="map">
+        SELECT count(*) as value,type as name FROM account_info WHERE  del = 0  GROUP BY type
+    </select>
+    <select id="getGameTpes" resultType="java.lang.String">
+        SELECT DISTINCT type FROM account_info WHERE  del = 0
+    </select>
+    <select id="yearCountGroup" resultType="int">
+        SELECT
+            ifnull( va.VALUE, 0 ) AS VALUE
+        FROM
+            (
+            SELECT
+            date_format( date_sub( curdate( ), INTERVAL t.count MONTH ), '%Y-%m' ) AS MONTH
+            FROM
+            (
+            SELECT
+            t.c AS count
+            FROM
+            (
+            SELECT
+            0 AS c UNION
+            SELECT
+            1 AS c UNION
+            SELECT
+            2 AS c UNION
+            SELECT
+            3 AS c UNION
+            SELECT
+            4 AS c UNION
+            SELECT
+            5 AS c UNION
+            SELECT
+            6 AS c UNION
+            SELECT
+            7 AS c UNION
+            SELECT
+            8 AS c UNION
+            SELECT
+            9 AS c UNION
+            SELECT
+            10 AS c UNION
+            SELECT
+            11 AS c
+            ) t
+            ) AS t
+            ) tab
+            LEFT JOIN (
+            SELECT
+            DATE_FORMAT( b.create_time, '%Y-%m' ) AS item,
+            sum( real_price ) AS
+            VALUE
+
+            FROM
+            account_info b
+            WHERE
+            DATE_FORMAT( b.create_time, '%Y-%m' ) > DATE_FORMAT( date_sub( curdate(), INTERVAL 12 MONTH ), '%Y-%m' )
+            and b.sale_state = 3
+            AND b.type = #{type}
+            GROUP BY
+            item
+            ) va ON tab.MONTH = va.item
+    </select>
+    <select id="sevenDaysCount" resultType="java.lang.String">
+        SELECT
+            IFNULL( b.VALUE, 0 ) AS VALUE
+                    FROM
+                        (
+                        SELECT
+                        CURDATE() AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 1 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 2 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 3 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 4 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 5 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 6 DAY ) AS item
+                        ) a
+                        LEFT JOIN (
+                        SELECT
+                        DATE( create_time ) AS date,
+                        sum(real_price) AS
+                        VALUE
+
+                        FROM
+                        account_info
+                        WHERE
+                        del = 0
+                        AND sale_state = 3
+                        AND type = #{type}
+                        GROUP BY
+                        DATE( create_time )
+                        ) b ON a.item = b.date;
+    </select>
+    <select id="sevenDayDate" resultType="String">
+        SELECT
+            a.item
+                    FROM
+                        (
+                        SELECT
+                        CURDATE() AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 1 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 2 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 3 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 4 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 5 DAY ) AS item UNION ALL
+                        SELECT
+                        DATE_SUB( CURDATE(), INTERVAL 6 DAY ) AS item
+                        ) a
+                        LEFT JOIN (
+                        SELECT
+                        DATE( create_time ) AS date,
+                        sum(real_price) AS
+                        VALUE
+
+                        FROM
+                        account_info
+                        WHERE
+                        del = 0
+                        AND sale_state = 3
+                        GROUP BY
+                        DATE( create_time )
+                        ) b ON a.item = b.date;
+    </select>
+    <select id="stateCount" resultType="int">
+        SELECT count(*) FROM account_info WHERE del = 0
+        <if test="state != null">
+            AND sale_state = #{state}
+        </if>
+    </select>
+    <select id="stateCountByUserId" resultType="map">
+        SELECT count(*) cot,type FROM account_info WHERE del = 0
+        <if test="create_id != null">
+            AND create_id = #{createId}
+        </if>
+        and sale_state = 1
+        GROUP BY type
+    </select>
+    <select id="buchang" resultType="map">
+        SELECT g.id,a.config FROM goods_info g
+        INNER JOIN art_rec a on g.id = a.account_id
+        WHERE g.sale_state in (3,2,4,5,6)
+        GROUP BY g.id
+    </select>
+    <select id="gameUser" resultType="map">
+        SELECT u.nick_name,count(c.id) ctt,c.type  FROM sys_user u INNER JOIN account_info c on  u.user_id = c.create_id GROUP BY c.create_id,c.type ORDER BY ctt desc
+    </select>
+    <select id="selectList" resultMap="AccountInfoResult">
+                SELECT * FROM account_info WHERE 1 = 1 and del = 0
+        <if test="createId != null">
+            and create_id = #{createId}
+        </if>
+
+<!--        <if test="saleState != null">-->
+<!--            and sale_state = #{saleState}-->
+<!--        </if>-->
+
+    </select>
+    <delete id="deleteImg">
+        DELETE FROM info_img WHERE info_id not in (SELECT id FROM account_info WHERE del = 0 and sale_state = 1)
+    </delete>
+    <select id="yearDate" resultType="String">
+        SELECT
+            tab.MONTH AS item
+        FROM
+            (
+                SELECT
+                    date_format( date_sub( curdate( ), INTERVAL t.count MONTH ), '%Y-%m' ) AS MONTH
+                FROM
+                    (
+                    SELECT
+                    t.c AS count
+                    FROM
+                    (
+                    SELECT
+                    0 AS c UNION
+                    SELECT
+                    1 AS c UNION
+                    SELECT
+                    2 AS c UNION
+                    SELECT
+                    3 AS c UNION
+                    SELECT
+                    4 AS c UNION
+                    SELECT
+                    5 AS c UNION
+                    SELECT
+                    6 AS c UNION
+                    SELECT
+                    7 AS c UNION
+                    SELECT
+                    8 AS c UNION
+                    SELECT
+                    9 AS c UNION
+                    SELECT
+                    10 AS c UNION
+                    SELECT
+                    11 AS c
+                    ) t
+                    ) AS t
+                ) tab
+                    LEFT JOIN (
+                    SELECT
+                        DATE_FORMAT( b.create_time, '%Y-%m' ) AS item,
+                        sum( real_price ) AS
+        VALUE
+
+                    FROM
+                        account_info b
+                    WHERE
+                        DATE_FORMAT( b.create_time, '%Y-%m' ) > DATE_FORMAT( date_sub( curdate(), INTERVAL 12 MONTH ), '%Y-%m' )
+                    GROUP BY
+                        item
+                ) va ON tab.MONTH = va.item
+    </select>
+    <select id="salePrice" resultType="String">
+        SELECT IFNULL(SUM(real_price),0) FROM account_info WHERE sale_state = 3 AND del = 0 and type = #{type}
+    </select>
+    <select id="profitsPrice" resultType="String">
+        SELECT IFNULL(SUM(price - real_price -cost_price),0) FROM account_info WHERE sale_state = 3 AND del = 0 and type = #{type}
+    </select>
+    <select id="saleCount" resultType="String">
+        SELECT count(*) FROM account_info WHERE sale_state = 3 AND del = 0  and type = #{type}
+    </select>
+    <select id="zhuanzhuanZid" resultMap="AccountInfoResult">
+        SELECT id,level,zid FROM account_info WHERE length(zid) &lt; 10  ORDER BY create_time desc
+    </select>
+
+    <update id="updateOdr">
+        update account_info set odr = #{odr}
+        where create_id = #{userId}
+
+    </update>
+    <update id="updateAccountInfoByCreate">
+        update account_info set sale_state = 7
+        where create_id = #{userId}
+
+    </update>
+    <update id="hiddenAccount">
+        update account_info set isshow = #{isshow}
+        where create_id = #{userId}
+        and sale_state = 1
+        and del = 0
+    </update>
+    <select id="selectAccountInfo77img" parameterType="com.ruoyi.system.h5.Hreq" resultMap="AccountInfoResult">
+       SELECT * FROM account_info WHERE title_img LIKE '%77maihao.com%' and sale_state = 1
+    </select>
+    <select id="twoOutZz" resultType="long">
+      SELECT accountid from out_rec WHERE sale_id = '终端--转转' and inter = '新增' GROUP BY result HAVING count(*) > 1
+    </select>
+    <select id="accIds" resultType="long">
+        SELECT id FROM account_info WHERE sale_state &lt;&gt; 1
+    </select>
+
+    <select id="bzon" resultType="long">
+        SELECT accountid FROM out_rec WHERE inter = 'add' and salecode = 'ZJY_BZ' GROUP BY accountid,salecode  HAVING count(*) > 1
+    </select>
+
+    <select id="polish" resultType="accountInfo">
+        select * FROM account_info
+         where create_id = #{createId}
+         and sale_state = 1
+         ORDER BY polishtime limit 0,30
+    </select>
+    <select id="kjscheck" resultType="accountInfo">
+        select * FROM account_info WHERE kjsid is not null and   sale_state = 1
+    </select>
+    <select id="firstAccount" resultType="accountInfo">
+        SELECT * FROM account_info WHERE order_no = #{orderNo} and create_id = #{createId} ORDER BY id desc LIMIT 1
+    </select>
+    <select id="allAccount" resultType="accountInfo">
+        SELECT * FROM account_info WHERE order_no = #{orderNo} and create_id = #{createId} ORDER BY id desc
+    </select>
+    <select id="jiaoyimao" resultType="accountInfo">
+        SELECT * FROM account_info WHERE sale_state = 1 and jym_batch_id is not null
+    </select>
+    <select id="userGameCount" resultType="map">
+            SELECT count(*) as cot,create_id,u.nick_name FROM account_info a
+            INNER JOIN sys_user u on u.user_id = a.create_id
+            WHERE a.sale_state = 1
+            GROUP BY a.create_id
+    </select>
+    <select id="GameTypeCount" resultType="map">
+            SELECT count(*) cot,type FROM account_info WHERE sale_state = 1
+             GROUP BY type
+
+    </select>
+    <select id="selectAccountInfoByMigrate" resultType="com.ruoyi.system.model.domain.AccountInfo">
+        SELECT * FROM `account_info` a WHERE a.type in
+        <foreach item="type" collection="types" open="(" separator="," close=")">
+            #{type}
+        </foreach>
+        and create_id in
+        <foreach item="createId" collection="createIds" open="(" separator="," close=")">
+            #{createId}
+        </foreach>
+        and account_type = 2 and del=0 order by id desc
+    </select>
+    <delete id="deleteAccountInfo">
+        delete FROM account_info WHERE order_no = #{orderNo} and create_id = #{createId}
+    </delete>
+</mapper>

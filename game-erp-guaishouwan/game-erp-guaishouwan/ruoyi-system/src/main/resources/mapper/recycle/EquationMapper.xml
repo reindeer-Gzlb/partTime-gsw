@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.recycle.mapper.EquationMapper">
+    
+    <resultMap type="Equation" id="EquationResult">
+        <result property="id"    column="id"    />
+        <result property="sort"    column="sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="formul"    column="formul"    />
+        <result property="type"    column="type"    />
+    </resultMap>
+
+    <sql id="selectEquationVo">
+        select id, sort, create_by, create_time, remark, formul, type from equation
+    </sql>
+
+    <select id="selectEquationList" parameterType="Equation" resultMap="EquationResult">
+        <include refid="selectEquationVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectEquationById" parameterType="Long" resultMap="EquationResult">
+        <include refid="selectEquationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEquation" parameterType="Equation" useGeneratedKeys="true" keyProperty="id">
+        insert into equation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sort != null">sort,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="formul != null">formul,</if>
+            <if test="type != null">type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sort != null">#{sort},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="formul != null">#{formul},</if>
+            <if test="type != null">#{type},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEquation" parameterType="Equation">
+        update equation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="formul != null">formul = #{formul},</if>
+            <if test="type != null">type = #{type},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEquationById" parameterType="Long">
+        delete from equation where id = #{id}
+    </delete>
+
+    <delete id="deleteEquationByIds" parameterType="String">
+        delete from equation where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.CmdAccountMapper">
+
+    <resultMap type="CmdAccount" id="CmdAccountResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="oldPrice"    column="old_price"    />
+        <result property="newPrice"    column="new_price"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="rise"    column="rise"    />
+        <result property="mainId"    column="main_id"    />
+        <result property="uuid"    column="uuid"    />
+        <result property="suplyId"    column="suply_id"    />
+    </resultMap>
+
+    <sql id="selectCmdAccountVo">
+        select id, create_id, account_id, old_price, new_price, create_time, rise,main_id,uuid,suply_id from cmd_account
+    </sql>
+
+    <select id="selectCmdAccountList" parameterType="CmdAccount" resultMap="CmdAccountResult">
+        <include refid="selectCmdAccountVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+            <if test="oldPrice != null "> and old_price = #{oldPrice}</if>
+            <if test="newPrice != null "> and new_price = #{newPrice}</if>
+            <if test="rise != null "> and rise = #{rise}</if>
+            <if test="mainId != null "> and main_id = #{mainId}</if>
+            <if test="uuid != null "> and uuid = #{uuid}</if>
+            <if test="suplyId != null "> and suply_id = #{suplyId}</if>
+            <if test="suplyIds != null and  suplyIds.size > 0">
+                and suply_id in
+                <foreach item="suplyId" collection="suplyIds" open="(" separator="," close=")">
+                    #{suplyId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCmdAccountById" parameterType="Long" resultMap="CmdAccountResult">
+        <include refid="selectCmdAccountVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCmdAccount" parameterType="CmdAccount" useGeneratedKeys="true" keyProperty="id">
+        insert into cmd_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="oldPrice != null">old_price,</if>
+            <if test="newPrice != null">new_price,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="rise != null">rise,</if>
+            <if test="mainId != null">main_id,</if>
+            <if test="uuid != null">uuid,</if>
+            <if test="uuid != null">suply_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="oldPrice != null">#{oldPrice},</if>
+            <if test="newPrice != null">#{newPrice},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="rise != null">#{rise},</if>
+            <if test="mainId != null">#{mainId},</if>
+            <if test="uuid != null">#{uuid},</if>
+            <if test="suplyId != null">#{suplyId},</if>
+         </trim>
+    </insert>
+    <insert id="saveBatch" parameterType="CmdAccount">
+        <foreach item="CmdAccount" collection="cmdAccountList" separator=";">
+        insert into cmd_account
+        (
+        <trim suffixOverrides=",">
+            <if test="CmdAccount.createId != null">create_id,</if>
+            <if test="CmdAccount.accountId != null">account_id,</if>
+            <if test="CmdAccount.oldPrice != null">old_price,</if>
+            <if test="CmdAccount.newPrice != null">new_price,</if>
+            <if test="CmdAccount.createTime != null">create_time,</if>
+            <if test="CmdAccount.rise != null">rise,</if>
+            <if test="CmdAccount.mainId != null">main_id,</if>
+            <if test="CmdAccount.uuid != null">uuid,</if>
+            <if test="CmdAccount.suplyId != null">suply_id,</if>
+        </trim>
+         )
+        values
+        (
+            <trim suffixOverrides=",">
+            <if test="CmdAccount.createId != null">#{CmdAccount.createId},</if>
+            <if test="CmdAccount.accountId != null">#{CmdAccount.accountId},</if>
+            <if test="CmdAccount.oldPrice != null">#{CmdAccount.oldPrice},</if>
+            <if test="CmdAccount.newPrice != null">#{CmdAccount.newPrice},</if>
+            <if test="CmdAccount.createTime != null">#{CmdAccount.createTime},</if>
+            <if test="CmdAccount.rise != null">#{CmdAccount.rise},</if>
+            <if test="CmdAccount.mainId != null">#{CmdAccount.mainId},</if>
+            <if test="CmdAccount.uuid != null">#{CmdAccount.uuid},</if>
+            <if test="CmdAccount.suplyId != null">#{CmdAccount.suplyId},</if>
+            </trim>
+        )
+        </foreach>
+    </insert>
+
+    <update id="updateCmdAccount" parameterType="CmdAccount">
+        update cmd_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="oldPrice != null">old_price = #{oldPrice},</if>
+            <if test="newPrice != null">new_price = #{newPrice},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="rise != null">rise = #{rise},</if>
+            <if test="mainId != null">mainId = #{main_id},</if>
+            <if test="uuid != null">uuid = #{uuid},</if>
+            <if test="suplyId != null">suply_id = #{suplyId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCmdAccountById" parameterType="Long">
+        delete from cmd_account where id = #{id}
+    </delete>
+    <delete id="deleteCmdAccountBySuplyId" parameterType="Long">
+        delete from cmd_account where suply_id = #{suplyId}
+    </delete>
+    <delete id="deleteCmdAccountByAccountId" parameterType="Long">
+        delete from cmd_account where account_id = #{id}
+    </delete>
+
+    <delete id="deleteCmdAccountByIds" parameterType="String">
+        delete from cmd_account where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

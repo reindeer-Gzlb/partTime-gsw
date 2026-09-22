@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.ArtRecMapper">
+    
+    <resultMap type="ArtRec" id="ArtRecResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="userId"    column="user_id"    />
+        <result property="type"    column="type"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="config"    column="config"    />
+        <result property="saleCode"    column="sale_code"    />
+        <result property="outid"    column="outid"    />
+    </resultMap>
+
+    <sql id="selectArtRecVo">
+        select id, create_id, update_id, create_time, update_time, user_id, type, account_id, config, sale_code,outid from art_rec
+    </sql>
+
+    <select id="selectArtRecList" parameterType="ArtRec" resultMap="ArtRecResult">
+        <include refid="selectArtRecVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+            <if test="config != null "> and config = #{config}</if>
+            <if test="saleCode != null  and saleCode != ''"> and sale_code = #{saleCode}</if>
+            <if test="outid != null  and outid != ''"> and outid = #{outid}</if>
+        </where>
+    </select>
+    
+    <select id="selectArtRecById" parameterType="Long" resultMap="ArtRecResult">
+        <include refid="selectArtRecVo"/>
+        where id = #{id}
+    </select>
+
+
+    <insert id="insertArtRec" parameterType="ArtRec" useGeneratedKeys="true" keyProperty="id">
+        insert into art_rec
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="type != null">type,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="config != null">config,</if>
+            <if test="saleCode != null">sale_code,</if>
+            <if test="outid != null   and outid != ''">outid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="config != null">#{config},</if>
+            <if test="saleCode != null">#{saleCode},</if>
+            <if test="outid != null   and outid != ''">#{outid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateArtRec" parameterType="ArtRec">
+        update art_rec
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="config != null">config = #{config},</if>
+            <if test="saleCode != null">sale_code = #{saleCode},</if>
+            <if test="outid != null">outid = #{outid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteArtRecById" parameterType="Long">
+        delete from art_rec where id = #{id}
+    </delete>
+    <delete id="deleteArtRecCode" parameterType="Long">
+        delete from art_rec where account_id = #{id} and config = #{config}
+    </delete>
+
+    <delete id="deleteArtRecByIds" parameterType="String">
+        delete from art_rec where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteArtRecBySaleCode">
+        delete from art_rec where sale_code = #{saleCode}
+    </delete>
+
+    <select id="selectOutIdByGoodsId" parameterType="Long" resultType="map">
+        select s.`name`,a.outid from art_rec a
+        join sale_partner s on s.id=a.config
+        where a.account_id=#{id}
+    </select>
+</mapper>

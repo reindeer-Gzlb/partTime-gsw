@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.order.mapper.AccountOrderMapper">
+    
+    <resultMap type="AccountOrder" id="AccountOrderResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="realName"    column="real_name"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="superId"    column="super_id"    />
+        <result property="superName"    column="super_name"    />
+        <result property="saleId"    column="sale_id"    />
+        <result property="saleName"    column="sale_name"    />
+        <result property="tel"    column="tel"    />
+        <result property="account"    column="account"    />
+        <result property="pwd"    column="pwd"    />
+        <result property="ziliao"    column="ziliao"    />
+        <result property="regional"    column="regional"    />
+        <result property="errmsg"    column="errmsg"    />
+        <result property="orderTime"    column="order_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="price"    column="price"    />
+        <result property="realPrice"    column="real_price"    />
+        <result property="supplyprice"    column="supplyprice"    />
+        <result property="shopprice"    column="shopprice"    />
+    </resultMap>
+
+    <sql id="selectAccountOrderVo">
+        select id, type, account_id, real_name, order_no, create_by, create_time, update_by, update_time,order_status
+        ,super_id,super_name,sale_id,sale_name,tel,account,pwd,ziliao,regional,errmsg,order_time,remark,price,supyremake,real_price,supplyprice,shopprice
+         from account_order
+    </sql>
+
+    <select id="selectAccountOrderList" parameterType="AccountOrder" resultMap="AccountOrderResult">
+        <include refid="selectAccountOrderVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+            <if test="realName != null "> and real_name = #{realName}</if>
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="orderStatus != null  and orderStatus != ''"> and order_status = #{orderStatus}</if>
+            <if test="superId != null  and superId != ''"> and super_id = #{superId}</if>
+            <if test="saleId != null  and orderStatus != ''"> and sale_id = #{saleId}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
+            <if test="regional != null  and regional != ''"> and regional = #{regional}</if>
+            <if test="price != null  and price != ''"> and remark = #{price}</if>
+            <if test="supyremake != null  and supyremake != ''"> and remark = #{supyremake}</if>
+        </where>
+        order by id desc
+    </select>
+    
+    <select id="selectAccountOrderById" parameterType="Long" resultMap="AccountOrderResult">
+        <include refid="selectAccountOrderVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectAccountOrderByAccountId" parameterType="Long" resultMap="AccountOrderResult">
+        <include refid="selectAccountOrderVo"/>
+        where account_id = #{id}
+    </select>
+        
+    <insert id="insertAccountOrder" parameterType="AccountOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into account_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="realName != null">real_name,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="orderStatus != null">order_status,</if>
+            <if test="superId != null">super_id,</if>
+            <if test="superName != null">super_name,</if>
+            <if test="saleId != null">sale_id,</if>
+            <if test="saleName != null">sale_name,</if>
+            <if test="tel != null">tel,</if>
+            <if test="account != null">account,</if>
+            <if test="pwd != null">pwd,</if>
+            <if test="ziliao != null">ziliao,</if>
+            <if test="regional != null">regional,</if>
+            <if test="errmsg != null">errmsg,</if>
+            <if test="orderTime != null">order_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="price != null">price,</if>
+            <if test="supyremake != null">supyremake,</if>
+            <if test="realPrice != null">real_price,</if>
+            <if test="supplyprice != null">supplyprice,</if>
+            <if test="shopprice != null">shopprice,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="realName != null">#{realName},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="superId != null">#{superId},</if>
+            <if test="superName != null">#{superName},</if>
+            <if test="saleId != null">#{saleId},</if>
+            <if test="saleName != null">#{saleName},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="account != null">#{account},</if>
+            <if test="pwd != null">#{pwd},</if>
+            <if test="ziliao != null">#{ziliao},</if>
+            <if test="regional != null">#{regional},</if>
+            <if test="errmsg != null">#{errmsg},</if>
+            <if test="orderTime != null">#{orderTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="price != null">#{price},</if>
+            <if test="supyremake != null">#{supyremake},</if>
+            <if test="realPrice != null">#{realPrice},</if>
+            <if test="supplyprice != null">#{supplyprice},</if>
+            <if test="shopprice != null">#{shopprice},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAccountOrder" parameterType="AccountOrder">
+        update account_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="superId != null">super_id = #{superId},</if>
+            <if test="superName != null">super_name = #{superName},</if>
+            <if test="saleId != null">sale_id = #{saleId},</if>
+            <if test="saleName != null">sale_name = #{saleName},</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="pwd != null">pwd = #{pwd},</if>
+            <if test="ziliao != null">ziliao = #{ziliao},</if>
+            <if test="regional != null">regional = #{regional},</if>
+            <if test="errmsg != null">errmsg = #{errmsg},</if>
+            <if test="orderTime != null">order_time = #{orderTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="supyremake != null">supyremake = #{supyremake},</if>
+            <if test="realPrice != null">real_price = #{realPrice},</if>
+            <if test="supplyprice != null">supplyprice = #{supplyprice},</if>
+            <if test="shopprice != null">shopprice = #{shopprice},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccountOrderById" parameterType="Long">
+        delete from account_order where id = #{id}
+    </delete>
+
+    <delete id="deleteAccountOrderByIds" parameterType="String">
+        delete from account_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="subOrder" resultType="map">
+        SELECT count(*) cot,supply_channel as supplyChannel FROM order_rec GROUP BY supply_channel
+    </select>
+    <select id="sellOrder" resultType="map">
+        SELECT count(*) cot,sale_channel as saleChannel FROM order_rec GROUP BY sale_channel
+    </select>
+</mapper>

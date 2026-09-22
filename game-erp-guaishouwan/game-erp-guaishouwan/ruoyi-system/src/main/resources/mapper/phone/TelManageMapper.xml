@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.phone.mapper.TelManageMapper">
+    
+    <resultMap type="TelManage" id="TelManageResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="type"    column="type"    />
+        <result property="num"    column="num"    />
+        <result property="tel"    column="tel"    />
+        <result property="game"    column="game"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+        <result property="infoId"    column="info_id"    />
+        <result property="custodian"    column="custodian"    />
+    </resultMap>
+
+    <sql id="selectTelManageVo">
+        select id, create_id, update_id, create_time, update_time, type, num, tel, game, remark, status, info_id,custodian from tel_manage
+    </sql>
+
+    <select id="selectTelManageList" parameterType="TelManage" resultMap="TelManageResult">
+        <include refid="selectTelManageVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="num != null  and num != ''"> and num = #{num}</if>
+            <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
+            <if test="game != null "> and game = #{game}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="infoId != null "> and info_id = #{infoId}</if>
+            <if test="custodian != null "> and custodian = #{custodian}</if>
+        </where>
+    </select>
+    
+    <select id="selectTelManageById" parameterType="Long" resultMap="TelManageResult">
+        <include refid="selectTelManageVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectTelManageListMap" resultType="java.util.Map">
+        select count(g.telid) count,
+        g.game_name as gameName,
+        GROUP_CONCAT(g.account_number) as accountNumber,
+        1 carrierType ,
+        t.id
+        from
+        tel_manage t
+        , goods_info g
+        WHERE
+        t.id = g.telid and g.sale_state = 1
+        and t.id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        GROUP BY t.id,g.game_name
+        order by t.id
+    </select>
+    <insert id="insertTelManage" parameterType="TelManage" useGeneratedKeys="true" keyProperty="id">
+        insert into tel_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="type != null">type,</if>
+            <if test="num != null">num,</if>
+            <if test="tel != null">tel,</if>
+            <if test="game != null">game,</if>
+            <if test="remark != null">remark,</if>
+            <if test="status != null">status,</if>
+            <if test="infoId != null">info_id,</if>
+            <if test="custodian != null">custodian,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="num != null">#{num},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="game != null">#{game},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="status != null">#{status},</if>
+            <if test="infoId != null">#{infoId},</if>
+            <if test="custodian != null">#{custodian},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTelManage" parameterType="TelManage">
+        update tel_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="game != null">game = #{game},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="infoId != null">info_id = #{infoId},</if>
+            <if test="custodian != null">custodian = #{custodian},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTelManageById" parameterType="Long">
+        delete from tel_manage where id = #{id}
+    </delete>
+
+    <delete id="deleteTelManageByIds" parameterType="String">
+        delete from tel_manage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

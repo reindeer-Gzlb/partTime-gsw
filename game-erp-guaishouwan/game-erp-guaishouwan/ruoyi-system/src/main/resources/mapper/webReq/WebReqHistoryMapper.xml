@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.webReq.mapper.WebReqHistoryMapper">
+
+    <resultMap type="WebReqHistory" id="WebReqHistoryResult">
+        <result property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="pagePath" column="page_path"/>
+        <result property="resource" column="resource"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectWebReqHistoryVo">
+        select id, create_time, page_path, resource, remark from web_req_history
+    </sql>
+
+    <select id="selectWebReqHistoryList" parameterType="WebReqHistory" resultMap="WebReqHistoryResult">
+        <include refid="selectWebReqHistoryVo"/>
+        <where>
+            <if test="pagePath != null  and pagePath != ''">and page_path = #{pagePath}</if>
+            <if test="resource != null  and resource != ''">and resource = #{resource}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectWebReqHistoryById" parameterType="Long" resultMap="WebReqHistoryResult">
+        <include refid="selectWebReqHistoryVo"/>
+        where id = #{id}
+    </select>
+    <select id="statistics" resultType="java.util.Map"
+            parameterType="com.ruoyi.system.webReq.domain.WebReqHistory">
+        select
+       resource name,count(1) count
+        from web_req_history
+        <where>
+            <if test="createTimeStart">create_time > #{createTimeStart}</if>
+            <if test="createTimeEnd">#{createTimeEnd} > create_time</if>
+        </where>
+        group by  resource
+
+    </select>
+
+    <insert id="insertWebReqHistory" parameterType="WebReqHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into web_req_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="pagePath != null">page_path,</if>
+            <if test="resource != null">resource,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="pagePath != null">#{pagePath},</if>
+            <if test="resource != null">#{resource},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWebReqHistory" parameterType="WebReqHistory">
+        update web_req_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="pagePath != null">page_path = #{pagePath},</if>
+            <if test="resource != null">resource = #{resource},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWebReqHistoryById" parameterType="Long">
+        delete from web_req_history where id = #{id}
+    </delete>
+
+    <delete id="deleteWebReqHistoryByIds" parameterType="String">
+        delete from web_req_history where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

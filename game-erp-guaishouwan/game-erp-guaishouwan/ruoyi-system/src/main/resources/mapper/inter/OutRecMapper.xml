@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.OutRecMapper">
+
+    <resultMap type="OutRec" id="OutRecResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="saleId"    column="sale_id"    />
+        <result property="result"    column="result"    />
+        <result property="inter"    column="inter"    />
+        <result property="successCount"    column="success_count"    />
+        <result property="errCount"    column="err_count"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="req"    column="req"    />
+        <result property="res"    column="res"    />
+        <result property="accountid"    column="accountid"    />
+        <result property="type"    column="type"    />
+        <result property="supllyid"    column="supllyid"    />
+        <result property="salecode"    column="salecode"    />
+    </resultMap>
+
+    <sql id="selectOutRecVo">
+        select id, create_id, sale_id, result,
+               inter, create_time,err_count,success_count,req,res,accountid,type,supllyid,salecode from out_rec
+    </sql>
+
+    <select id="selectOutRecList" parameterType="OutRec" resultMap="OutRecResult">
+        <include refid="selectOutRecVo"/>
+        <where>
+            <if test="createId != null and createId != 1 and createId != 100"> and create_id = #{createId}</if>
+            <if test="saleId != null "> and sale_id = #{saleId}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="inter != null  and inter != ''"> and inter = #{inter}</if>
+            <if test="successCount != null  and successCount != ''"> and success_count = #{successCount}</if>
+            <if test="errCount != null  and errCount != ''"> and err_count = #{errCount}</if>
+            <if test="res != null and res != '' ">and res like '%${res}%'</if>
+            <if test="req != null and req != '' ">and res like '%${req}%'</if>
+            <if test="id != null and id != '' ">and accountid = #{id}</if>
+            <if test="type != null and type != '' ">and type = #{type}</if>
+            <if test="supllyid != null and supllyid != '' ">and supllyid = #{supllyid}</if>
+            <if test="accountid != null and accountid != '' ">and accountid = #{accountid}</if>
+            <if test="salecode != null and salecode != '' ">and salecode = #{salecode}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectOutRecById" parameterType="Long" resultMap="OutRecResult">
+        <include refid="selectOutRecVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectSaleId" parameterType="Long" resultType="String">
+        SELECT name FROM  sale_partner
+    </select>
+
+    <insert id="insertOutRec" parameterType="OutRec" useGeneratedKeys="true" keyProperty="id">
+        insert into out_rec
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="saleId != null">sale_id,</if>
+            <if test="result != null">result,</if>
+            <if test="inter != null">inter,</if>
+            <if test="successCount != null">success_count,</if>
+            <if test="errCount != null">err_count,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="req != null">req,</if>
+            <if test="res != null">res,</if>
+            <if test="accountid != null">accountid,</if>
+            <if test="type != null">type,</if>
+            <if test="supllyid != null">supllyid,</if>
+            <if test="salecode != null">salecode,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="saleId != null">#{saleId},</if>
+            <if test="result != null">#{result},</if>
+            <if test="inter != null">#{inter},</if>
+            <if test="successCount != null">#{successCount},</if>
+            <if test="errCount != null">#{errCount},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="req != null">#{req},</if>
+            <if test="res != null">#{res},</if>
+            <if test="accountid != null">#{accountid},</if>
+            <if test="type != null">#{type},</if>
+            <if test="supllyid != null">#{supllyid},</if>
+            <if test="salecode != null">#{salecode}</if>
+         </trim>
+    </insert>
+
+    <update id="updateOutRec" parameterType="OutRec">
+        update out_rec
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="saleId != null">sale_id = #{saleId},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="inter != null">inter = #{inter},</if>
+            <if test="successCount != null">success_count = #{successCount},</if>
+            <if test="errCount != null">err_count = #{errCount},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="req != null">res = #{req},</if>
+            <if test="res != null">res = #{res},</if>
+            <if test="accountid != null">accountid = #{accountid},</if>
+            <if test="type != null">res = #{type},</if>
+            <if test="supllyid != null">supllyid = #{supllyid},</if>
+            <if test="salecode != null">salecode = #{salecode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOutRecById" parameterType="Long">
+        delete from out_rec where id = #{id}
+    </delete>
+    <delete id="deleteOutRecBySleCode">
+        delete from out_rec where sale_id = #{saleCode} and create_id = #{userId}
+    </delete>
+    <delete id="deleteOutRecByCode">
+        delete from out_rec where sale_id = #{saleCode}
+    </delete>
+
+    <delete id="deleteOutRecBySaleCode">
+        delete from out_rec where salecode = #{saleCode}
+    </delete>
+
+    <delete id="deleteOutRecByIds" parameterType="String">
+        delete from out_rec where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

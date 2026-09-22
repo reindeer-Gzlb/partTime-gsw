@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.saleInfo.mapper.GoodsSaleInfoMapper">
+    
+    <resultMap type="GoodsSaleInfo" id="GoodsSaleInfoResult">
+        <result property="id"    column="id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createId"    column="create_id"    />
+        <result property="code"    column="code"    />
+        <result property="saleTime"    column="sale_time"    />
+        <result property="salePrice"    column="sale_price"    />
+        <result property="afterEmail"    column="after_email"    />
+        <result property="afterPhone"    column="after_phone"    />
+        <result property="saleName"    column="sale_name"    />
+        <result property="remark"    column="remark"    />
+        <result property="backUserName"    column="back_user_name"    />
+        <result property="leaderUserName"    column="leader_user_name"    />
+    </resultMap>
+
+    <sql id="selectGoodsSaleInfoVo">
+        select id, create_time, create_id, code, sale_time, sale_price, after_email, after_phone, sale_name,
+         remark,back_user_name,leader_user_name
+         from goods_sale_info
+    </sql>
+
+    <select id="selectGoodsSaleInfoList" parameterType="GoodsSaleInfo" resultMap="GoodsSaleInfoResult">
+        <include refid="selectGoodsSaleInfoVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="saleTime != null "> and sale_time = #{saleTime}</if>
+            <if test="saleTimeStart != null ">and sale_time > #{saleTimeStart}</if>
+            <if test="saleTimeEnd != null ">and #{saleTimeEnd}>sale_time</if>
+            <if test="salePrice != null "> and sale_price = #{salePrice}</if>
+            <if test="afterEmail != null  and afterEmail != ''"> and after_email = #{afterEmail}</if>
+            <if test="afterPhone != null  and afterPhone != ''"> and after_phone = #{afterPhone}</if>
+            <if test="saleName != null  and saleName != ''"> and sale_name like concat('%', #{saleName}, '%')</if>
+            <if test="backUserName != null  and backUserName != ''"> and back_user_name like concat('%', #{backUserName}, '%')</if>
+            <if test="leaderUserName != null  and leaderUserName != ''"> and leader_user_name like concat('%', #{leaderUserName}, '%')</if>
+        </where>
+        order by sale_time desc
+    </select>
+    
+    <select id="selectGoodsSaleInfoById" parameterType="Long" resultMap="GoodsSaleInfoResult">
+        <include refid="selectGoodsSaleInfoVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectGooodsSaleInfoCount" resultType="java.lang.Integer">
+        SELECT count(*) from goods_sale_info
+        <where>
+            <if test="userId != null"> and create_id = #{userId}</if>
+        </where>
+    </select>
+
+    <insert id="insertGoodsSaleInfo" parameterType="GoodsSaleInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into goods_sale_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="code != null">code,</if>
+            <if test="saleTime != null">sale_time,</if>
+            <if test="salePrice != null">sale_price,</if>
+            <if test="afterEmail != null">after_email,</if>
+            <if test="afterPhone != null">after_phone,</if>
+            <if test="saleName != null">sale_name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="backUserName != null">back_user_name,</if>
+            <if test="leaderUserName != null">leader_user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="code != null">#{code},</if>
+            <if test="saleTime != null">#{saleTime},</if>
+            <if test="salePrice != null">#{salePrice},</if>
+            <if test="afterEmail != null">#{afterEmail},</if>
+            <if test="afterPhone != null">#{afterPhone},</if>
+            <if test="saleName != null">#{saleName},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="backUserName != null">#{backUserName},</if>
+            <if test="leaderUserName != null">#{leaderUserName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGoodsSaleInfo" parameterType="GoodsSaleInfo">
+        update goods_sale_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="saleTime != null">sale_time = #{saleTime},</if>
+            <if test="salePrice != null">sale_price = #{salePrice},</if>
+            <if test="afterEmail != null">after_email = #{afterEmail},</if>
+            <if test="afterPhone != null">after_phone = #{afterPhone},</if>
+            <if test="saleName != null">sale_name = #{saleName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="backUserName != null">back_user_name = #{backUserName},</if>
+            <if test="leaderUserName != null">leader_user_name = #{leaderUserName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGoodsSaleInfoById" parameterType="Long">
+        delete from goods_sale_info where id = #{id}
+    </delete>
+
+    <delete id="deleteGoodsSaleInfoByIds" parameterType="String">
+        delete from goods_sale_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

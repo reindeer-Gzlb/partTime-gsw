@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta itemprop="image" content="https://sola.gtimg.cn/aoi/sola/20190806112754_7VPlmkIeZf.png">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <style type="text/css">
+        .btn,
+        a {
+            text-decoration: none
+        }
+
+        body,
+        button {
+            font-size: 16px
+        }
+
+        body,
+        input {
+            width: 100%;
+            font-family: '微软雅黑', 'Helvetica Neue', Helvetica, Arial, sans-serif
+        }
+
+        .btn,
+        body,
+        button,
+        input {
+            font-family: '微软雅黑', 'Helvetica Neue', Helvetica, Arial, sans-serif
+        }
+
+        .btn,
+        .header .nick,
+        .usernick,
+        .userqq {
+            text-overflow: ellipsis
+        }
+
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            overflow-x: auto
+        }
+
+        body {
+            background: #fff;
+            position: absolute;
+            height: 100%;
+            color: #555;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+            -webkit-text-size-adjust: none;
+            overflow: scroll
+        }
+
+        button {
+            border: none
+        }
+
+        .api_list,
+        .control,
+        button,
+        input {
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0)
+        }
+
+        li {
+            list-style: none
+        }
+
+        .hide {
+            display: none
+        }
+
+        .inner_wrap {
+            position: relative;
+            border-bottom: 1px solid #dedfe0
+        }
+
+        .inner_wrap.show_clear {
+            padding-left: 44px
+        }
+
+        .show_clear input {
+            margin-left: -44px;
+            padding-right: 36px;
+            pointer-events: none
+        }
+
+        .show_clear .clear {
+            display: block
+        }
+
+        #imgVerify,
+        .input_wrap_code,
+        .verify_show {
+            display: inline-block
+        }
+
+        input {
+            border: none;
+            height: 55px;
+            font-size: 22px;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            -webkit-appearance: none;
+            color: #000;
+            outline: 0
+        }
+
+        #verifycode {
+            margin-left: 0
+        }
+
+        .input_pwd {
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0
+        }
+
+        .clear {
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: none;
+            height: 55px
+        }
+
+        .clear button {
+            padding: 17.5px 0;
+            width: 20px;
+            height: 55px;
+            background-image: url(//imgcache.qq.com/ptlogin/v4/style/42/images/CLOSE.png?v=20161223);
+            background-repeat: no-repeat;
+            background-color: #fff;
+            background-position-y: 17.5px
+        }
+
+        .active .clear {
+            background-color: #9b9b9b
+        }
+
+        .input_wrap_code {
+            width: 30%
+        }
+
+        .verify_code {
+            margin-top: 13px
+        }
+
+        .verify_show {
+            float: right;
+            margin-right: 5px
+        }
+
+        #imgVerify {
+            width: 103px;
+            height: 42px;
+            vertical-align: bottom
+        }
+
+        #verifytip {
+            font-size: 14px;
+            color: #418cf0
+        }
+
+        #verifytip.active {
+            color: #1670eb
+        }
+
+        .page_header {
+            display: none;
+            position: relative;
+            background: #fff
+        }
+
+        .auth_logo {
+            display: inline-block;
+            height: 43px;
+            width: 100px;
+            float: left;
+            background: url("//imgcache.qq.com/ptlogin/v4/style/42/images/01_qq_logo.png?v=20161223");
+            background-size: 100px 43px
+        }
+
+        .api_list,
+        .control,
+        .cookie_login {
+            background: #fff;
+            position: relative
+        }
+
+        .page_header h1 {
+            display: inline-block;
+            margin-left: 9px;
+            font-size: 32px;
+            line-height: 43px;
+            font-weight: 400;
+            color: #000
+        }
+
+        .page_header p {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            font-size: 10px
+        }
+
+        .page_content {
+            padding: 0 27.5px;
+            background: #fff
+        }
+
+        .cookie_login {
+            border: 1px solid #c6c6c6;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            padding: 14px;
+            -webkit-box-shadow: 0 1px 1px #d9d9d9;
+            -moz-box-shadow: 0 1px 1px #d9d9d9;
+            box-shadow: 0 1px 1px #d9d9d9
+        }
+
+        .useravatar {
+            float: left;
+            border: 1px solid #d9d9d9;
+            padding: 1px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            vertical-align: top
+        }
+
+        .useravatar img {
+            display: block;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            width: 49px;
+            height: 49px
+        }
+
+        .userinfo {
+            margin-left: 63px;
+            height: 53px
+        }
+
+        .userqq {
+            margin-top: 3px;
+            color: #bbb
+        }
+
+        .usernick,
+        .userqq {
+            line-height: 20px;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: nowrap;
+            overflow: hidden;
+            -o-text-overflow: ellipsis
+        }
+
+        .authorized_form_list {
+            padding-top: 50px;
+            font-size: 14px
+        }
+
+        .authorized_form_list>p {
+            margin-bottom: 9px;
+            text-indent: 1px
+        }
+
+        .api_list,
+        .control {
+            border: 1px solid rgba(0, 0, 0, .1);
+            -webkit-border-radius: 5px 5px 0 0;
+            -moz-border-radius: 5px 5px 0 0;
+            border-radius: 5px 5px 0 0;
+            -webkit-box-shadow: 0 1px rgba(255, 255, 255, .2);
+            -moz-box-shadow: 0 1px rgba(255, 255, 255, .2);
+            box-shadow: 0 1px rgba(255, 255, 255, .2)
+        }
+
+        .api_list {
+            border-bottom: none
+        }
+
+        .hidecontrol .api_list {
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px
+        }
+
+        .control {
+            border-top-color: rgba(0, 0, 0, .1);
+            -webkit-border-radius: 0 0 5px 5px;
+            -moz-border-radius: 0 0 5px 5px;
+            border-radius: 0 0 5px 5px;
+            text-align: center;
+            line-height: 40px
+        }
+
+        .hidecontrol .control {
+            display: none
+        }
+
+        #controlText {
+            margin-left: 6px
+        }
+
+        .show_all {
+            display: inline-block;
+            width: 17px;
+            height: 17px;
+            background: url("//ui.ptlogin2.qq.com/style/35/images/icon.png?v=2013031101") 1px -17px;
+            background-size: 35px 84px;
+            vertical-align: middle
+        }
+
+        .up .show_all {
+            margin-top: -5px;
+            background: url("//ui.ptlogin2.qq.com/style/35/images/icon.png?v=20130311017") 0 -33px;
+            background-size: 35px 84px
+        }
+
+        .api_list li {
+            border-top: 1px solid rgba(0, 0, 0, .1);
+            padding-left: 8px;
+            line-height: 40px
+        }
+
+        .api_list li.active {
+            background: rgba(0, 0, 0, .03)
+        }
+
+        .api_list li:first-child {
+            border-top: none;
+            padding-top: 1px
+        }
+
+        .ico_authorize {
+            display: inline-block;
+            position: relative;
+            top: 2px;
+            margin-right: 3px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+            width: 15px;
+            height: 15px;
+            background-color: #c8c8c8;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .15);
+            -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .15);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .15)
+        }
+
+        li.selected .ico_authorize {
+            background-color: #5cb232;
+            background-image: url("//ui.ptlogin2.qq.com/style/35/images/icon.png?v=2013031101");
+            background-size: 35px 84px;
+            background-position: -1px -1px;
+            background-repeat: no-repeat;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none
+        }
+
+        li.disabled .ico_authorize {
+            background-color: #a1a1a1
+        }
+
+        .btn {
+            display: block;
+            border: 1px solid;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            width: 35%;
+            height: 40px;
+            background: #12b8f6;
+            overflow: hidden;
+            font-size: 18px;
+            z line-height: 40px;
+            color: #fff;
+            text-align: center;
+            cursor: pointer
+        }
+
+        #onekey {
+            display: none
+        }
+
+        .btn_lightgreen {
+            margin-top: 9px
+        }
+
+        .btn_white {
+            border-color: #838a96;
+            background: #9fa6af;
+            background: -webkit-gradient(linear, left top, left bottom, from(#9fa6af), to(#a2a8b1));
+            background: -webkit-linear-gradient(top, #9fa6af, #a2a8b1);
+            background: -moz-linear-gradient(top, #9fa6af, #a2a8b1);
+            background: -ms-linear-gradient(top, #9fa6af, #a2a8b1);
+            background: -o-linear-gradient(top, #9fa6af, #a2a8b1);
+            background: linear-gradient(top, #9fa6af, #a2a8b1);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9fa6af', endColorstr='#a2a8b1', GradientType=0);
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .13), inset 0 1px 1px rgba(255, 255, 255, .2);
+            -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .13), inset 0 1px 1px rgba(255, 255, 255, .2);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .13), inset 0 1px 1px rgba(255, 255, 255, .2)
+        }
+
+        .btn_white_active {
+            background: #8e96a0;
+            background: -webkit-gradient(linear, left top, left bottom, from(#8e96a0), to(#9fa6af));
+            background: -webkit-linear-gradient(top, #8e96a0, #9fa6af);
+            background: -moz-linear-gradient(top, #8e96a0, #9fa6af);
+            background: -ms-linear-gradient(top, #8e96a0, #9fa6af);
+            background: -o-linear-gradient(top, #8e96a0, #9fa6af);
+            background: linear-gradient(top, #8e96a0, #9fa6af);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8e96a0', endColorstr='#9fa6af', GradientType=0);
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .13), inset 0 1px 1px rgba(0, 0, 0, .12);
+            -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .13), inset 0 1px 1px rgba(0, 0, 0, .12);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .13), inset 0 1px 1px rgba(0, 0, 0, .12)
+        }
+
+        .btn_group {
+            margin: 30px 0 0;
+            text-align: right
+        }
+
+        .msgbox .text,
+        .page_footer,
+        .q_logon_list {
+            text-align: center
+        }
+
+        .btn_login {
+            display: inline-block;
+            width: 62.5%
+        }
+
+        .btn_cancel {
+            display: inline-block;
+            float: left;
+            width: 32.5%
+        }
+
+        #authframe,
+        #download-area-pad,
+        #qlogin_entry,
+        #switch,
+        #zc_feedback,
+        .copyright,
+        .download-bottom,
+        .hidecancel .btn_cancel,
+        .login_form_panel,
+        .new_vcode,
+        .qrlogin,
+        .title,
+        h2 {
+            display: none
+        }
+
+        .hidecancel .btn_login,
+        .mask {
+            width: 100%
+        }
+
+        .page_footer {
+            margin: 20px auto 15px;
+            font-size: 12px;
+            line-height: 24px
+        }
+
+        .page_footer a {
+            color: #555
+        }
+
+        .msgbox,
+        .msgbox a,
+        .msgbox a:visited {
+            color: #fff
+        }
+
+        .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #919191;
+            opacity: .5;
+            filter: alpha(opacity=50);
+            z-index: 99
+        }
+
+        .msgbox {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            padding: 18px;
+            background: rgba(0, 0, 0, .5);
+            z-index: 100
+        }
+
+        .msgbox .btn {
+            border-color: #000;
+            background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 93, 93, .7)), to(rgba(57, 59, 59, .7)));
+            background: -webkit-linear-gradient(top, rgba(92, 93, 93, .7), rgba(57, 59, 59, .7));
+            background: -moz-linear-gradient(top, rgba(92, 93, 93, .7), rgba(57, 59, 59, .7));
+            background: -ms-linear-gradient(top, rgba(92, 93, 93, .7), rgba(57, 59, 59, .7));
+            background: -o-linear-gradient(top, rgba(92, 93, 93, .7), rgba(57, 59, 59, .7));
+            background: linear-gradient(top, rgba(92, 93, 93, .7), rgba(57, 59, 59, .7));
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c5d5d', endColorstr='#393b3b', GradientType=0);
+            -webkit-box-shadow: inset 0 0 0 1px #666;
+            -moz-box-shadow: inset 0 0 0 1px #666;
+            box-shadow: inset 0 0 0 1px #666
+        }
+
+        .msgbox.alert .btn.ok {
+            margin: 0 auto;
+            width: 75%;
+            height: 38px;
+            line-height: 38px
+        }
+
+        .content {
+            width: 270px;
+            margin: 35px auto 0;
+            padding: 25px 4%;
+            border-radius: 8px;
+            border: 1px solid #99bbcd;
+            font-size: 14px;
+            background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#F6FCFF));
+            background: -moz-linear-gradient(top, #FFF, #F6FCFF);
+            background: -o-linear-gradient(top, #FFF, #F6FCFF);
+            -webkit-box-shadow: 1px 1px 10px rgba(172, 203, 229, .75);
+            box-shadow: 1px 1px 10px rgba(172, 203, 229, .75)
+        }
+
+        .hidecontrol .api_list li:last-child {
+            border-bottom: 1px solid rgba(0, 0, 0, .1)
+        }
+
+        #page_footer.no_auth {
+            width: 80%
+        }
+
+        .new_vcode {
+            width: 100%;
+            height: 100%
+        }
+
+        .bottom_link {
+            margin-top: 15px;
+            height: 19px
+        }
+
+        .bottom_link a {
+            color: #12b7f5;
+            font-size: 14px
+        }
+
+        .q_logon_list {
+            padding: 25px 0
+        }
+
+        .header {
+            display: inline-block
+        }
+
+        .header img {
+            border-radius: 50%;
+            width: 70px;
+            height: 70px
+        }
+
+        .header .nick {
+            -o-text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 90px;
+            display: block
+        }
+    </style>
+    <link rel="stylesheet" type="text/css"
+        href="https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/v4/style/mobile_common.css">
+    <style type="text/css">
+        .logo {
+            background-image: url("https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/v4/style/9/images/logo.png");
+            height: 59px;
+            width: 128px;
+        }
+    </style>
+    <script>
+        //错误上报
+var ptui_daid=encodeURIComponent("381")//业务隔离id
+    ,ptui_appid=encodeURIComponent("716027609")//业务的appid
+    ,ptui_domain=encodeURIComponent("qq.com")//domain
+    ,ptui_regmaster=encodeURIComponent("")
+    ,ptui_lang=encodeURIComponent("2052")
+    ,ptui_pt_version=encodeURIComponent("23010412")
+    ,ptui_version=encodeURIComponent("202301041250")
+    ,ptui_style=encodeURIComponent("35")
+    ,ptui_noAuth="0"//是否需要去检查业务隔离，默认为1，需要检查（数字）
+    ,g_href="https\x3A\x2F\x2Fxui.ptlogin2.qq.com\x2Fcgi-bin\x2Fxlogin\x3Fpt_enable_pwd\x3D1\x26appid\x3D716027609\x26pt_3rd_aid\x3D1105412664\x26daid\x3D381\x26pt_skey_valid\x3D0\x26style\x3D35\x26force_qr\x3D1\x26autorefresh\x3D1\x26s_url\x3Dhttp\x253A\x252F\x252Fconnect.qq.com\x26refer_cgi\x3Dm_authorize\x26ucheck\x3D1\x26fall_to_wv\x3D1\x26status_os\x3D9\x26redirect_uri\x3Dauth\x253A\x252F\x252Ftauth.qq.com\x252F\x26client_id\x3D1105412664\x26pf\x3Dopenmobile_android\x26response_type\x3Dtoken\x26scope\x3Dall\x26sdkp\x3Da\x26sdkv\x3D3.5.7.lite\x26sign\x3D2CE042C4EE43D8B67CC2FBE565C345D2\x26status_machine\x3DGM1910\x26switch\x3D1\x26loginfrom\x3Dadd\x26h5sig\x3Dlm2WJjJmQYTT5cpuu03FAVp7yFSJm8Imy1wEmR10hfM\x26loginty\x3D6"
+    ,ptui_pt_qzone_sig="0"
+    ,ptui_pt_light="0"//轻登录，只下发p_skey,取值0或者1
+    ,ptui_pt_ttype="0"
+    ,ptui_pt_3rd_aid=encodeURIComponent("1105412664")//互联的第三方appid
+    ,ptui_enablePwd=encodeURIComponent("1")//互联的登录是否使用密码控件
+    ,ptui_target = encodeURIComponent("0")//跳转方式
+    ,ptui_low_login = parseInt("0", 10) || 0
+    ,ptui_low_login_hour = parseInt("", 10) || 720 // 弱登录时间，默认一个月
+    ,ptui_kf_csimc = encodeURIComponent("0")
+    ,ptui_kf_csnum = encodeURIComponent("0")
+	,ptui_kf_authid = encodeURIComponent("0")
+	,ptui_defuin = ""//设置的默认uin(input value 赋值)
+    ,ptui_force_qr = "1"
+	,ptui_lockuin = parseInt("0");
+if (ptui_daid == 1)
+    ptui_daid = 0; // 因为业务总是填错，所以daid=1也认为是没填的
+var STR_LANG = {
+	 no_uin:"你还没有输入帐号！",
+	 no_password:"你还没有输入密码！",
+	 no_code:"你还没有输入验证码！",
+	 err_uin:"请输入正确的帐号！",
+	 less_code:"请输入完整的验证码！",
+	 err_code:"请输入完整的验证码！",
+	 onekey:"一键登录",
+	 onekeying:"正在拉起QQ手机版...",
+	 offline: "网络异常",
+     close: "关闭",
+     password_error_tips: '若你的帐号为非大陆手机号，请<a href="javascript:pt.enterOverseaLogin()">点击这里</a>进行登录。'
+};
+    </script>
+    <script>
+        /*==007==*/ !function(r){var n={};function o(t){if(n[t])return n[t].exports;var e=n[t]={"i":t,"l":!1,"exports":{}};return r[t].call(e.exports,e,e.exports,o),e.l=!0,e.exports}o.m=r,o.c=n,o.d=function(t,e,r){o.o(t,e)||Object.defineProperty(t,e,{"enumerable":!0,"get":r})},o.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{"value":"Module"}),Object.defineProperty(t,"__esModule",{"value":!0})},o.t=function(e,t){if(1&t&&(e=o(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(o.r(r),Object.defineProperty(r,"default",{"enumerable":!0,"value":e}),2&t&&"string"!=typeof e)for(var n in e)o.d(r,n,function(t){return e[t]}.bind(null,n));return r},o.n=function(t){var e=t&&t.__esModule?function(){return t["default"]}:function(){return t};return o.d(e,"a",e),e},o.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},o.p="",o(o.s=72)}({"6":function(t,e){var n=Object.defineProperty;n&&function(){var t={};try{for(var e in n(t,"x",{"enumerable":!1,"value":t}),t)return!1;return t.x===t}catch(r){return!1}}()||(Object.defineProperty=function(t,e,r){if(n&&1==t.nodeType)return n(t,e,r);t[e]=r.value||r.get&&r.get()})},"7":function(t,e,r){"use strict";Function.prototype.bind||(Function.prototype.bind=function(t){if("function"!=typeof this)throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");var e=Array.prototype.slice.call(arguments,1),r=this,n=function n(){},o=function o(){return r.apply(this instanceof n&&t?this:t,e.concat(Array.prototype.slice.call(arguments)))};return n.prototype=this.prototype,o.prototype=new n,o})},"72":function(t,e,r){r(6),r(7),t.exports=r(73)},"73":function(t,e,r){"use strict";var n=r(8);function c(e,t){var r,n=Object.keys(e);return Object.getOwnPropertySymbols&&(r=Object.getOwnPropertySymbols(e),t&&(r=r.filter(function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable})),n.push.apply(n,r)),n}function o(n){for(var t=1;t<arguments.length;t++){var o=null!=arguments[t]?arguments[t]:{};t%2?c(Object(o),!0).forEach(function(t){var e,r;e=n,t=o[r=t],r in e?Object.defineProperty(e,r,{"value":t,"enumerable":!0,"configurable":!0,"writable":!0}):e[r]=t}):Object.getOwnPropertyDescriptors?Object.defineProperties(n,Object.getOwnPropertyDescriptors(o)):c(Object(o)).forEach(function(t){Object.defineProperty(n,t,Object.getOwnPropertyDescriptor(o,t))})}return n}var i=function i(){window.pt007=function(t){try{var e=o(o({},t),{"app":"ptlogin"});(0,n.report007)(e)}catch(r){}}};i()},"8":function(t,e,r){"use strict";Object.defineProperty(e,"__esModule",{"value":!0}),e.HTTP_CODE=e.RET_CODE=e.TYPE=e.report007=void 0;var n=function(){return(n=Object.assign||function(t){for(var e,r=1,n=arguments.length;r<n;r++)for(var o in e=arguments[r])Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o]);return t}).apply(this,arguments)},o={"SUCCESS":0,"FAILED":1};e.TYPE=o;var c={"OK":200,"SERVER_INTERNAL_ERROR":500,"TIMEOUT":504};e.HTTP_CODE=c;var i={"OK":0,"UNKNOW":9998,"MEANINGLESS":9999,"JSON_PARSE_ERROR":9997,"EMPTY_RESPONSE_BODY":9996};e.RET_CODE=i;var p=function p(t){var e;t.cgi?(e=n({"app":"ptlogin","type":o.FAILED,"retcode":i.UNKNOW,"cost":10086},t),t.httpcode!==c.OK&&(e.retcode=i.MEANINGLESS),e="https://report.qqweb.qq.com/report/007?app="+encodeURIComponent(e.app)+"&url="+encodeURIComponent(e.cgi)+"&type="+e.type+"&httpcode="+e.httpcode+"&retcode="+e.retcode+"&cost="+e.cost,(new Image).src=e):console.log("cgi 为空，忽略上报")};e.report007=p}}); /*==007==*/
+    </script>
+    <script>
+        window._timePoints = [Date.now()] // 页面测速-起始时间点
+            var ptui_tab = false;
+            //20180129 add
+            var hlhd_temp = false;  window.shouldUseOnekeyOnOpenLogin = (function(){
+                 // 是否进行互联新版本登录模式灰度，条件为：1.在灰度名单中  2.在非手Q中  3.在style为35的情况下
+                var isMobileQQ = !!(
+                    typeof mqq !== 'undefined'
+                    && typeof mqq.QQVersion !== 'undefined'
+                    && mqq.QQVersion !== '0'
+                    && !/Qzone/.test(navigator.userAgent)
+                );
+                return (window.ptui_style === '35' && window.hlhd_temp && !isMobileQQ)
+            })();
+
+            (function() {
+                var ua = navigator.userAgent;
+                var addStyle = function(url) {
+                    var link = document.createElement('link');
+                    link.type = "text/css";
+                    link.rel = "stylesheet";
+                    link.href = url;
+                    document.getElementsByTagName("head")[0].appendChild(link);
+                }
+                var setMobile = function() {
+                    //mobile
+                    window.ptui_tab = false;
+                    addStyle("//imgcache.qq.com/ptlogin/v4/style/42/mobile.css");
+                };
+                var setTablet = function() {
+                    var min = Math.min(window.screen.width, window.screen.height);
+                    if (min < 550) //边框最小尺寸小于550的强制出手机版
+                        return setMobile();
+                    //pad
+                    window.ptui_tab = true;
+                    addStyle("//imgcache.qq.com/ptlogin/v4/style/42/tablet.css");
+                };
+                var setOpenMobile = function() {
+                    setMobile();
+                    addStyle("//imgcache.qq.com/ptlogin/v4/style/42/open_mobile.css");
+                }
+                var setOpenTablet = function() {
+                    window.ptui_tab = true;
+                    addStyle("//imgcache.qq.com/ptlogin/v4/style/42/tablet.css");
+                    addStyle("//imgcache.qq.com/ptlogin/v4/style/42/open_tablet.css")
+                }
+                if (+ptui_pt_3rd_aid) {
+                    if (+ptui_force_qr)
+                        setOpenTablet();
+                    else setOpenMobile();
+                } else if (/ipad/i.test(ua)) {
+                    setTablet();
+                } else if (/iphone/i.test(ua)) {
+                    setMobile();
+                } else if (/android/i.test(ua)) {
+                    if (/mobile/i.test(ua))
+                        setMobile();
+                    else setTablet();
+                } else setTablet();
+            })();
+    </script>
+    <style type="text/css">
+        .page_header_upice {
+            padding: 40px 30px 30px;
+            position: relative;
+        }
+
+        .logo_upice {
+            text-align: center;
+        }
+
+        .logo_upice img {
+            width: 99px;
+            height: 162px;
+        }
+
+        .title_upice {
+            color: #777;
+            font-size: 14px;
+            line-height: 1;
+            margin-top: 16px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        /* 修复IOS软键盘向上推输入框后，点击响应BUG，临时方案*/
+        .page_header.fixed {
+            padding: 10px 0 10px 27.5px;
+        }
+
+        .page_header.fixed h2 {
+            margin-top: 10px;
+        }
+
+        .qq_style {
+            background-size: 63.6vw 98vh;
+            background-image: url(https://qzonestyle.gtimg.cn/qzone/qzact/act/external/tiqq/common/img/qrcode_share_bg.png);
+            background-repeat: no-repeat;
+            background-position: right -2%;
+            overflow: hidden;
+        }
+
+        .qq_style .page_header {
+            display: none;
+        }
+
+        .qq_style .page_content {
+            background-color: inherit;
+            top: 40%;
+        }
+
+        .qq_style .qrlogin {
+            background: rgba(255, 255, 255, 0.90);
+            box-shadow: 0 20px 60px 0 rgba(135, 139, 153, 0.10);
+            border-radius: 32px;
+            border-radius: 32px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .qq_style .qrlogin .title {
+            display: none;
+        }
+
+        .title_2 {
+            display: none;
+        }
+
+        .qq_style .qrlogin .title_2 {
+            display: inherit;
+            font-size: 20px;
+            color: #000000;
+            letter-spacing: 0;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .qq_style .qrlogin #qrimg {
+            width: 220px;
+            height: 220px;
+            margin-top: 23px;
+            margin-bottom: 20px;
+            -webkit-touch-callout: none
+        }
+
+        .qrimg_mask {
+            display: none;
+        }
+
+        .qq_style .qrimg_mask {
+            padding: 50px;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            background: red;
+            z-index: 99;
+            display: inherit;
+            pointer-events: none;
+            position: fixed;
+            -webkit-touch-callout: none
+        }
+
+        .qq_style .qrlogin .tips {
+            display: none;
+        }
+
+        .tips_2 {
+            display: none;
+        }
+
+        .qq_style .qrlogin .tips_2 {
+            display: inherit;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #878B99;
+            letter-spacing: 0;
+            text-align: center;
+        }
+
+        .qq_style .qrlogin .switch {
+            display: none;
+        }
+
+        .qq_style .copyright {
+            display: none;
+        }
+
+        .none {
+            display: none;
+        }
+    </style>
+    <style type="text/css">
+        .car_prefix {
+            display: none;
+        }
+
+        .car_error_icon {
+            display: none;
+        }
+
+        @media (min-width: 2760px) and (max-height: 744px) and (min-height: 600px) {
+            body {
+                font-family: 'PingFang SC', '微软雅黑', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                background: #000;
+            }
+
+            .page_header {
+                margin-top: 82px;
+                padding: 0;
+                background: #000;
+            }
+
+            .page_header.fixed {
+                padding: 0;
+            }
+
+            .page_header .auth_logo {
+                height: 64px;
+                width: 64px;
+                background: url("https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/v4/style/42/images/auth_logo_car.png") no-repeat;
+                background-size: contain;
+            }
+
+            .page_header .car_prefix {
+                display: inline;
+                margin-left: 28px;
+                color: #FFF;
+                font-size: 44px;
+                font-weight: 500;
+                line-height: 44px;
+            }
+
+            .page_header h1 {
+                margin-left: 8px;
+                color: #FFF;
+                font-size: 44px;
+                font-weight: 500;
+                line-height: 52px;
+            }
+
+            .page_content {
+                background: #000;
+            }
+
+            .page_content {
+                width: fit-content;
+                margin: auto;
+                position: absolute;
+                top: 219.27px;
+                left: 0;
+                right: 0;
+            }
+
+            .page_content #qrimg {
+                height: 312px;
+                width: 312px;
+                padding: 24px;
+                border-radius: 12px;
+                background: #fff;
+            }
+
+            .qrlogin .tips {
+                margin-top: 38px;
+                font-size: 44px;
+                color: rgba(255, 255, 255, 0.5);
+                font-family: 'Noto Sans CJK SC';
+            }
+
+            .msgbox {
+                width: fit-content;
+                height: 88px;
+                top: unset;
+                bottom: 48px;
+                left: 0;
+                right: 0;
+                margin: auto;
+                padding: 0 50px;
+                border-radius: 12px;
+                background: #353535;
+            }
+
+            .msgbox .text {
+                display: inline-block;
+                vertical-align: top;
+                font-size: 32px;
+                line-height: 88px;
+                color: #FFF;
+            }
+
+            .msgbox .car_error_icon {
+                display: inline-block;
+                height: 48px;
+                width: 48px;
+                margin: 20px 24px 20px 0;
+                background: url("https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/v4/style/42/images/info_icon_car.png") no-repeat;
+                background-size: contain;
+            }
+
+            .copyright {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="mi-ui none" data-template="42">
+    <div class="qrimg_mask"></div>
+    <div id="content">
+        <header class="page_header fixed"><span class="auth_logo"></span> <span class="car_prefix">QQ</span>
+            <h1 id="login_header"> 授权登录 </h1>
+        </header>
+        <div class="page_content">
+            <div id="web_login">
+                <div id="pwdlogin" class="login_form_panel">
+                    <div class="title" id="title_2">密码登录</div>
+                    <div id="qlogin_entry">推荐使用<a class="switch_btn_focus link_tips" hideFocus=true id="switcher_qlogin"
+                            href="javascript:void(0);" tabindex="7">快捷登录</a>，防止盗号。</div>
+                    <div id="form_outter_wrap" class="login_form_row" style="">
+                        <div id="form_inner_wrap">
+                            <div class="input_wrap">
+                                <div class="inner_wrap"><input type="text" class="input_id" id="u" name="u" tabindex="1" placeholder="支持QQ号/邮箱/手机号登录" autocapitalize="off">
+                                    <div id="del_u" class="clear hide"><button></button></div>
+                                </div>
+                                <div class="inner_wrap"><input type="password" class="input_pwd" id="p" name="p" maxlength="16" tabindex="2" placeholder="请输入密码" autocapitalize="off">
+                                    <div id="del_p" class="clear hide"><button></button></div>
+                                </div>
+                            </div>
+                            <div id="verifyinput" class="verify_code" style="display:none;">
+                                <span id="verifyshow" class="hide" style="display:none;"></span>
+                                <div class="input_wrap input_wrap_code"><input id="verifycode" type="text" name="verifycode" type="text" class="input_code" value="!LKD" tabindex="3" placeholder="验证码" autocapitalize="off">
+                                </div>
+                                <div class="verify_show"><img id="imgVerify" alt="验证码">
+                                    <button id="verifytip" style="display:none;" tabindex="4">换一张</button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn_group hidecancel">
+                        <button id="btn_cancel" class="btn btn_white btn_cancel hide">取消</button>
+                        <div id="go" class="qui-button-main qui-button-primary" tabindex="6" style=""> 登录 </div>
+                        <div href="javascript:void(0);" id="onekey" class="qui-button-main qui-button-primary"> 一键登录
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="q_login" class="q_login hide" style="">
+                <div id="q_logon_list" class="q_logon_list"></div>
+                <div id="go2" class="qui-button-main qui-button-primary"> 登录 </div>
+            </div>
+            <div id="switch" style="">
+                <div id="swicth_login" class="qui-button-main qui-button-primary weak" onclick="pt._switch();"
+                    style="display: none;"> 快速登录历史帐号 </div>
+            </div>
+            <div id="zc_feedback" class="bottom_link" style=""> <a style="float:right;" id="zc"
+                    href="https://ssl.ptlogin2.qq.com/j_newreg_url" target="_blank">注册帐号</a> <a style="float:left;"
+                    href="https://ssl.ptlogin2.qq.com/ptui_forgetpwd_mobile" target="_blank">找回密码</a> </div><iframe
+                style="margin-top:50px;width:100%;" height="0" src="about:blank" id="authframe" frameborder="no"
+                scrolling="no" allowtransparency="yes"></iframe>
+            <div id="qrlogin" class="qrlogin">
+                <div class="title" id="title_0">快捷登录</div>
+                <div class="title_2">使用另一部手机QQ扫码</div>
+                <div class="title_2" id="qrcode_app_name">授权登录</div><img id="qrimg">
+                <div id="qr_invalid"><span id="qrmask"></span> <span id="qrtips">二维码失效<br>请点击刷新</span></div>
+                <div class="tips">使用QQ手机版扫码授权登录</div>
+                <div class="tips_2">扫码只用于授权，不会登录QQ</div>
+                <div class="switch">或<a id="qrlogin_switch">使用帐号密码登录</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="error_tips" class="msgbox alert hide">
+        <div class="car_error_icon"></div>
+        <div id="error_message" class="text"></div>
+    </div>
+    <div id="new_vcode" class="new_vcode"><iframe id="cap_iframe" src="" frameborder="0" scrolling="auto" width="100%"
+            height="100%"></iframe></div>
+    <div class="copyright">
+        <div id="download-area-pad"><a id="download-link-pad">下载新版客户端</a></div>Copyright 2010-<script>
+            document.write(new Date().getFullYear())
+        </script>&nbsp;Tencent.All Rights Reserved.
+    </div>
+    <div class="download-bottom" id="download-area">
+        <div class="download-icon"><a id="download-link"></a> <span>QQ</span><br><span>下载新版客户端</span></div><a
+            class="download-button">下载</a>
+    </div>
+    <script>
+        window._timePoints[1] = Date.now();
+    </script>
+    <script src="//sqimg.qq.com/qq_product_operations/jslib/ar-report-mqq.min.js">
+        <script>var login_wording = "快速登录历史帐号";
+        var qlogin_wording = "密码登录";   
+    </script>
+    <script src="https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/js/x-msg.js"></script>
+    <script>
+        setTimeout(initAuthFrame, 100);
+    var start = 0;
+    function inMQQ() {
+      return /QQ\/([\d.]+)/.test(navigator.userAgent)
+    }
+    function initAuthFrame() {
+        if (typeof window.$ === 'undefined') {
+            setTimeout(initAuthFrame, 100);
+            return;
+        }
+        // window.$
+        console.log("%c Line:1057 🍕 window.$", "color:#4fff4B", window.$);
+        start = +new Date();
+        if(window.shouldUseOnekeyOnOpenLogin){
+            //互联一键登陆不需要使用权限框，在手Q里边去选择
+            authListReady({
+                // @see @/js/mobile/main/index.js
+                pt_flex: 6,
+                skey: window.pt_skey_valid
+            })
+            return;
+        }
+
+        initAuthFrame = function() {};
+
+        var authframe = $('authframe');
+        var go = $('go');
+        xMsg.init("pt");
+        xMsg.setTarget("connect", authframe);
+        xMsg.addCallback("authListReady", authListReady);
+        xMsg.addCallback("setFrameHeight", function(opt) {
+            authframe.height = opt.height;
+        });
+        authframe.src = "//openmobile.qq.com/oauth2.0/m_authlist" + location.search + '&new_style=1';
+        
+        $.report.monitor(424784);
+
+        // 互联授权列表页柔性超时控制
+        var flexTimeout = 2 * 1000;
+        if(inMQQ()){
+          flexTimeout = 5 * 1000;// 手Q内柔性时间稍微加长一点
+        }
+        setTimeout("authListReady({pt_flex: 1, skey: window.pt_skey_valid})", flexTimeout);
+    }
+    function authListReady(opt) {
+        authListReady = function() {};
+
+        var end = +new Date();
+        if (!pt.isOffice)
+            setTimeout(function() {go.innerHTML = "登录";}, 0);
+        pt.open.authListReady(opt);
+        
+        if (opt.pt_flex){
+          pt007({
+              app: 'ptlogin',
+              cgi: '/authlist-ready/',
+              // 一键登录拉柔性数据是正常逻辑，算成功，其他先暂时统计成失败
+              type: opt.pt_flex == 6 ? 0 : 1,
+              retcode: opt.pt_flex,
+              httpcode: 200,
+              cost: end - start,
+          })
+        }else{
+          $.http.loadScript("//imgcache.qq.com/open/connect/widget/mobile/login/js/authlogin.js");
+          pt007({
+              app: 'ptlogin',
+              cgi: '/authlist-ready/',
+              type: 0,
+              retcode: 0,
+              httpcode: 200,
+              cost: end - start,
+          })
+        }
+
+
+    }
+    STR_LANG.offline = "网络异常";
+    STR_LANG.onekey = "一键登录";
+    STR_LANG.onekeying = "正在拉起QQ手机版...";
+
+    try {
+        if (/qq\//i.test(navigator.userAgent))
+            document.write('<script src="//open.mobile.qq.com/sdk/qqapi.js?_bid=152" type="text/javascript"><\/script>');
+    } catch (e) {}
+    </script>
+    <script>
+        function cleanCache(f) {
+        var t = document.createElement("iframe");
+        if (f.split("#").length == 3) f = f.substring(0, f.lastIndexOf("#"));
+        t.src = f;
+        t.style.display = "none";
+        document.body.appendChild(t);
+    };
+
+    function getJSVersion(){
+        //https://pre.cdn-go.cn/qq-web/any.ptlogin2.qq.com/33d4907a
+        var frags = "https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0".split('/');
+        return frags[frags.length-1] || 'unknown'
+    }
+
+
+    function loadJs(){
+        if(loadJs.hasLoad==true){
+            return;
+        }
+        var jsName = 'login_10'
+        var jsPath = 'https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/js/'+jsName+'.js';
+        // var jsPath = "https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/js/login_10.js"; 
+        var retryJSPath = 'https://'+location.hostname+'/js/'+jsName+'.js?v='+getJSVersion()
+        var startTime = new Date().getTime();
+        var TYPE={
+            OK : 0,
+            ERROR : 1
+        }
+        var RET_CODE = {
+            OK : 1,
+            ERROR: 2, //这个实际没有了
+            TIMEOUT : 3, //这个实际也没有了
+            TIMEOUT_RETRY_OK : 4,
+            TIMEOUT_RETRY_ERROR : 5, //retry也timeout就是网太慢，10s加载js加载不下来
+            ERROR_RETRY_OK : 6,
+            ERROR_RETRY_ERROR : 7
+        }
+        var loadJSTimeout = 10000; 
+        var isLoadJSTimeout = false;
+        var checkKey = 'ptuiCB';
+        var loadJSTimer = setTimeout(function(){
+            isLoadJSTimeout = true;
+            loadScript(retryJSPath, function timeoutRetrySuccessCallback(){
+                window.pt007 && window.pt007({
+                    cgi : jsName,
+                    type : TYPE.OK,
+                    httpcode : 200,
+                    retcode : RET_CODE.TIMEOUT_RETRY_OK,
+                    cost : new Date().getTime() - startTime
+                })
+            }, function timeoutRetryFailCallback(){
+                window.pt007 && window.pt007({
+                    cgi : jsName,
+                    type : TYPE.ERROR,
+                    httpcode : 200,
+                    retcode : RET_CODE.TIMEOUT_RETRY_ERROR,
+                    cost : new Date().getTime() - startTime
+                })
+            }, checkKey)
+        },loadJSTimeout);
+	    loadJs.hasLoad=true;
+    /*===grunt bottom_inc===*/
+    
+        loadScript(jsPath,function successCallback(){
+            clearTimeout(loadJSTimer)
+            if(isLoadJSTimeout){
+                return;
+            }
+            //一次成功
+            window.pt007 && window.pt007({
+                cgi : jsName,
+                type : 0,
+                httpcode : 200,
+                retcode : RET_CODE.OK,
+                cost : new Date().getTime() - startTime
+            })
+        },function errorCallback(){
+            clearTimeout(loadJSTimer)
+            if(isLoadJSTimeout){
+                return;
+            }
+            loadScript(retryJSPath, function timeoutRetrySuccessCallback(){
+                window.pt007 && window.pt007({
+                    cgi : jsName,
+                    type : TYPE.OK,
+                    httpcode : 200,
+                    retcode : RET_CODE.ERROR_RETRY_OK,
+                    cost : new Date().getTime() - startTime
+                })
+            }, function timeoutRetryFailCallback(){
+                window.pt007 && window.pt007({
+                    cgi : jsName,
+                    type : TYPE.ERROR,
+                    httpcode : 200,
+                    retcode : RET_CODE.ERROR_RETRY_ERROR,
+                    cost : new Date().getTime() - startTime
+                })
+            },checkKey)
+        },checkKey);
+        ready();
+    /*===grunt bottom_inc===*/
+}
+
+    function isCdnGoResource(src){
+        return !!(typeof src === 'string' && src.indexOf('cdn-go.cn/')>-1)
+    }
+
+    function loadScript(src,successCallback,errorCallback, obj) {
+    	var tag = document.createElement("script");
+    	tag.type = 'text/javascript';
+        tag.charset="utf-8";
+        if(isCdnGoResource(src)){ //加上跨域头，方便确认异常
+            tag.crossOrigin = 'anonymous';
+        }
+        tag.onload = tag.onerror = tag.onreadystatechange = function() {
+            tag.onerror = tag.onreadystatechange = null;
+        	if (window[obj]) { // 加载成功
+                loadJs.onloadTime = +new Date();
+                successCallback && successCallback();
+        		return;
+            }
+            if ( !this.readyState ||((this.readyState === "loaded" || this.readyState === "complete")&&!window[obj]) ) {
+                errorCallback&&errorCallback(); 
+                
+            }
+        };
+    	tag.src = src;
+    	document.getElementsByTagName("head")[0].appendChild(tag);
+    };
+    // function loadScript(src, errorCallback, obj) {
+    //     var tag = document.createElement("script");
+    //     tag.type = 'text/javascript';
+    //     tag.charset = "utf-8";
+
+    //     if(window.location.href.indexOf('_crossorigin=1')>-1){
+    //         tag.setAttribute('crossorigin','anonymous')
+    //     }
+
+    //     tag.onload = tag.onerror = tag.onreadystatechange = function() {
+    //         if (window[obj]) { // 加载成功
+    //             loadJs.onloadTime = +new Date();
+    //             return;
+    //         }
+    //         if (!this.readyState || ((this.readyState === "loaded" || this.readyState === "complete") && !window[obj])) {
+    //             errorCallback && errorCallback();
+    //             tag.onerror = tag.onreadystatechange = null;
+    //         }
+    //     };
+    //     tag.src = src;
+    //     document.getElementsByTagName("head")[0].appendChild(tag);
+    // };
+    /*===grunt bottom_inc===*/
+    function ptuiV(v) {
+        if (v != window.ptui_pt_version) {
+            cleanCache("/clearcache.html#" + location.href);
+        }
+    }
+
+    function checkVersion() {
+    }
+    /*===grunt bottom_inc===*/
+    function ready() {
+        window.setTimeout(checkVersion, 1500);
+    }
+    document.addEventListener &&
+        document.addEventListener("DOMContentLoaded", loadJs, false);
+    window.onload = loadJs;
+
+    window.setTimeout(loadJs, 5000);
+    try {
+        if (/mqqbrowser/i.test(navigator.userAgent))
+            document.write('<script src="//jsapi.qq.com/get?api=app.*,env.*,login.*" type="text/javascript"><\/script>');
+        switch (parseInt(ptui_lang)) {
+            case 1033:
+                loadScript("https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/js/area_en.js")
+                break;
+            case 1028:
+                loadScript("https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/js/area_cht.js")
+                break;
+            default:
+                loadScript("https://qq-web-legacy.cdn-go.cn/any.ptlogin2.qq.com/v1.41.0/ptlogin/js/area_chs.js")
+                break;
+        }
+    } catch (e) {}
+    </script>
+    <div class="oversea-page gray-backgroun hide" id="oversea" style="z-index:1">
+        <div class="navigator">
+            <div class="navigator-back" onclick="pt.exitOverseaLogin()">返 回</div>
+        </div>
+        <div class="page-content">
+            <div class="page-title">使用手机号登录</div>
+            <div class="qui-input-group">
+                <div class="qui-input-item">
+                    <div class="qui-input-title">国家/地区</div><input name="state" id="state" type="text" readonly="readonly" onclick="pt.enterOverseaCountry()">
+                </div>
+                <div class="qui-input-item">
+                    <div class="qui-input-title" id="country-code"></div>
+                    <div class="qui-input-wrap"><input name="phone" id="phone" type="tel" placeholder="手机号">
+                        <div id="del_phone" class="clear hide" style="display: none;"><button></button></div>
+                    </div>
+                </div>
+                <div class="qui-input-item">
+                    <div class="qui-input-title">请输入密码</div>
+                    <div class="qui-input-wrap"><input name="password" id="password" type="password" placeholder="请输入密码">
+                        <div id="del_password" class="clear hide" style="display: none;"><button></button></div>
+                    </div>
+                </div>
+            </div>
+            <div class="qui-button-main qui-button-primary" onclick="pt.submitEvent()">授权登录</div>
+        </div>
+    </div>
+    <div class="oversea-page hide" id="country" style="z-index:1">
+        <div class="navigator" onclick="pt.exitOverseaCountry()">
+            <div class="navigator-back">返 回</div>
+        </div>
+        <div class="page-content">
+            <div class="page-title">选择国家和地区</div>
+            <div class="search-wrap"><input class="search" type="text" id="country-search" oninput="pt.updateOverseaCountry()" onfocus="pt.countrySearchFocus()" onblur="pt.countrySearchBlur()">
+                <div class="search placeholder" type="text" id="country-search-placeholder"><img src="//imgcache.qq.com/ptlogin/v4/style/42/images/search.png">搜索
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <ul class="country-list" id="country-list"></ul>
+        </div>
+    </div>
+    <script src="https://cdn-go.cn/framework/qreport/v2.0.0/browser.min.js"></script>
+    <script>
+        function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return decodeURIComponent(r[2]);
+        };
+        return null;
+      }
+      function getAppInfo() {
+        setTimeout(function(){
+          try {
+            pt.getAppInfo();
+          } catch (e) {
+            getAppInfo()
+          }
+        },100)
+      }
+      var bodyClass = document.body.getAttribute("class");
+
+      if(getQueryString('qr_login') === '1'){
+        getAppInfo()
+        bodyClass = bodyClass.concat(" qq_style");
+        document.body.setAttribute("class",bodyClass);
+      }
+
+      bodyClass = bodyClass.replace("none","");
+      document.body.setAttribute("class",bodyClass );
+    </script>
+</body>
+
+</html>

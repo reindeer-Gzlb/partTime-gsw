@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.goodInfo.mapper.GoodsBrowseMapper">
+
+
+    <select id="myBrowse" resultType="com.ruoyi.system.model.dto.GoodsBrowseRes">
+		SELECT max(goods_browse.create_time) AS browse_time,goods_info.*
+		FROM goods_browse LEFT JOIN goods_info ON goods_info.id=goods_browse.goods_id
+		WHERE browse_user_id=#{userId}
+		GROUP BY goods_browse.goods_id
+		ORDER BY goods_browse.create_time DESC
+		LIMIT 10
+    </select>
+</mapper>

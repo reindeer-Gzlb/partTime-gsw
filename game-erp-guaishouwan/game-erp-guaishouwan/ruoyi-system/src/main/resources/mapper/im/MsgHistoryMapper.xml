@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.im.mapper.MsgHistoryMapper">
+
+    <resultMap type="MsgHistory" id="MsgHistoryResult">
+        <result property="id" column="id"/>
+        <result property="createId" column="create_id"/>
+        <result property="updateId" column="update_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="formUser" column="form_user"/>
+        <result property="formUserId" column="form_user_id"/>
+        <result property="toUserId" column="to_user_id"/>
+        <result property="toUser" column="to_user"/>
+        <result property="toGroup" column="to_group"/>
+        <result property="type" column="type"/>
+        <result property="customType" column="custom_type"/>
+        <result property="content" column="content"/>
+        <result property="sessionId" column="session_id"/>
+        <result property="messageId" column="message_id"/>
+    </resultMap>
+
+    <sql id="selectMsgHistoryVo">
+        select id, create_id, update_id, create_time, update_time, form_user, form_user_id, to_user_id, to_user,
+        to_group, type, custom_type, content, session_id, message_id from msg_history
+    </sql>
+
+    <select id="selectMsgHistoryList" parameterType="MsgHistory" resultMap="MsgHistoryResult">
+        <include refid="selectMsgHistoryVo"/>
+        <where>
+            <if test="createId != null ">and create_id = #{createId}</if>
+            <if test="updateId != null ">and update_id = #{updateId}</if>
+            <if test="formUser != null  and formUser != ''">and form_user = #{formUser}</if>
+            <if test="formUserId != null ">and form_user_id = #{formUserId}</if>
+            <if test="toUserId != null ">and to_user_id = #{toUserId}</if>
+            <if test="toUser != null  and toUser != ''">and to_user = #{toUser}</if>
+            <if test="toGroup != null  and toGroup != ''">and to_group = #{toGroup}</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="customType != null  and customType != ''">and custom_type = #{customType}</if>
+            <if test="content != null  and content != ''">and content like concat('%', #{content}, '%')</if>
+            <if test="sessionId != null  and sessionId != ''">and session_id = #{sessionId}</if>
+            <if test="messageId != null  and messageId != ''">and message_id = #{messageId}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectMsgHistoryById" parameterType="Long" resultMap="MsgHistoryResult">
+        <include refid="selectMsgHistoryVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMsgHistory" parameterType="MsgHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into msg_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="formUser != null">form_user,</if>
+            <if test="formUserId != null">form_user_id,</if>
+            <if test="toUserId != null">to_user_id,</if>
+            <if test="toUser != null">to_user,</if>
+            <if test="toGroup != null">to_group,</if>
+            <if test="type != null">type,</if>
+            <if test="customType != null">custom_type,</if>
+            <if test="content != null">content,</if>
+            <if test="sessionId != null">session_id,</if>
+            <if test="messageId != null">message_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="formUser != null">#{formUser},</if>
+            <if test="formUserId != null">#{formUserId},</if>
+            <if test="toUserId != null">#{toUserId},</if>
+            <if test="toUser != null">#{toUser},</if>
+            <if test="toGroup != null">#{toGroup},</if>
+            <if test="type != null">#{type},</if>
+            <if test="customType != null">#{customType},</if>
+            <if test="content != null">#{content},</if>
+            <if test="sessionId != null">#{sessionId},</if>
+            <if test="messageId != null">#{messageId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMsgHistory" parameterType="MsgHistory">
+        update msg_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="formUser != null">form_user = #{formUser},</if>
+            <if test="formUserId != null">form_user_id = #{formUserId},</if>
+            <if test="toUserId != null">to_user_id = #{toUserId},</if>
+            <if test="toUser != null">to_user = #{toUser},</if>
+            <if test="toGroup != null">to_group = #{toGroup},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="customType != null">custom_type = #{customType},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="sessionId != null">session_id = #{sessionId},</if>
+            <if test="messageId != null">message_id = #{messageId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgHistoryById" parameterType="Long">
+        delete from msg_history where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgHistoryByIds" parameterType="String">
+        delete from msg_history where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="upSql">
+        SELECT * FROM msg_history
+        <where>
+            <if test="id != null  and id != ''">and id<![CDATA[ < ]]> #{id}</if>
+            <if test="sessionId != null  and sessionId != ''">and session_id = #{sessionId}</if>
+        </where>
+        ORDER BY id desc
+        LIMIT #{limit}
+    </sql>
+    <sql id="downSql">
+        SELECT * FROM msg_history
+        <where>
+            <if test="id != null  and id != ''">and id<![CDATA[ > ]]> #{id}</if>
+            <if test="sessionId != null  and sessionId != ''">and session_id = #{sessionId}</if>
+        </where>
+        ORDER BY id
+        LIMIT #{limit}
+    </sql>
+    <select id="selectUpMsgHistoryList" resultMap="MsgHistoryResult">
+        <include refid="upSql"/>
+
+    </select>
+    <select id="selectDownMsgHistoryList" resultMap="MsgHistoryResult">
+        <include refid="downSql"/>
+    </select>
+    <select id="selectUpAndDownMsgHistoryList" resultMap="MsgHistoryResult">
+        select * from (<include refid="upSql"/>) as a
+        UNION
+        select * from (select * from msg_history where id = #{id}) as b
+        UNION
+        select * from (<include refid="downSql"/>) as c
+    </select>
+
+    <select id="selectAllSessionMsgHistoryList"
+            resultType="com.ruoyi.system.model.dto.msghistory.MsgHistoryAllSessionRes">
+        select form_user,to_user,session_id,to_group,count(*) as records from msg_history
+        <where>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="content != null  and content != ''">and content like concat('%', #{content}, '%')</if>
+            <choose>
+                <when test="hxGroupIds != null and hxGroupIds.size > 0">
+                    and ( locate(#{formUser},session_id) or to_group in
+                    <foreach item="hxGroupId" collection="hxGroupIds" open="(" separator="," close=")">
+                        #{hxGroupId}
+                    </foreach>
+                    )
+                </when>
+                <otherwise>
+                    and locate(#{formUser},session_id)
+                </otherwise>
+            </choose>
+        </where>
+        GROUP BY session_id
+        order by create_time desc
+    </select>
+
+</mapper>

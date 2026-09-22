@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.UserKeyMapper">
+
+    <resultMap type="UserKey" id="UserKeyResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="key"    column="key"    />
+        <result property="encryption"    column="encryption"    />
+        <result property="supplyName"    column="supply_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="spell"    column="spell"    />
+        <result property="rise"    column="rise"    />
+    </resultMap>
+
+    <sql id="selectUserKeyVo">
+        select id, create_id, user_id, `key`, encryption, supply_name, create_time,spell,rise from user_key
+    </sql>
+
+    <select id="selectUserKeyList" parameterType="UserKey" resultMap="UserKeyResult">
+        <include refid="selectUserKeyVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="key != null  and key != ''"> and `key` = #{key}</if>
+            <if test="rise != null  and rise != ''"> and `rise` = #{rise}</if>
+            <if test="encryption != null  and encryption != ''"> and encryption = #{encryption}</if>
+            <if test="supplyName != null  and supplyName != ''"> and supply_name like concat('%', #{supplyName}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectUserKeyById" parameterType="Long" resultMap="UserKeyResult">
+        <include refid="selectUserKeyVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertUserKey" parameterType="UserKey" useGeneratedKeys="true" keyProperty="id">
+        insert into user_key
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="key != null">`key`,</if>
+            <if test="encryption != null">encryption,</if>
+            <if test="supplyName != null">supply_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="spell != null">spell,</if>
+            <if test="rise != null">rise,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="key != null">#{key},</if>
+            <if test="encryption != null">#{encryption},</if>
+            <if test="supplyName != null">#{supplyName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="spell != null">#{spell},</if>
+            <if test="rise != null">#{rise},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserKey" parameterType="UserKey">
+        update user_key
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="key != null">`key` = #{key},</if>
+            <if test="encryption != null">encryption = #{encryption},</if>
+            <if test="supplyName != null">supply_name = #{supplyName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="spell != null">spell = #{spell},</if>
+            <if test="rise != null">rise = #{rise},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserKeyById" parameterType="Long">
+        delete from user_key where id = #{id}
+    </delete>
+
+    <delete id="deleteUserKeyByIds" parameterType="String">
+        delete from user_key where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

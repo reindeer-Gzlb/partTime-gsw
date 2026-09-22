@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.model.mapper.FieldConfigMapper">
+
+    <resultMap type="FieldConfig" id="FieldConfigResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="fieldType"    column="field_type"    />
+        <result property="fieldName"    column="field_name"    />
+        <result property="fieldValue"    column="field_value"    />
+        <result property="sort"    column="sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="cfgType"    column="cfg_type"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="valuation"    column="valuation"    />
+        <result property="imgUrl"    column="img_url"    />
+    </resultMap>
+
+    <sql id="selectFieldConfigVo">
+        select id, type, field_type, field_name, field_value, sort, create_by, create_time, update_by, update_time, remark,cfg_type,parent_id,valuation,img_url from field_config
+    </sql>
+
+    <select id="selectFieldConfigList" parameterType="FieldConfig" resultMap="FieldConfigResult">
+        <include refid="selectFieldConfigVo"/>
+        <where>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="fieldType != null  and fieldType != ''"> and field_type = #{fieldType}</if>
+            <if test="fieldName != null  and fieldName != ''"> and field_name like concat('%', #{fieldName}, '%')</if>
+            <if test="fieldValue != null  and fieldValue != ''"> and field_value = #{fieldValue}</if>
+            <if test="cfgType != null  and cfgType != ''"> and cfg_type = #{cfgType}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="valuation != null "> and valuation = #{valuation}</if>
+            <if test="imgUrl != null "> and img_url = #{imgUrl}</if>
+            <if test="fieldTypes != null and fieldTypes.size > 0"> and field_type in
+                <foreach item="field" collection="fieldTypes" open="(" separator="," close=")">
+                    #{field}
+                </foreach>
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectFieldConfigById" parameterType="Long" resultMap="FieldConfigResult">
+        <include refid="selectFieldConfigVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectFieldConfigByType" parameterType="String" resultMap="FieldConfigResult">
+        <include refid="selectFieldConfigVo"/>
+        where type = #{type}
+        <if test="cfg != null and  cfg.length > 0">
+            and cfg_type in
+            <foreach item="c" collection="cfg" open="(" separator="," close=")">
+                #{c}
+            </foreach>
+        </if>
+        order by sort
+    </select>
+
+    <insert id="insertFieldConfig" parameterType="FieldConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into field_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="fieldType != null">field_type,</if>
+            <if test="fieldName != null">field_name,</if>
+            <if test="fieldValue != null">field_value,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="cfgType != null">cfg_type,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="valuation != null">valuation,</if>
+            <if test="imgUrl != null">img_url,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="fieldType != null">#{fieldType},</if>
+            <if test="fieldName != null">#{fieldName},</if>
+            <if test="fieldValue != null">#{fieldValue},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="cfgType != null">#{cfgType},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="valuation != null">#{valuation},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFieldConfig" parameterType="FieldConfig">
+        update field_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="fieldType != null">field_type = #{fieldType},</if>
+            <if test="fieldName != null">field_name = #{fieldName},</if>
+            <if test="fieldValue != null">field_value = #{fieldValue},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="cfgType != null">cfg_type = #{cfgType},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="valuation != null">valuation = #{valuation},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFieldConfigById" parameterType="Long">
+        delete from field_config where id = #{id}
+    </delete>
+
+    <delete id="deleteFieldConfigByIds" parameterType="String">
+        delete from field_config where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

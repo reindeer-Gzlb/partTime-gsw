@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.inter.mapper.InterRecMapper">
+
+    <resultMap type="InterRec" id="InterRecResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="saleCode"    column="sale_code"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectInterRecVo">
+        select id, create_id, update_id, create_time, update_time, account_id, sale_code, status from inter_rec
+    </sql>
+
+    <select id="selectInterRecList" parameterType="InterRec" resultMap="InterRecResult">
+        <include refid="selectInterRecVo"/>
+        <where>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+            <if test="saleCode != null  and saleCode != ''"> and sale_code = #{saleCode}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectInterRecById" parameterType="Long" resultMap="InterRecResult">
+        <include refid="selectInterRecVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertInterRec" parameterType="InterRec" useGeneratedKeys="true" keyProperty="id">
+        insert into inter_rec
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="saleCode != null">sale_code,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="saleCode != null">#{saleCode},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInterRec" parameterType="InterRec">
+        update inter_rec
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="saleCode != null">sale_code = #{saleCode},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInterRecById" parameterType="Long">
+        delete from inter_rec where id = #{id}
+    </delete>
+    <delete id="deleteInterRecBySleCode">
+        delete from inter_rec where sale_code = #{sale} and create_id = #{userId}
+    </delete>
+    <delete id="deleteInterRecBySaleCode">
+        delete from inter_rec where sale_code = #{sale}
+    </delete>
+    <delete id="deleteInterAccount">
+        delete from inter_rec where account_id = #{accountId} and sale_code = #{saleCode}
+    </delete>
+
+    <delete id="deleteInterRecByIds" parameterType="String">
+        delete from inter_rec where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

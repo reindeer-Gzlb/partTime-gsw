@@ -1,0 +1,8 @@
+@font-face {
+  /* 重命名字体名 */
+  font-family: '数字专用';
+  /* 引入字体 */
+  src: url('./numberfont.ttf');
+  font-weight: normal;
+  font-style: normal;
+}

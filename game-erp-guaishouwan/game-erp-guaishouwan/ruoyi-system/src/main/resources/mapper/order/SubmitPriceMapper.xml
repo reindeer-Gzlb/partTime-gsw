@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.V2.order.mapper.SubmitPriceMapper">
+    
+    <resultMap type="SubmitPrice" id="SubmitPriceResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="userId"    column="user_id"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="price"    column="price"    />
+        <result property="qprice"    column="qprice"    />
+        <result property="remark"    column="remark"    />
+        <result property="tel"    column="tel"    />
+        <result property="des"    column="des"    />
+        <result property="nikeName"    column="nike_name"    />
+        <result property="state"    column="state"    />
+    </resultMap>
+
+    <sql id="selectSubmitPriceVo">
+        select id, create_id, update_id, create_time, update_time, user_id, account_id, price, qprice, remark, tel, des, nike_name, state from submit_price
+    </sql>
+
+    <select id="selectSubmitPriceList" parameterType="SubmitPrice" resultMap="SubmitPriceResult">
+        <include refid="selectSubmitPriceVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="accountId != null "> and account_id = #{accountId}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="qprice != null "> and qprice = #{qprice}</if>
+            <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
+            <if test="des != null  and des != ''"> and des = #{des}</if>
+            <if test="nikeName != null  and nikeName != ''"> and nike_name like concat('%', #{nikeName}, '%')</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectSubmitPriceById" parameterType="Long" resultMap="SubmitPriceResult">
+        <include refid="selectSubmitPriceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSubmitPrice" parameterType="SubmitPrice" useGeneratedKeys="true" keyProperty="id">
+        insert into submit_price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="price != null">price,</if>
+            <if test="qprice != null">qprice,</if>
+            <if test="remark != null">remark,</if>
+            <if test="tel != null">tel,</if>
+            <if test="des != null">des,</if>
+            <if test="nikeName != null">nike_name,</if>
+            <if test="state != null">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="price != null">#{price},</if>
+            <if test="qprice != null">#{qprice},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="des != null">#{des},</if>
+            <if test="nikeName != null">#{nikeName},</if>
+            <if test="state != null">#{state},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSubmitPrice" parameterType="SubmitPrice">
+        update submit_price
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="qprice != null">qprice = #{qprice},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="des != null">des = #{des},</if>
+            <if test="nikeName != null">nike_name = #{nikeName},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSubmitPriceById" parameterType="Long">
+        delete from submit_price where id = #{id}
+    </delete>
+
+    <delete id="deleteSubmitPriceByIds" parameterType="String">
+        delete from submit_price where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
